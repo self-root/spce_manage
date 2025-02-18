@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/logo">
+        <file>images/spce.png</file>
+    </qresource>
+    <qresource prefix="/icons"/>
+</RCC>

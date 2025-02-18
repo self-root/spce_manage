@@ -62,5 +62,11 @@ void ShipDao::addShip(Ship &ship)
 
     ship.id = query.lastInsertId().toInt();
 }
+
+Ship ShipDao::getShip(const QString &imo)
+{
+
+}
+
 } // namespace spce_core
 

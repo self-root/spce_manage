@@ -8,6 +8,7 @@ find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
+
 qt_add_executable(appspce
     main.cpp
 )
@@ -17,7 +18,15 @@ qt_add_qml_module(appspce
     VERSION 1.0
     QML_FILES
         Main.qml
+        QML_FILES SchedulePage.qml
 )
+
+qt_add_resources(appspce "images"
+    PREFIX "/images"
+    FILES images/spce.png
+)
+
+
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

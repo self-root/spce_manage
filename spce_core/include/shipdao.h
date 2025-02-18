@@ -14,6 +14,7 @@ public:
     ShipDao(QSqlDatabase &database);
     void init() const;
     void addShip(Ship &ship);
+    Ship getShip(const QString &imo);
 private:
     QSqlDatabase &mDatabase;
 };
