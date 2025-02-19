@@ -17,14 +17,13 @@ find_package(Qt6 REQUIRED COMPONENTS Network)
 
 add_library(spce_core SHARED
     include/spce_core_global.h
-  src/databasemanager.cpp
-  include/databasemanager.h
-  include/shipdao.h
-  src/shipdao.cpp
-  include/ship.h
-  src/ship.cpp
-  include/apicaller.h
-  src/apicaller.cpp
+    include/databasemanager.h   src/databasemanager.cpp
+    include/shipdao.h           src/shipdao.cpp
+    include/ship.h              src/ship.cpp
+    include/apicaller.h         src/apicaller.cpp
+    include/corecontroller.h    src/corecontroller.cpp
+    include/schedulelistmodel.h src/schedulelistmodel.cpp
+    include/schedule.h          src/schedule.cpp
 )
 
 target_include_directories(spce_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

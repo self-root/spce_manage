@@ -1,13 +1,18 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include "databasemanager.h"
+#include <QQmlContext>
+#include "corecontroller.h"
+#include "uicontroller.h"
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
-    spce_core::DatabaseManager::init();
-    spce_core::DatabaseManager *instance = spce_core::DatabaseManager::instance();
     QQmlApplicationEngine engine;
+    spce_core::CoreController controller;
+    UIController uiController;
+    QQmlContext *context = engine.rootContext();
+    context->setContextProperty("controller", &controller);
+    context->setContextProperty("uicontroller", &uiController);
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreationFailed,

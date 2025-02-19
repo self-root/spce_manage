@@ -6,6 +6,7 @@
 #include <QString>
 #include <QVector>
 #include <QMap>
+#include "schedule.h"
 
 class QNetworkAccessManager;
 namespace spce_core {
@@ -22,7 +23,7 @@ private:
 private slots:
     void onFetchShipScheduleReply();
 signals:
-    void shipScheduleFetched(const QVector<QMap<QString, QString>> &schedule);
+    void shipScheduleFetched(const QVector<Schedule> &schedule);
 };
 
 } // namespace spce_core

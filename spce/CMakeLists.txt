@@ -11,19 +11,27 @@ qt_standard_project_setup(REQUIRES 6.5)
 
 qt_add_executable(appspce
     main.cpp
+    uicontroller.h
+    uicontroller.cpp
 )
 
 qt_add_qml_module(appspce
     URI spce
     VERSION 1.0
+    NO_RESOURCE_TARGET_PATH
     QML_FILES
-        Main.qml
-        QML_FILES SchedulePage.qml
+        "Main.qml"
+        "pages/SchedulePage.qml"
+        "pages/OperationPage.qml"
+        "components/MenuButton.qml"
+
 )
 
 qt_add_resources(appspce "images"
     PREFIX "/images"
     FILES images/spce.png
+    FILES images/icons8-schedule-100.png
+    FILES images/icons8-schedule-100-hover.png
 )
 
 
