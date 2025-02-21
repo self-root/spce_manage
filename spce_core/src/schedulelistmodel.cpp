@@ -1,6 +1,8 @@
 #include "schedulelistmodel.h"
 #include "schedule.h"
 #include "apicaller.h"
+#include "flagsvgdownloader.h"
+#include <QDir>
 
 namespace spce_core {
 ScheduleListModel::ScheduleListModel(APICaller *api, QObject *parent)
@@ -23,7 +25,7 @@ QVariant ScheduleListModel::data(const QModelIndex &index, int role) const
     case ScheduleRole::DateTimeRole:
         return sched.dateTime().toString("dd/MM/yyyy, HH:MM");
     case ScheduleRole::FlagUrlRole:
-        return sched.flagUrl();
+        return QDir::cleanPath(FlagSVGDownloader::flagsFolder() + QDir::separator() + sched.flagUrl());
     case ScheduleRole::NameRole:
         return sched.name();
     case ScheduleRole::TypeRole:{
@@ -56,6 +58,7 @@ void ScheduleListModel::loadSchedules()
 
 void ScheduleListModel::onSchedule(const QVector<Schedule> &schedule)
 {
+    flagDOwnloader.downloadFlags(schedule);
     beginResetModel();
     this->schedule.clear();
     this->schedule = schedule;

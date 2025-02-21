@@ -24,14 +24,17 @@ qt_add_qml_module(appspce
         "pages/SchedulePage.qml"
         "pages/OperationPage.qml"
         "components/MenuButton.qml"
+        "components/RotatingIconBtn.qml"
 
 )
 
 qt_add_resources(appspce "images"
     PREFIX "/images"
-    FILES images/spce.png
-    FILES images/icons8-schedule-100.png
-    FILES images/icons8-schedule-100-hover.png
+    FILES
+        images/spce.png
+        images/icons8-schedule-100.png
+        images/icons8-schedule-100-hover.png
+        images/ship-steering.png
 )
 
 

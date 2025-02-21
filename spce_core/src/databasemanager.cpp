@@ -16,6 +16,7 @@ DatabaseManager::DatabaseManager()
     mShipDao(ShipDao(*mDatabase))
 {
     mDatabase->setDatabaseName(DatabaseManager::databasePath());
+    qDebug() << "Database path: " << DatabaseManager::databasePath();
     if (!mDatabase->open())
     {
         QString msg = "QSqlDatabase::open: database not open at: " + databasePath() + "\n" + mDatabase->lastError().text();

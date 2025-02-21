@@ -23,6 +23,14 @@ void spce_core::APICaller::fetchShipSchedule()
 
 }
 
+void APICaller::fetchShip(const QString &imo)
+{
+    QNetworkRequest request;
+    request.setUrl(baseUrl + "/mgtoa/ship/" + imo);
+    QNetworkReply *reply = mNetworkAccessManager->get(request);
+    QObject::connect(reply, &QNetworkReply::finished, this, &APICaller::onFetchShipReply);
+}
+
 void APICaller::onFetchShipScheduleReply()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
@@ -51,6 +59,37 @@ void APICaller::onFetchShipScheduleReply()
             }
 
             emit shipScheduleFetched(schedule);
+            break;
+        }
+        default:
+            break;
+        }
+    }
+}
+
+void APICaller::onFetchShipReply()
+{
+    QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
+    auto attr = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+
+    if (attr.isValid())
+    {
+        int statusCode = attr.toInt();
+        switch (statusCode) {
+        case 200: {
+            QJsonDocument jDoc = QJsonDocument::fromJson(reply->readAll());
+            QJsonObject obj = jDoc.object();
+            Ship ship;
+            ship.imo = obj.value("imo").toString();
+            ship.callSign = obj.value("callsign").toString();
+            ship.flag = obj.value("flag").toString();
+            ship.flagUrl = obj.value("flag_url").toString();
+            ship.tonnage = obj.value("gross_tonnage").toInt();
+            ship.type = obj.value("ship_type").toString();
+            ship.year = obj.value("year").toInt();
+            ship.name = obj.value("name").toString();
+
+            emit shipFetched(ship);
             break;
         }
         default:

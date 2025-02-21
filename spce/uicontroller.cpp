@@ -17,3 +17,8 @@ void UIController::operationMenuBtnClic()
     qDebug() << "Operation menu clic";
     emit goOperationPage();
 }
+
+void UIController::shipDocBtnClic()
+{
+    emit goOperationPage();
+}

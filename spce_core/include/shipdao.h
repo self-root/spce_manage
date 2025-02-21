@@ -13,8 +13,8 @@ class SPCE_CORE_EXPORT ShipDao
 public:
     ShipDao(QSqlDatabase &database);
     void init() const;
-    void addShip(Ship &ship);
-    Ship getShip(const QString &imo);
+    void addShip(Ship &ship) const;
+    Ship getShip(const QString &imo) const;
 private:
     QSqlDatabase &mDatabase;
 };

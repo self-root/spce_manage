@@ -7,6 +7,8 @@
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+    QCoreApplication::setApplicationName("SPCE manage");
+    QCoreApplication::setOrganizationName("iroot");
     QQmlApplicationEngine engine;
     spce_core::CoreController controller;
     UIController uiController;

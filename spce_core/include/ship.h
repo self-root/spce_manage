@@ -17,6 +17,7 @@ public:
     QString flagUrl;
     QString callSign;
     QString type;
+    int year;
 };
 
 } // namespace spce_core

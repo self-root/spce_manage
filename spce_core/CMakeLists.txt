@@ -24,6 +24,8 @@ add_library(spce_core SHARED
     include/corecontroller.h    src/corecontroller.cpp
     include/schedulelistmodel.h src/schedulelistmodel.cpp
     include/schedule.h          src/schedule.cpp
+    include/shipdetailmodel.h   src/shipdetailmodel.cpp
+    include/flagsvgdownloader.h src/flagsvgdownloader.cpp
 )
 
 target_include_directories(spce_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

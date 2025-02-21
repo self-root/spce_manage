@@ -3,6 +3,7 @@
 
 #include <QAbstractListModel>
 #include "spce_core_global.h"
+#include "flagsvgdownloader.h"
 
 namespace spce_core {
 class Schedule;
@@ -33,6 +34,7 @@ public:
 private:
     QVector<Schedule> schedule;
     APICaller *mAPI = nullptr;
+    FlagSVGDownloader flagDOwnloader;
 
 private slots:
     void onSchedule(const QVector<Schedule> &schedule);
