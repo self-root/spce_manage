@@ -6,8 +6,8 @@ import "components"
 
 
 ApplicationWindow {
-    width: 940
-    height: 680
+    width: 1200
+    height: 880
     visible: true
     title: qsTr("SPCE Manage")
 
@@ -62,7 +62,7 @@ ApplicationWindow {
                         anchors.leftMargin: 3
                         height: 40
                         width: parent.width - 10
-                        iconNormal: "qrc:/images/images/icons8-schedule-100.png"
+                        iconNormal: "qrc:/images/images/icons8-schedule-100-normal.png"
                         iconHover: "qrc:/images/images/icons8-schedule-100-hover.png"
                         text: "Schedule"
                         current: true
@@ -77,8 +77,8 @@ ApplicationWindow {
                         anchors.leftMargin: 3
                         height: 40
                         width: parent.width - 10
-                        iconNormal: "qrc:/images/images/icons8-schedule-100.png"
-                        iconHover: "qrc:/images/images/icons8-schedule-100-hover.png"
+                        iconNormal: "qrc:/images/images/business-model-normal.png"
+                        iconHover: "qrc:/images/images/business-model-hover.png"
                         text: "Operation page"
                         onClicked: uicontroller.operationMenuBtnClic()
                     }

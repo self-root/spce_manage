@@ -17,15 +17,23 @@ find_package(Qt6 REQUIRED COMPONENTS Network)
 
 add_library(spce_core SHARED
     include/spce_core_global.h
-    include/databasemanager.h   src/databasemanager.cpp
-    include/shipdao.h           src/shipdao.cpp
-    include/ship.h              src/ship.cpp
-    include/apicaller.h         src/apicaller.cpp
-    include/corecontroller.h    src/corecontroller.cpp
-    include/schedulelistmodel.h src/schedulelistmodel.cpp
-    include/schedule.h          src/schedule.cpp
-    include/shipdetailmodel.h   src/shipdetailmodel.cpp
-    include/flagsvgdownloader.h src/flagsvgdownloader.cpp
+    include/databasemanager.h    src/databasemanager.cpp
+    include/shipdao.h            src/shipdao.cpp
+    include/ship.h               src/ship.cpp
+    include/apicaller.h          src/apicaller.cpp
+    include/corecontroller.h     src/corecontroller.cpp
+    include/schedulelistmodel.h  src/schedulelistmodel.cpp
+    include/schedule.h           src/schedule.cpp
+    include/shipdetailmodel.h    src/shipdetailmodel.cpp
+    include/flagsvgdownloader.h  src/flagsvgdownloader.cpp
+    include/documentformmodel.h  src/documentformmodel.cpp
+    include/commissionnairedao.h src/commissionnairedao.cpp
+    include/commissionnaire.h    src/commissionnaire.cpp
+    include/collecteurdao.h      src/collecteurdao.cpp
+    include/collecteur.h         src/collecteur.cpp
+    include/baseentity.h         src/baseentity.cpp
+    include/eliminateurdao.h     src/eliminateurdao.cpp
+    include/eliminateur.h        src/eliminateur.cpp
 )
 
 target_include_directories(spce_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

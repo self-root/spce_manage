@@ -29,7 +29,7 @@ Item {
             width: 30
             height: 30
             fillMode: Image.PreserveAspectFit
-            source: iconHover
+            source: iconNormal
         }
 
         Text {
@@ -70,7 +70,7 @@ Item {
 
                     PropertyChanges {
                         target: icon
-                        source: iconNormal
+                        source: iconHover
                     }
                 },
 
@@ -88,7 +88,7 @@ Item {
 
                     PropertyChanges {
                         target: icon
-                        source: iconNormal
+                        source: iconHover
 
                     }
 

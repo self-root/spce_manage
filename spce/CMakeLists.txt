@@ -32,9 +32,11 @@ qt_add_resources(appspce "images"
     PREFIX "/images"
     FILES
         images/spce.png
-        images/icons8-schedule-100.png
+        images/icons8-schedule-100-normal.png
         images/icons8-schedule-100-hover.png
         images/ship-steering.png
+        images/business-model-hover.png
+        images/business-model-normal.png
 )
 
 
