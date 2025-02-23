@@ -2,10 +2,10 @@
 #define ELIMINATEUR_H
 
 #include "spce_core_global.h"
-#include "baseentity.h"
+#include "basebsdentity.h"
 
 namespace spce_core {
-class SPCE_CORE_EXPORT Eliminateur : public BaseEntity
+class SPCE_CORE_EXPORT Eliminateur : public BaseBSDEntity
 {
 public:
     Eliminateur();

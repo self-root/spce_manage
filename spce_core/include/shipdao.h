@@ -2,21 +2,22 @@
 #define SHIPDAO_H
 
 #include "spce_core_global.h"
+#include "dao.h"
 
 class QSqlDatabase;
 namespace spce_core {
 
 class Ship;
 
-class SPCE_CORE_EXPORT ShipDao
+class SPCE_CORE_EXPORT ShipDao : public Dao<Ship>
 {
 public:
     ShipDao(QSqlDatabase &database);
-    void init() const;
-    void addShip(Ship &ship) const;
+    void init() const override;
+    void add(Ship &ship) const override;
+    Ship get(int id) const override;
     Ship getShip(const QString &imo) const;
-private:
-    QSqlDatabase &mDatabase;
+    QVector<Ship> getAll() const override;
 };
 
 } // namespace spce_core

@@ -8,7 +8,7 @@
 namespace spce_core {
 
 CollecteurDao::CollecteurDao(QSqlDatabase &database)
-    : mDatabase(database)
+    : Dao<Collecteur>(database)
 {
 
 }
@@ -38,7 +38,7 @@ void CollecteurDao::init() const
     }
 }
 
-void CollecteurDao::addCollecteur(Collecteur &collecteur)
+void CollecteurDao::add(Collecteur &collecteur) const
 {
     QSqlQuery query(mDatabase);
     query.prepare(R"(
@@ -60,7 +60,7 @@ void CollecteurDao::addCollecteur(Collecteur &collecteur)
         qWarning() << "Error while inserting collecteur into database: " << query.lastError().text();
 }
 
-Collecteur CollecteurDao::getCollecteur(int id)
+Collecteur CollecteurDao::get(int id) const
 {
     Collecteur collecteur;
     QSqlQuery query(mDatabase);
@@ -94,7 +94,7 @@ Collecteur CollecteurDao::getCollecteur(int id)
     return collecteur;
 }
 
-Collecteur CollecteurDao::getCollecteur(const QString &name)
+Collecteur CollecteurDao::get(const QString &name) const
 {
     Collecteur collecteur;
     QSqlQuery query(mDatabase);
@@ -128,7 +128,7 @@ Collecteur CollecteurDao::getCollecteur(const QString &name)
     return collecteur;
 }
 
-QVector<Collecteur> CollecteurDao::getCollecteurs()
+QVector<Collecteur> CollecteurDao::getAll() const
 {
     QSqlQuery query(mDatabase);
     QVector<Collecteur> collecteurs;

@@ -3,39 +3,16 @@
 
 #include "spce_core_global.h"
 
-#include <QString>
-
 namespace spce_core {
 class SPCE_CORE_EXPORT BaseEntity
 {
 public:
-    BaseEntity();
-    BaseEntity(const QString &nom,
-               const QString &address,
-               const QString &tel,
-               const QString &email,
-               int id = -1);
-
-    QString nom() const;
-    void setNom(const QString &newNom);
-
-    QString address() const;
-    void setAddress(const QString &newAddress);
-
-    QString tel() const;
-    void setTel(const QString &newTel);
-
-    QString email() const;
-    void setEmail(const QString &newEmail);
+    BaseEntity(int id = -1);
 
     int id() const;
     void setId(int newId);
 
-protected:
-    QString mNom;
-    QString mAddress;
-    QString mTel;
-    QString mEmail;
+private:
     int mId = -1;
 };
 } // namespace spce_core

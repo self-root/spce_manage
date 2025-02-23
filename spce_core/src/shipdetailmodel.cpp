@@ -158,7 +158,7 @@ void ShipDetailModel::resetName()
 void ShipDetailModel::getShipDetail(const QString &imo)
 {
     Ship ship = DatabaseManager::instance()->mShipDao.getShip(imo);
-    if (ship.id > 0)
+    if (ship.id() > 0)
     {
         currentShip = ship;
         setShipDetails(ship);
@@ -171,21 +171,21 @@ void ShipDetailModel::getShipDetail(const QString &imo)
 
 void ShipDetailModel::setShipDetails(const Ship &ship)
 {
-    setImo(ship.imo);
-    setCallsign(ship.callSign);
-    setFlag(ship.flag);
-    setFlagUrl(ship.flagUrl);
-    setGrossTonnage(ship.tonnage);
-    setShipType(ship.type);
-    setYear(ship.year);
-    setName(ship.name);
+    setImo(ship.imo());
+    setCallsign(ship.callSign());
+    setFlag(ship.flag());
+    setFlagUrl(ship.flagUrl());
+    setGrossTonnage(ship.tonnage());
+    setShipType(ship.type());
+    setYear(ship.year());
+    setName(ship.name());
 }
 
 void ShipDetailModel::onShipDetailFetched(const Ship &ship)
 {
     currentShip = ship;
     setShipDetails(ship);
-    DatabaseManager::instance()->mShipDao.addShip(currentShip);
+    DatabaseManager::instance()->mShipDao.add(currentShip);
 }
 } // namespace spce_core
 

@@ -8,7 +8,7 @@
 
 namespace spce_core {
 ShipDao::ShipDao(QSqlDatabase &database)
-    : mDatabase(database)
+    : Dao<Ship>(database)
 {
 
 }
@@ -40,21 +40,21 @@ void ShipDao::init() const
 
 }
 
-void ShipDao::addShip(Ship &ship) const
+void ShipDao::add(Ship &ship) const
 {
     QSqlQuery query(mDatabase);
     query.prepare(R"(
         INSERT INTO spce_ship(imo, tonnage, name, flag, flag_url, callsign, type, year)
         VALUES(:imo, :tonnage, :name, :flag, :flag_url, :callsign, :type, :year)
     )");
-    query.bindValue(":imo", ship.imo);
-    query.bindValue(":tonnage", ship.tonnage);
-    query.bindValue(":name", ship.name);
-    query.bindValue(":flag", ship.flag);
-    query.bindValue(":flag_url", ship.flagUrl);
-    query.bindValue(":callsign", ship.callSign);
-    query.bindValue(":type", ship.type);
-    query.bindValue(":year", ship.year);
+    query.bindValue(":imo", ship.imo());
+    query.bindValue(":tonnage", ship.tonnage());
+    query.bindValue(":name", ship.name());
+    query.bindValue(":flag", ship.flag());
+    query.bindValue(":flag_url", ship.flagUrl());
+    query.bindValue(":callsign", ship.callSign());
+    query.bindValue(":type", ship.type());
+    query.bindValue(":year", ship.year());
 
     if (!query.exec())
     {
@@ -62,7 +62,41 @@ void ShipDao::addShip(Ship &ship) const
         return;
     }
 
-    ship.id = query.lastInsertId().toInt();
+    ship.setId(query.lastInsertId().toInt());
+}
+
+Ship ShipDao::get(int id) const
+{
+    Ship ship;
+    QSqlQuery query(mDatabase);
+    query.prepare(R"(
+        SELECT * FROM spce_ship
+        WHERE id = :id
+    )");
+
+    query.bindValue(":id", id);
+
+    if (!query.exec())
+    {
+        qDebug() << "Could not get ship from db. " << query.lastError().text();
+        return ship;
+    }
+
+    if (query.next())
+    {
+        ship.setId(query.value("id").toInt());
+        ship.setImo(query.value("imo").toString());
+        ship.setCallSign(query.value("callsign").toString());
+        ship.setFlag(query.value("flag").toString());
+        ship.setFlagUrl(query.value("flag_url").toString());
+        ship.setTonnage(query.value("tonnage").toInt());
+        ship.setType(query.value("type").toString());
+        ship.setYear(query.value("year").toInt());
+        ship.setName(query.value("name").toString());
+
+    }
+
+    return ship;
 }
 
 Ship ShipDao::getShip(const QString &imo) const
@@ -84,19 +118,49 @@ Ship ShipDao::getShip(const QString &imo) const
 
     if (query.next())
     {
-        ship.id = query.value("id").toInt();
-        ship.imo = imo;
-        ship.callSign = query.value("callsign").toString();
-        ship.flag = query.value("flag").toString();
-        ship.flagUrl = query.value("flag_url").toString();
-        ship.tonnage = query.value("tonnage").toInt();
-        ship.type = query.value("type").toString();
-        ship.year = query.value("year").toInt();
-        ship.name = query.value("name").toString();
+        ship.setId(query.value("id").toInt());
+        ship.setImo(imo);
+        ship.setCallSign(query.value("callsign").toString());
+        ship.setFlag(query.value("flag").toString());
+        ship.setFlagUrl(query.value("flag_url").toString());
+        ship.setTonnage(query.value("tonnage").toInt());
+        ship.setType(query.value("type").toString());
+        ship.setYear(query.value("year").toInt());
+        ship.setName(query.value("name").toString());
 
     }
 
     return ship;
+}
+
+QVector<Ship> ShipDao::getAll() const
+{
+    QVector<Ship> ships;
+    QSqlQuery query(mDatabase);
+
+    if (query.exec("SELECT * FROM spce_ship"))
+    {
+        while (query.next())
+        {
+            ships.append(Ship(
+                query.value("imo").toString(),
+                query.value("tonnage").toInt(),
+                query.value("name").toString(),
+                query.value("flag").toString(),
+                query.value("flag_url").toString(),
+                query.value("callsign").toString(),
+                query.value("type").toString(),
+                query.value("id").toInt()
+                ));
+        }
+    }
+
+    else
+    {
+        qDebug() << "Could not get ships from db. " << query.lastError().text();
+    }
+
+    return ships;
 }
 
 } // namespace spce_core

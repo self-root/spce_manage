@@ -3,11 +3,9 @@
 #include <QSqlQuery>
 #include <QSqlError>
 
-#include "commissionnaire.h"
-
 namespace spce_core {
 CommissionnaireDao::CommissionnaireDao(QSqlDatabase &database)
-    : mDatabase(database){}
+    : Dao<Commissionnaire>(database){}
 
 void CommissionnaireDao::init() const
 {
@@ -34,7 +32,7 @@ void CommissionnaireDao::init() const
     }
 }
 
-void CommissionnaireDao::addCommissionaire(Commissionnaire &commissionnaire) const
+void CommissionnaireDao::add(Commissionnaire &commissionnaire) const
 {
     QSqlQuery query(mDatabase);
     query.prepare(R"(
@@ -56,7 +54,7 @@ void CommissionnaireDao::addCommissionaire(Commissionnaire &commissionnaire) con
         qWarning() << "Error while inserting commissionnaire into database: " << query.lastError().text();
 }
 
-Commissionnaire CommissionnaireDao::getCommissionnaire(int id) const
+Commissionnaire CommissionnaireDao::get(int id) const
 {
     Commissionnaire commissionnaire;
     QSqlQuery query(mDatabase);
@@ -90,7 +88,7 @@ Commissionnaire CommissionnaireDao::getCommissionnaire(int id) const
     return commissionnaire;
 }
 
-Commissionnaire CommissionnaireDao::getCommissionnaire(const QString &denomination) const
+Commissionnaire CommissionnaireDao::get(const QString &denomination) const
 {
     Commissionnaire commissionnaire;
     QSqlQuery query(mDatabase);
@@ -124,7 +122,7 @@ Commissionnaire CommissionnaireDao::getCommissionnaire(const QString &denominati
     return commissionnaire;
 }
 
-QVector<Commissionnaire> CommissionnaireDao::collecteurs() const
+QVector<Commissionnaire> CommissionnaireDao::getAll() const
 {
     QSqlQuery query(mDatabase);
     QVector<Commissionnaire> commissionnaires;

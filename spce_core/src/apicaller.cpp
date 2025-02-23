@@ -79,15 +79,16 @@ void APICaller::onFetchShipReply()
         case 200: {
             QJsonDocument jDoc = QJsonDocument::fromJson(reply->readAll());
             QJsonObject obj = jDoc.object();
-            Ship ship;
-            ship.imo = obj.value("imo").toString();
-            ship.callSign = obj.value("callsign").toString();
-            ship.flag = obj.value("flag").toString();
-            ship.flagUrl = obj.value("flag_url").toString();
-            ship.tonnage = obj.value("gross_tonnage").toInt();
-            ship.type = obj.value("ship_type").toString();
-            ship.year = obj.value("year").toInt();
-            ship.name = obj.value("name").toString();
+            Ship ship(
+                obj.value("imo").toString(),
+                obj.value("gross_tonnage").toInt(),
+                obj.value("name").toString(),
+                obj.value("flag").toString(),
+                obj.value("flag_url").toString(),
+                obj.value("callsign").toString(),
+                obj.value("ship_type").toString(),
+                obj.value("year").toInt()
+            );
 
             emit shipFetched(ship);
             break;

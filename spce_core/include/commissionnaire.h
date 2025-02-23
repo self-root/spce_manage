@@ -2,10 +2,10 @@
 #define COMMISSIONNAIRE_H
 
 #include "spce_core_global.h"
-#include "baseentity.h"
+#include "basebsdentity.h"
 
 namespace spce_core {
-class SPCE_CORE_EXPORT Commissionnaire : public BaseEntity
+class SPCE_CORE_EXPORT Commissionnaire : public BaseBSDEntity
 {
 public:
     Commissionnaire();

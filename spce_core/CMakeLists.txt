@@ -31,9 +31,11 @@ add_library(spce_core SHARED
     include/commissionnaire.h    src/commissionnaire.cpp
     include/collecteurdao.h      src/collecteurdao.cpp
     include/collecteur.h         src/collecteur.cpp
-    include/baseentity.h         src/baseentity.cpp
+    include/basebsdentity.h      src/basebsdentity.cpp
     include/eliminateurdao.h     src/eliminateurdao.cpp
     include/eliminateur.h        src/eliminateur.cpp
+    include/dao.h
+    include/baseentity.h         src/baseentity.cpp
 )
 
 target_include_directories(spce_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
