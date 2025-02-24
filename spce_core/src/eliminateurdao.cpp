@@ -6,11 +6,11 @@
 
 namespace spce_core {
 EliminateurDao::EliminateurDao(QSqlDatabase &database)
-    : mDatabase(database)
+    : Dao(database)
 
 {}
 
-void EliminateurDao::init()
+void EliminateurDao::init() const
 {
     if (!mDatabase.tables().contains("eliminateur"))
     {
@@ -35,7 +35,7 @@ void EliminateurDao::init()
     }
 }
 
-void EliminateurDao::addEliminateur(Eliminateur &eliminateur)
+void EliminateurDao::add(Eliminateur &record) const
 {
     QSqlQuery query(mDatabase);
     query.prepare(R"(
@@ -43,21 +43,21 @@ void EliminateurDao::addEliminateur(Eliminateur &eliminateur)
         VALUES(:nom, :address, :tel, :email, :receptionSite)
     )");
 
-    query.bindValue(":nom", eliminateur.nom());
-    query.bindValue(":address", eliminateur.address());
-    query.bindValue(":tel", eliminateur.tel());
-    query.bindValue(":email", eliminateur.email());
-    query.bindValue(":receptionSite", eliminateur.receptionSite());
+    query.bindValue(":nom", record.nom());
+    query.bindValue(":address", record.address());
+    query.bindValue(":tel", record.tel());
+    query.bindValue(":email", record.email());
+    query.bindValue(":receptionSite", record.receptionSite());
 
     if (query.exec())
     {
-        eliminateur.setId(query.lastInsertId().toInt());
+        record.setId(query.lastInsertId().toInt());
     }
     else
         qWarning() << "Error while inserting eliminateur into database: " << query.lastError().text();
 }
 
-Eliminateur EliminateurDao::getEliminateur(int id)
+Eliminateur EliminateurDao::get(int id) const
 {
     Eliminateur eliminateur;
     QSqlQuery query(mDatabase);
@@ -91,7 +91,7 @@ Eliminateur EliminateurDao::getEliminateur(int id)
     return eliminateur;
 }
 
-Eliminateur EliminateurDao::getEliminateur(const QString &name)
+Eliminateur EliminateurDao::get(const QString &name) const
 {
     Eliminateur eliminateur;
     QSqlQuery query(mDatabase);
@@ -125,7 +125,7 @@ Eliminateur EliminateurDao::getEliminateur(const QString &name)
     return eliminateur;
 }
 
-QVector<Eliminateur> EliminateurDao::getEliminateurs()
+QVector<Eliminateur> EliminateurDao::getAll() const
 {
     QSqlQuery query(mDatabase);
     QVector<Eliminateur> eliminateurs;

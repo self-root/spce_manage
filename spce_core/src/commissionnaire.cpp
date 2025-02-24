@@ -1,7 +1,7 @@
 #include "commissionnaire.h"
 
 namespace spce_core {
-Commissionnaire::Commissionnaire() {}
+Commissionnaire::Commissionnaire(int id) : BaseBSDEntity(id) {}
 
 Commissionnaire::Commissionnaire(const QString &nom, const QString &address, const QString &tel, const QString &email, const QString &responsable, int id)
     : BaseBSDEntity(nom, address, tel, email, id), mResponsabble(responsable)

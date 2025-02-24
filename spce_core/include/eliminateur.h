@@ -8,7 +8,7 @@ namespace spce_core {
 class SPCE_CORE_EXPORT Eliminateur : public BaseBSDEntity
 {
 public:
-    Eliminateur();
+    Eliminateur(int id = -1);
     Eliminateur(const QString &nom, const QString &address, const QString &tel, const QString &email, const QString &receptionSite, int id = -1);
 
     QString receptionSite() const;

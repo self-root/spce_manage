@@ -2,7 +2,7 @@
 
 namespace spce_core {
 
-Collecteur::Collecteur()
+Collecteur::Collecteur(int id) : Commissionnaire(id)
 {
 
 }

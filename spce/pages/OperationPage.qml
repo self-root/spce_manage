@@ -100,7 +100,7 @@ Page{
                             TextField{
                                 id: grossTonnageInput
                                 width: 300
-                                placeholderText: "IMO number"
+                                placeholderText: "Tonnage"
                                 color: "white"
                             }
                         }

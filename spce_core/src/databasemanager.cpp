@@ -13,7 +13,14 @@ DatabaseManager *DatabaseManager::_instance = nullptr;
 
 DatabaseManager::DatabaseManager()
     : mDatabase(new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"))),
-    mShipDao(ShipDao(*mDatabase))
+      mShipDao(ShipDao(*mDatabase)),
+        mCommissionnaireDao(CommissionnaireDao(*mDatabase)),
+        mCollecteurDao(CollecteurDao(*mDatabase)),
+        mEliminateurDao(EliminateurDao(*mDatabase)),
+        mDriverDao(DriverDao(*mDatabase)),
+        mVehicleDao(VehicleDao(*mDatabase)),
+        mInvoiceDao(InvoiceDao(*mDatabase)),
+        mBSDDao(BSDDao(*mDatabase))
 {
     mDatabase->setDatabaseName(DatabaseManager::databasePath());
     qDebug() << "Database path: " << DatabaseManager::databasePath();
@@ -25,6 +32,13 @@ DatabaseManager::DatabaseManager()
 
     else {
         mShipDao.init();
+        mCommissionnaireDao.init();
+        mCollecteurDao.init();
+        mEliminateurDao.init();
+        mDriverDao.init();
+        mVehicleDao.init();
+        mInvoiceDao.init();
+        mBSDDao.init();
     }
 }
 

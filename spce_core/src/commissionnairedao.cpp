@@ -14,12 +14,12 @@ void CommissionnaireDao::init() const
         QSqlQuery query(mDatabase);
         bool created = query.exec(R"(
             CREATE TABLE commissionnaire(
-                id INTEGER,
+                id           INTEGER,
                 denomination TEXT,
-                address TEXT,
-                tel TEXT,
-                email TEXT,
-                responsable TEXT,
+                address      TEXT,
+                tel          TEXT,
+                email        TEXT,
+                responsable  TEXT,
 
                 PRIMARY KEY(id AUTOINCREMENT)
             )

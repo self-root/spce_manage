@@ -9,7 +9,7 @@ namespace spce_core {
 class SPCE_CORE_EXPORT Collecteur : public Commissionnaire
 {
 public:
-    Collecteur();
+    Collecteur(int id = -1);
     Collecteur(const QString & nom, const QString &address, const QString &tel, const QString &email, const QString &responsable, int id = -1);
 };
 } // namespace spce_core

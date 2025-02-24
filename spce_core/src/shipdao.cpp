@@ -20,15 +20,15 @@ void ShipDao::init() const
         QSqlQuery query(mDatabase);
         QString queryString = R"(
         CREATE TABLE spce_ship(
-        id  INTEGER,
-        imo TEXT UNIQUE,
-        tonnage INTEGER,
-        name TEXT,
-        flag TEXT,
+        id       INTEGER,
+        imo      TEXT UNIQUE,
+        tonnage  INTEGER,
+        name     TEXT,
+        flag     TEXT,
         flag_url TEXT,
         callsign TEXT,
-        type TEXT,
-        year INTEGER,
+        type     TEXT,
+        year     INTEGER,
         PRIMARY KEY(id AUTOINCREMENT)
         ))";
 

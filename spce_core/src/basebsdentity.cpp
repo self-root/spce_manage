@@ -1,7 +1,7 @@
 #include "basebsdentity.h"
 
 namespace spce_core {
-BaseBSDEntity::BaseBSDEntity() {}
+BaseBSDEntity::BaseBSDEntity(int id) : BaseEntity(id) {}
 
 BaseBSDEntity::BaseBSDEntity(const QString &nom, const QString &address, const QString &tel, const QString &email, int id)
     : mNom(nom), mAddress(address), mTel(tel), mEmail(email), BaseEntity(id)

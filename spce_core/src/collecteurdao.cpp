@@ -20,11 +20,11 @@ void CollecteurDao::init() const
         QSqlQuery query(mDatabase);
         bool created = query.exec(R"(
             CREATE TABLE collecteur(
-                id INTEGER,
-                nom TEXT,
-                address TEXT,
-                tel TEXT,
-                email TEXT,
+                id          INTEGER,
+                nom         TEXT,
+                address     TEXT,
+                tel         TEXT,
+                email       TEXT,
                 responsable TEXT,
 
                 PRIMARY KEY(id AUTOINCREMENT)

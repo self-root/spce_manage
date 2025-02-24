@@ -36,6 +36,16 @@ add_library(spce_core SHARED
     include/eliminateur.h        src/eliminateur.cpp
     include/dao.h
     include/baseentity.h         src/baseentity.cpp
+    include/driver.h             src/driver.cpp
+    include/vehicle.h            src/vehicle.cpp
+    include/bsd.h                src/bsd.cpp
+    include/invoice.h            src/invoice.cpp
+    include/mgtoaport.h          src/mgtoaport.cpp
+    include/driverdao.h          src/driverdao.cpp
+    include/vehicledao.h         src/vehicledao.cpp
+    include/bsddao.h             src/bsddao.cpp
+    include/invoicedao.h         src/invoicedao.cpp
+
 )
 
 target_include_directories(spce_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

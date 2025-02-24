@@ -10,7 +10,7 @@ namespace spce_core {
 class SPCE_CORE_EXPORT BaseBSDEntity : public BaseEntity
 {
 public:
-    BaseBSDEntity();
+    BaseBSDEntity(int id = -1);
     BaseBSDEntity(const QString &nom,
                const QString &address,
                const QString &tel,

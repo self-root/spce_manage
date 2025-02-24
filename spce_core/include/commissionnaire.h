@@ -8,7 +8,7 @@ namespace spce_core {
 class SPCE_CORE_EXPORT Commissionnaire : public BaseBSDEntity
 {
 public:
-    Commissionnaire();
+    Commissionnaire(int id = -1);
     Commissionnaire(const QString & nom, const QString &address, const QString &tel, const QString &email, const QString &responsable, int id = -1);
 
     QString responsabble() const;
