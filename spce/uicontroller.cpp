@@ -22,3 +22,8 @@ void UIController::shipDocBtnClic()
 {
     emit goOperationPage();
 }
+
+void UIController::prepareDocumentBtn()
+{
+    emit goOperationPage();
+}

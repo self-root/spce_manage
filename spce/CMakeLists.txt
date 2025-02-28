@@ -15,16 +15,25 @@ qt_add_executable(appspce
     uicontroller.cpp
 )
 
+set_source_files_properties(Style.qml
+    PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
+
 qt_add_qml_module(appspce
     URI spce
     VERSION 1.0
     NO_RESOURCE_TARGET_PATH
     QML_FILES
         "Main.qml"
+        "Style.qml"
         "pages/SchedulePage.qml"
         "pages/OperationPage.qml"
         "components/MenuButton.qml"
         "components/RotatingIconBtn.qml"
+        "components/DatePicker.qml"
+        "components/LineEdit.qml"
+        "components/FormSection.qml"
+        "components/FormSectionTitle.qml"
+        "components/TextButton.qml"
 
 )
 
@@ -37,6 +46,12 @@ qt_add_resources(appspce "images"
         images/ship-steering.png
         images/business-model-hover.png
         images/business-model-normal.png
+)
+
+qt_add_resources(appspce "fonts"
+    PREFIX "/fonts"
+    FILES
+        fonts/Roboto-Regular.ttf
 )
 
 

@@ -22,11 +22,6 @@ Item {
             anchors.leftMargin: 4
             height: 30
             fillMode: Image.PreserveAspectFit
-            Behavior on rotation {
-                PropertyAnimation{
-                    duration: 500
-                }
-            }
         }
         Text {
             id: btnTxt
@@ -61,6 +56,27 @@ Item {
                     PropertyChanges {
                         target: btnIcon
                         rotation: 180
+                    }
+                }
+            ]
+
+            transitions: [
+                Transition {
+                    from: ""
+                    to: "btnhovered"
+                    NumberAnimation{
+                        target: btnIcon
+                        property: "rotation"
+                        duration: 400
+                    }
+                },
+                Transition {
+                    from: "btnhovered"
+                    to: ""
+                    NumberAnimation{
+                        target: btnIcon
+                        property: "rotation"
+                        duration: 400
                     }
                 }
             ]

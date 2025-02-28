@@ -12,6 +12,7 @@ public slots:
     void scheduleMenuBtnClic();
     void operationMenuBtnClic();
     void shipDocBtnClic();
+    void prepareDocumentBtn();
 
 signals:
     void goSchedulePage();

@@ -33,7 +33,7 @@ ApplicationWindow {
             id: sideMenu
             Layout.fillHeight: true
             Layout.preferredWidth: 250
-            color: "#0c203c"
+            color: "white"
 
             ColumnLayout{
                 anchors.fill: parent
@@ -53,7 +53,7 @@ ApplicationWindow {
                 Rectangle{
                     Layout.fillHeight: true
                     Layout.fillWidth:  true
-                    color: "#0c203c"
+                    color: "white"
                     MenuButton{
                         id: scheduleBtn
                         anchors.top: parent.top
@@ -95,8 +95,9 @@ ApplicationWindow {
 
         DropShadow{
             anchors.fill: sideMenu
-            horizontalOffset: 3
-            radius: 6
+            horizontalOffset: 2
+            radius: 4
+            samples: 9
             color: "#0c203c"
             source: sideMenu
         }

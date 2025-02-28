@@ -4,13 +4,15 @@
 #include <QObject>
 #include "spce_core_global.h"
 #include "ship.h"
+#include "property_helper.h"
 
 namespace spce_core {
 class APICaller;
 class SPCE_CORE_EXPORT ShipDetailModel : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString imo READ imo WRITE setImo RESET resetImo NOTIFY imoChanged FINAL)
+
+    //Q_PROPERTY(QString imo READ imo WRITE setImo RESET resetImo NOTIFY imoChanged FINAL)
     Q_PROPERTY(QString callsign READ callsign WRITE setCallsign RESET resetCallsign NOTIFY callsignChanged FINAL)
     Q_PROPERTY(QString flag READ flag WRITE setFlag RESET resetFlag NOTIFY flagChanged FINAL)
     Q_PROPERTY(QString flagUrl READ flagUrl WRITE setFlagUrl RESET resetFlagUrl NOTIFY flagUrlChanged FINAL)
@@ -20,9 +22,10 @@ class SPCE_CORE_EXPORT ShipDetailModel : public QObject
     Q_PROPERTY(QString name READ name WRITE setName RESET resetName NOTIFY nameChanged FINAL)
 public:
     explicit ShipDetailModel(APICaller *api, QObject *parent = nullptr);
-    QString imo() const;
-    void setImo(const QString &newImo);
-    void resetImo();
+    //QString imo() const;
+    //void setImo(const QString &newImo);
+    //void resetImo();
+
 
     QString callsign() const;
     void setCallsign(const QString &newCallsign);
@@ -55,6 +58,18 @@ public:
     Q_INVOKABLE void getShipDetail(const QString &imo);
     void setShipDetails(const Ship &ship);
 
+private slots:
+    void onShipDetailFetched(const Ship &ship);
+
+signals:
+    //void imoChanged();
+    void callsignChanged();
+    void flagChanged();
+    void flagUrlChanged();
+    void grossTonnageChanged();
+    void shipTypeChanged();
+    void yearChanged();
+    void nameChanged();
 
 private:
     Ship currentShip;
@@ -69,18 +84,8 @@ private:
 
     APICaller *mApi = nullptr;
 
-private slots:
-    void onShipDetailFetched(const Ship &ship);
 
-signals:
-    void imoChanged();
-    void callsignChanged();
-    void flagChanged();
-    void flagUrlChanged();
-    void grossTonnageChanged();
-    void shipTypeChanged();
-    void yearChanged();
-    void nameChanged();
+AUTO_PROPERTY(QString, imo)
 };
 }
 

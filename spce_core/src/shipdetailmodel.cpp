@@ -11,7 +11,7 @@ ShipDetailModel::ShipDetailModel(APICaller *api, QObject *parent)
     QObject::connect(mApi, &APICaller::shipFetched, this, &ShipDetailModel::onShipDetailFetched);
 }
 
-QString ShipDetailModel::imo() const
+/*QString ShipDetailModel::imo() const
 {
     return mImo;
 }
@@ -27,7 +27,7 @@ void ShipDetailModel::setImo(const QString &newImo)
 void ShipDetailModel::resetImo()
 {
     setImo({});
-}
+}*/
 
 QString ShipDetailModel::callsign() const
 {
@@ -171,7 +171,7 @@ void ShipDetailModel::getShipDetail(const QString &imo)
 
 void ShipDetailModel::setShipDetails(const Ship &ship)
 {
-    setImo(ship.imo());
+    set_imo(ship.imo());
     setCallsign(ship.callSign());
     setFlag(ship.flag());
     setFlagUrl(ship.flagUrl());

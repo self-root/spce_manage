@@ -45,6 +45,7 @@ add_library(spce_core SHARED
     include/vehicledao.h         src/vehicledao.cpp
     include/bsddao.h             src/bsddao.cpp
     include/invoicedao.h         src/invoicedao.cpp
+    include/property_helper.h
 
 )
 

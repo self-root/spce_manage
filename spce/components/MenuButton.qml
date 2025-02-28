@@ -10,22 +10,23 @@ Item {
     property bool current: false
     property bool hovered: false
     signal clicked()
+
+    FontLoader{
+        id: robotoF
+        source: "qrc:/fonts/fonts/Roboto-Regular.ttf"
+    }
+
     Rectangle{
         id: btnRect
-        radius: 3
+        radius: 6
         anchors.fill: parent
         color: "transparent"
-        Behavior on color {
-            PropertyAnimation{
-                duration: 200
-            }
-        }
 
         Image {
             id: icon
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
-            anchors.leftMargin: 2
+            anchors.leftMargin: 8
             width: 30
             height: 30
             fillMode: Image.PreserveAspectFit
@@ -36,8 +37,11 @@ Item {
             id: txt
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: icon.right
-            anchors.leftMargin: 3
-            color: "white"
+            anchors.leftMargin: 8
+            color: "#96a1bb"
+            font.family: robotoF.name
+            font.weight: Font.Medium
+            font.pointSize: 12
             //color: "#056839"
         }
 
@@ -60,12 +64,12 @@ Item {
                     when: menuBtn.hovered
                     PropertyChanges {
                         target: btnRect
-                        color: Qt.lighter("#0c203c")
+                        color: "#253c7f"
                     }
 
                     PropertyChanges {
                         target: txt
-                        color: "#bdfe50"
+                        color: "white"
                     }
 
                     PropertyChanges {
@@ -79,11 +83,11 @@ Item {
                     when: menuBtn.current
                     PropertyChanges {
                         target: btnRect
-                        color: Qt.lighter("#0c203c")
+                        color: "#253c7f"
                     }
                     PropertyChanges {
                         target: txt
-                        color: "#bdfe50"
+                        color: "white"
                     }
 
                     PropertyChanges {
@@ -93,6 +97,29 @@ Item {
                     }
 
 
+                }
+            ]
+
+            transitions: [
+                Transition {
+                    from: ""
+                    to: "hovered"
+
+                    PropertyAnimation{
+                        target: btnRect
+                        property: "color"
+                        duration: 400
+                    }
+                },
+                Transition {
+                    from: "hovered"
+                    to: ""
+
+                    PropertyAnimation{
+                        target: btnRect
+                        property: "color"
+                        duration: 400
+                    }
                 }
             ]
 

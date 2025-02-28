@@ -1,12 +1,14 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import Qt5Compat.GraphicalEffects
+import ".."
 import "../components"
 
 Page {
     Rectangle{
         anchors.fill: parent
-        gradient: Gradient{
+        /*gradient: Gradient{
             GradientStop {
                 position: 0.0
                 color: "#040d1c"
@@ -16,17 +18,19 @@ Page {
                 position: 1.0
                 color: "#124da8"
             }
-        }
+        }*/
+
+        color: "#f6f4fc"
         Text {
             id: wText
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.topMargin: 12
-            anchors.leftMargin: 8
+            anchors.leftMargin: 16
             text: "Schedule"
             font.bold: true
             font.pointSize: 26
-            color: "white"
+            color: Style.titleTextColor
         }
 
         RowLayout{
@@ -50,73 +54,85 @@ Page {
 
                 model: controller.scheduleListModel
 
-                delegate: Rectangle{
+                delegate: Item{
                     width: scheduleList.width
-                    height: 200
-                    //color: Qt.lighter("#0c203c")
-                    color: "#0c203c"
-                    radius: 4
-
-                    Image {
-                        id: flag
-                        width: 80
-                        anchors.top: parent.top
-                        anchors.left: parent.left
-                        anchors.topMargin: 8
-                        anchors.leftMargin: 8
-                        fillMode: Image.PreserveAspectFit
-                        source: "file:///" + flag_url
-                        cache: true
+                    height: 100
+                    DropShadow{
+                        source: rectDelegate
+                        anchors.fill: rectDelegate
+                        horizontalOffset: 0
+                        verticalOffset: 0
+                        radius: 8
+                        samples: 25
+                        color: index === scheduleList.currentIndex ? "#070433": "grey"
                     }
-
-                    Text {
-                        id: shipName
-                        text: name
-                        anchors.top: parent.top
-                        anchors.left: flag.right
-                        anchors.topMargin: 8
-                        anchors.leftMargin: 8
-                        font.pointSize: 12
-                        font.bold: true
-                        color: "#bdfe50"
-                    }
-
-                    Text {
-                        id: imoTxt
-                        text: "IMO: " + imo
-                        anchors.top: shipName.bottom
-                        anchors.left: flag.right
-                        anchors.topMargin: 8
-                        anchors.leftMargin: 8
-                        font.pointSize: 10
-                        font.bold: true
-                        color: "white"
-                    }
-
-                    Text {
-                        id: dateTxt
-                        text: schedule_type + ": " + datetime
-                        anchors.top: imoTxt.bottom
-                        anchors.left: flag.right
-                        anchors.topMargin: 8
-                        anchors.leftMargin: 8
-                        font.pointSize: 10
-                        font.bold: true
-                        color: "white"
-                    }
-
                     Rectangle{
-                        id: rectIndicator
-                        anchors.right: parent.right
-                        anchors.rightMargin: 6
-                        anchors.verticalCenter: parent.verticalCenter
-                        width: 10
-                        height: 180
+                        id: rectDelegate
+                        color: "#ffffff"
                         radius: 4
-                        color: "#bdfe50"
-                        visible: index === scheduleList.currentIndex ? true : false
-                    }
+                        anchors.fill: parent
+                        anchors.margins: 4
 
+                        DropShadow{
+                            source: flag
+                            anchors.fill: flag
+                            verticalOffset: 0
+                            horizontalOffset: 0
+                            radius: 4
+                            color: "grey"
+                        }
+
+                        Image {
+                            id: flag
+                            width: 80
+                            anchors.top: parent.top
+                            anchors.left: parent.left
+                            anchors.topMargin: 8
+                            anchors.leftMargin: 8
+                            fillMode: Image.PreserveAspectFit
+                            source: "file:///" + flag_url
+                            cache: true
+                        }
+
+                        Text {
+                            id: shipName
+                            text: name
+                            anchors.top: parent.top
+                            anchors.left: flag.right
+                            anchors.topMargin: 8
+                            anchors.leftMargin: 8
+                            font.pointSize: 12
+                            font.bold: true
+                            color: "#070433"
+                        }
+
+                        Text {
+                            id: imoTxt
+                            text: "IMO: " + imo
+                            anchors.top: shipName.bottom
+                            anchors.left: flag.right
+                            anchors.topMargin: 8
+                            anchors.leftMargin: 8
+                            font.pointSize: 10
+                            font.bold: true
+                            color: "#a19fbb"
+                        }
+
+                        Text {
+                            id: dateTxt
+                            text: schedule_type + ": " + datetime
+                            anchors.top: imoTxt.bottom
+                            anchors.left: flag.right
+                            anchors.topMargin: 8
+                            anchors.leftMargin: 8
+                            font.pointSize: 10
+                            font.bold: true
+                            color: "#a19fbb"
+                        }
+
+
+
+                    }
 
                     MouseArea{
                         id: mouseArea
@@ -130,8 +146,16 @@ Page {
                             console.log("imo: " + imo)
                             controller.shipDetailModel.getShipDetail(imo)
                             schedDateTxt.text = schedule_type + ": " + datetime
+                            controller.documentFormModel.getShip(imo)
+
                         }
                     }
+
+
+                    //color: Qt.lighter("#0c203c")
+
+
+
                 }
             }
 
@@ -261,6 +285,7 @@ Page {
                     icon: "qrc:/images/images/ship-steering.png"
                     onClicked: {
                         console.log("aButton clicked")
+                        uicontroller.prepareDocumentBtn()
                     }
                 }
 
