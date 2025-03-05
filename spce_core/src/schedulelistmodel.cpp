@@ -23,7 +23,7 @@ QVariant ScheduleListModel::data(const QModelIndex &index, int role) const
     case ScheduleRole::ImoRole:
         return sched.imo();
     case ScheduleRole::DateTimeRole:
-        return sched.dateTime().toString("dd/MM/yyyy, HH:MM");
+        return sched.dateTime().toString("dd/MM/yyyy, HH:mm");
     case ScheduleRole::FlagUrlRole:
         return QDir::cleanPath(FlagSVGDownloader::flagsFolder() + QDir::separator() + sched.flagUrl());
     case ScheduleRole::NameRole:

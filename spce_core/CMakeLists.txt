@@ -46,6 +46,7 @@ add_library(spce_core SHARED
     include/bsddao.h             src/bsddao.cpp
     include/invoicedao.h         src/invoicedao.cpp
     include/property_helper.h
+    include/baseEntityNameModel.h
 
 )
 

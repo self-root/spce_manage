@@ -154,5 +154,10 @@ QVector<Collecteur> CollecteurDao::getAll() const
     return collecteurs;
 }
 
+void CollecteurDao::update(const Collecteur &record) const
+{
+
+}
+
 } // namespace spce_core
 

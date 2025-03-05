@@ -1,45 +1,35 @@
 import QtQuick
 import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
+import QtQuick.Controls.Material
 import ".."
-import QtQuick.Dialogs
 
 Item {
-    id: control
     property alias h: bg.implicitHeight
     property alias w: bg.implicitWidth
-    property alias text: textField.text
-    property alias label: textFieldLabel.text
+    property alias text: a_combo.currentText
+    property alias label: a_label.text
+    property alias itemModel: a_combo.model
+    property alias itemEditable: a_combo.editable
+    property alias itemTextRole: a_combo.textRole
+    property alias icon: textIcon.icon
     width: w
     height: h
-    Connections{
-        target: calendar
-        function onDateSelected(date)
-        {
-            console.log(date)
-            textField.text = date.toLocaleString(Qt.locale("fr_FR"), "dd/MM/yyyy")
-            calendarPopup.close()
-        }
-    }
-
     Column{
         spacing: 6
         width: parent.width
         Text {
-            id: textFieldLabel
+            id: a_label
             color: Style.textColor
         }
 
-        TextField{
-            id: textField
-            color: Style.titleTextColor
-            readOnly: true
-            text: new Date().toLocaleString(Qt.locale("fr_FR"), "dd/MM/yyyy")
-            leftPadding: 25
+        ComboBox{
+            id: a_combo
+            leftPadding: textIcon.icon !== ""? 10 : 4
             background: Rectangle{
                 id: bg
                 implicitHeight: 40
-                implicitWidth: 100
+                implicitWidth: 250
 
                 Item {
                     id: rectWraper
@@ -50,7 +40,7 @@ Item {
                         horizontalOffset: 0
                         verticalOffset: 0
                         radius: 3
-                        color: textField.focus ? Style.boxShadowActive : Style.boxShadow
+                        color: a_combo.focus ? Style.boxShadowActive : Style.boxShadow
                     }
 
                     Rectangle{
@@ -59,38 +49,30 @@ Item {
                         height: parent.height
                         anchors.bottom: parent.bottom
                         anchors.horizontalCenter: parent.horizontalCenter
-                        border.color: textField.focus ? Style.primary : "#d6d8d9"
-                        color: "transparent"
+                        border.color: a_combo.focus ? Style.primary : "#d6d8d9"
+                        color: "white"
                         radius: 4
 
                         TextIconBtn{
+                            id: textIcon
                             anchors.left: parent.left
                             itemWidth: 25
                             itemHeight: 40
                             iconColor: "#757575"
                             iconSize: 10
-                            icon: "\uf073"
                         }
-
-
                     }
                 }
-            }
-
-
-
-            onPressed: {
-                calendarPopup.open()
             }
 
             states: [State {
-                    name: "focused"
-                    when: textField.focus
-                    PropertyChanges {
-                        target: bgBox
-                        height: bg.implicitHeight
-                    }
+                name: "focused"
+                when: a_combo.focus
+                PropertyChanges {
+                    target: bgBox
+                    height: bg.implicitHeight
                 }
+            }
             ]
 
             transitions: [
@@ -119,40 +101,6 @@ Item {
             ]
         }
     }
-
-    Popup{
-        id: calendarPopup
-        width: calendar.width
-        height: calendar.height
-        x: -100
-        y: 70
-
-        background: Item {
-            Rectangle {
-                id: popupBackground
-                anchors.fill: parent
-                color: "white"
-                radius: 2  // Rounded corners
-            }
-
-            DropShadow {
-                anchors.fill: popupBackground
-                source: popupBackground
-                color: "#80000000"  // Shadow color with transparency
-                radius: 12  // Shadow blur radius
-                samples: 24  // Higher samples = smoother shadow
-                spread: 0.2  // Adjust for softer edges
-                horizontalOffset: 0
-                verticalOffset: 0
-            }
-        }
-
-        MCalendar{
-            id: calendar
-            anchors.centerIn: parent
-        }
-    }
-
 
 
 }

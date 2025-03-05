@@ -16,10 +16,11 @@ public:
 
     // Dao interface
 public:
-    void init() const;
-    Driver get(int id) const;
-    void add(Driver &record) const;
-    QVector<Driver> getAll() const;
+    void init() const override;
+    Driver get(int id) const override;
+    void add(Driver &record) const override;
+    QVector<Driver> getAll() const override;
+    void update(const Driver &record) const override;
 };
 } // namespace spce_core
 

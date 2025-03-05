@@ -8,6 +8,7 @@ Item {
     property alias w: bg.implicitWidth
     property alias text: textField.text
     property alias label: textFieldLabel.text
+    property alias icon: textIcon.icon
     width: w
     height: h
     Column{
@@ -21,6 +22,7 @@ Item {
         TextField{
             id: textField
             color: Style.titleTextColor
+            leftPadding: textIcon.icon !== ""? 25 : 4
             background: Rectangle{
                 id: bg
                 implicitHeight: 40
@@ -47,6 +49,15 @@ Item {
                         border.color: textField.focus ? Style.primary : "#d6d8d9"
                         color: "white"
                         radius: 4
+
+                        TextIconBtn{
+                            id: textIcon
+                            anchors.left: parent.left
+                            itemWidth: 25
+                            itemHeight: 40
+                            iconColor: "#757575"
+                            iconSize: 10
+                        }
                     }
                 }
             }

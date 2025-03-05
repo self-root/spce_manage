@@ -17,13 +17,14 @@ public:
     virtual T get(int id) const = 0;
     virtual void add(T &record) const = 0;
     virtual QVector<T> getAll() const = 0;
+    virtual void update(const T &record) const = 0;
 
 protected:
     QSqlDatabase &mDatabase;
 };
 
 template <typename T>
-Dao<T>::Dao(QSqlDatabase &database)
+inline Dao<T>::Dao(QSqlDatabase &database)
     : mDatabase(database)
 {
     static_assert(std::is_base_of<BaseEntity, T>::value, "T must be a subclass of BaseEntity");

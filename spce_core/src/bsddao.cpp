@@ -130,3 +130,8 @@ QVector<BSD> BSDDao::getAll() const
 
 
 
+
+
+void spce_core::BSDDao::update(const BSD &record) const
+{
+}

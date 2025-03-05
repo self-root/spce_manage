@@ -2,12 +2,15 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
+import QtQuick.Controls.Material
 import ".."
 import "../components"
 
 Page {
     Rectangle{
         anchors.fill: parent
+        Material.accent: Style.primary
+        Material.primary: Style.primary
         /*gradient: Gradient{
             GradientStop {
                 position: 0.0
@@ -19,6 +22,8 @@ Page {
                 color: "#124da8"
             }
         }*/
+
+
 
         color: "#f6f4fc"
         Text {
@@ -47,10 +52,12 @@ Page {
             ListView{
                 id: scheduleList
                 Layout.fillHeight: true
-                Layout.fillWidth: true
+                Layout.preferredWidth: 400
                 clip: true
                 spacing: 16
-                ScrollBar.vertical: ScrollBar{}
+                ScrollBar.vertical: ScrollBar{
+
+                }
 
                 model: controller.scheduleListModel
 
@@ -129,9 +136,6 @@ Page {
                             font.bold: true
                             color: "#a19fbb"
                         }
-
-
-
                     }
 
                     MouseArea{
@@ -145,155 +149,472 @@ Page {
                             console.log("Current index: " + scheduleList.currentIndex)
                             console.log("imo: " + imo)
                             controller.shipDetailModel.getShipDetail(imo)
-                            schedDateTxt.text = schedule_type + ": " + datetime
+                            //schedDateTxt.text = schedule_type + ": " + datetime
                             controller.documentFormModel.getShip(imo)
 
                         }
                     }
-
-
-                    //color: Qt.lighter("#0c203c")
-
-
-
                 }
+            }
+
+            DropShadow{
+                source: shipDetailRect
+                anchors.fill: shipDetailRect
+                verticalOffset: 0
+                horizontalOffset: 0
+                radius: 4
+                color: "grey"
             }
 
             Rectangle{
                 id: shipDetailRect
                 Layout.alignment: Qt.AlignTop
-                Layout.preferredHeight:300
-                Layout.preferredWidth: 400
+                Layout.fillHeight: true
+                Layout.preferredWidth: 840
                 radius: 4
-                gradient: Gradient{
-                    GradientStop {
-                        position: 0.0
-                        color: "#124da8"
-                    }
+                color: "#ffffff"
 
-                    GradientStop {
-                        position: 1.0
-
-                        color: "#040d1c"
-                    }
-                }
-
-                Text {
-                    id: shipNameTxt
-                    anchors.top: parent.top
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.topMargin: 10
-                    text: controller.shipDetailModel.name
-                    font.bold: true
-                    font.pointSize: 14
-                    color: "#bdfe50"
-                    //horizontalAlignment: Text.AlignHCenter
-                }
-
-                Text {
-                    id: shipimoTxt
-                    anchors.top: shipNameTxt.bottom
-                    anchors.left: parent.left
-                    anchors.leftMargin: 6
-                    anchors.topMargin: 10
-                    text: "IMO: " + controller.shipDetailModel.imo
-                    color: "white"
-                    font.pointSize: 11
-
-                }
-
-                Text {
-                    id: shipclallignTxt
-                    anchors.top: shipimoTxt.bottom
-                    anchors.left: parent.left
-                    anchors.leftMargin: 6
-                    anchors.topMargin: 10
-                    text: "Distinctive number or letters:  " + controller.shipDetailModel.callsign
-                    color: "white"
-                    font.pointSize: 11
-
-                }
-
-                Text {
-                    id: shipFlagTxt
-                    anchors.top: shipclallignTxt.bottom
-                    anchors.left: parent.left
-                    anchors.leftMargin: 6
-                    anchors.topMargin: 10
-                    text: "Flag State: " + controller.shipDetailModel.flag
-                    color: "white"
-                    font.pointSize: 11
-
-                }
-
-                Text {
-                    id: shipgtTxt
-                    anchors.top: shipFlagTxt.bottom
-                    anchors.left: parent.left
-                    anchors.leftMargin: 6
-                    anchors.topMargin: 10
-                    text: "Gross tonnage: " + controller.shipDetailModel.grossTonnage
-                    color: "white"
-                    font.pointSize: 11
-
-                }
-
-                Text {
-                    id: shitypetTxt
-                    anchors.top: shipgtTxt.bottom
-                    anchors.left: parent.left
-                    anchors.leftMargin: 6
-                    anchors.topMargin: 10
-                    text: "Type of ship: " + controller.shipDetailModel.shipType
-                    color: "white"
-                    font.pointSize: 11
-
-                }
-
-                Text {
-                    id: schedDateTxt
-                    anchors.top: shitypetTxt.bottom
-                    anchors.left: parent.left
-                    anchors.leftMargin: 6
-                    anchors.topMargin: 10
-                    color: "white"
-                    font.pointSize: 11
-
-                }
-
-                Image {
-                    id: flagImg
-                    anchors.top: shipNameTxt.bottom
-                    anchors.right: parent.right
-                    anchors.topMargin: 10
-                    anchors.rightMargin: 6
-                    width: 100
-                    fillMode: Image.PreserveAspectFit
-                    source: "file:///" + controller.shipDetailModel.flagUrl
-                }
-
-                RotatingIconBtn{
-                    id: aButton
-                    anchors.horizontalCenter: parent.horizontalCenter
+                RoundButton{
+                    id: saveButton
                     anchors.bottom: parent.bottom
-                    anchors.bottomMargin: 16
-                    buttonW: 240
-                    buttonH: 40
-                    buttonColor: "#bdfe50"
-                    textColor: "#040d1c"
-                    text: "Prepare Ship Documents"
-                    icon: "qrc:/images/images/ship-steering.png"
-                    onClicked: {
-                        console.log("aButton clicked")
-                        uicontroller.prepareDocumentBtn()
-                    }
+                    anchors.right: parent.right
+                    anchors.rightMargin: 20
+                    anchors.bottomMargin: 20
+                    text: "\uf0c7"
+                    font.family: Style.webFont
+                    z: 6
+                    Material.accent: Style.primary
+                    Material.primary: Style.primary
+
                 }
 
+                ScrollView{
+                    width: parent.width
+                    height: parent.height
+                    GridLayout{
+                        columnSpacing: 40
+                        rowSpacing: 40
+                        columns: 2
+                        Item {
+                            width: 400
+                            height: 500
+                            Layout.alignment: Qt.AlignHCenter
+                            DropShadow{
+                                source: a_rect
+                                anchors.fill: a_rect
+                                horizontalOffset: 0
+                                verticalOffset: 0
+                                radius: 6
+                                //samples: 9
+                                color: Style.boxShadow
+                            }
+
+                            Rectangle{
+                                id: a_rect
+                                anchors.fill: parent
+                                anchors.margins: 6
+                                color: "white"
+                                radius: 4
+
+                                ColumnLayout{
+                                    id: l
+                                    spacing: 10
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    anchors.top: parent.top
+                                    anchors.bottom: parent.bottom
+                                    anchors.topMargin: 10
+                                    anchors.bottomMargin: 40
+                                    FormSectionTitle{
+                                        Layout.alignment: Qt.AlignHCenter
+                                        text: "SHIP PARTICULARS"
+                                    }
+
+                                    LineEdit{
+                                        Layout.margins: 10
+                                        label: "IMO Number"
+                                        text: controller.documentFormModel.imo
+                                        icon: "\uf002"
+                                    }
+
+                                    LineEdit{
+                                        Layout.margins: 10
+                                        label: "Name of ship"
+                                        icon: "\uf21a"
+                                        text: controller.documentFormModel.shipName
+                                    }
+
+                                    LineEdit{
+                                        Layout.margins: 10
+                                        label: "Gross tonnage"
+                                        text: controller.documentFormModel.tonnage
+                                    }
+
+                                    LineEdit{
+                                        Layout.margins: 10
+                                        label: "Distinctive number or letters"
+                                        text: controller.documentFormModel.callSign
+                                    }
+
+                                    LineEdit{
+                                        Layout.margins: 10
+                                        label: "Flag State"
+                                        text: controller.documentFormModel.flagState
+                                    }
+
+                                    LineEdit{
+                                        Layout.margins: 10
+                                        label: "Type of ship"
+                                        text: controller.documentFormModel.shipType
+                                    }
+                                }
+                            }
+                        }
+                        Item {
+                            width: 400
+                            height: 500
+                            DropShadow{
+                                source: a_rect5
+                                anchors.fill: a_rect5
+                                horizontalOffset: 0
+                                verticalOffset: 0
+                                radius: 6
+                                //samples: 9
+                                color: Style.boxShadow
+                            }
+
+                            Rectangle{
+                                id: a_rect5
+                                anchors.fill: parent
+                                anchors.margins: 6
+                                color: "white"
+                                radius: 4
+
+                                ColumnLayout{
+                                    spacing: 10
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    anchors.top: parent.top
+                                    anchors.bottom: parent.bottom
+                                    anchors.topMargin: 10
+                                    anchors.bottomMargin: 40
+                                    FormSectionTitle{
+                                        Layout.alignment: Qt.AlignHCenter
+                                        text: "RECEPTION FACILITY AND PORT PARTICULARS"
+                                    }
+
+                                    MComboBox{
+                                        Layout.margins: 10
+                                        icon: "\ue4aa"
+                                        itemEditable: true
+                                        label: "Port terminal"
+                                        itemModel: ListModel{
+                                            id: model
+                                            ListElement {
+                                                text: "Mole B"
+                                            }
+
+                                            ListElement {
+                                                text: "Mole C"
+                                            }
+                                        }
+                                    }
+
+                                    LineEdit{
+                                        Layout.margins: 10
+                                        label: "Reception facility provider"
+                                    }
+
+                                    Column{
+                                        Layout.margins: 10
+                                        spacing: 4
+                                        Text {
+                                            text: qsTr("Waste Discharge Date")
+                                        }
+
+                                        Row{
+                                            spacing: 12
+                                            DatePicker{
+                                                Layout.margins: 10
+                                                label: "From"
+                                            }
+
+                                            DatePicker{
+                                                Layout.margins: 10
+                                                label: "to"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        Item {
+                            width: 400
+                            height: 440
+                            DropShadow{
+                                source: a_rect6
+                                anchors.fill: a_rect6
+                                horizontalOffset: 0
+                                verticalOffset: 0
+                                radius: 6
+                                //samples: 9
+                                color: Style.boxShadow
+                            }
+
+                            Rectangle{
+                                id: a_rect6
+                                anchors.fill: parent
+                                anchors.margins: 6
+                                color: "white"
+                                radius: 4
+
+                                ColumnLayout{
+                                    spacing: 10
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    anchors.top: parent.top
+                                    anchors.bottom: parent.bottom
+                                    anchors.topMargin: 10
+                                    anchors.bottomMargin: 40
+                                    FormSectionTitle{
+                                        Layout.alignment: Qt.AlignHCenter
+                                        text: "Invoice"
+
+                                    }
+
+                                    LineEdit{
+                                        Layout.margins: 10
+                                        label: "Quantity"
+                                    }
+
+                                    LineEdit{
+                                        Layout.margins: 10
+                                        label: "Amount"
+                                        icon: "$"
+                                    }
+
+                                    DatePicker{
+                                        Layout.margins: 10
+                                        label: "Date"
+                                    }
+                                }
+                            }
+                        }
+                        Item {
+                            width: 400
+                            height: 440
+                            DropShadow{
+                                source: a_rect2
+                                anchors.fill: a_rect2
+                                horizontalOffset: 0
+                                verticalOffset: 0
+                                radius: 6
+                                //samples: 9
+                                color: Style.boxShadow
+                            }
+
+                            Rectangle{
+                                id: a_rect2
+                                anchors.fill: parent
+                                anchors.margins: 6
+                                color: "white"
+                                radius: 4
+
+                                ColumnLayout{
+                                    spacing: 10
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    anchors.top: parent.top
+                                    anchors.bottom: parent.bottom
+                                    anchors.topMargin: 10
+                                    anchors.bottomMargin: 40
+                                    FormSectionTitle{
+                                        Layout.alignment: Qt.AlignHCenter
+                                        text: "INSTALLATION D’ORIGINE"
+                                    }
+
+                                    MComboBox{
+                                        Layout.margins: 10
+                                        itemEditable: true
+                                        label: "Dénomination"
+                                        itemModel: controller.documentFormModel.commListModel
+                                        itemTextRole: "name"
+                                    }
+
+                                    LineEdit{
+                                        Layout.margins: 10
+                                        label: "Adresse"
+                                        icon: "\uf3c5"
+                                        text: controller.documentFormModel.commAddress
+                                    }
+
+                                    LineEdit{
+                                        Layout.margins: 10
+                                        label: "Tél"
+                                        icon: "\uf095"
+                                    }
+
+                                    LineEdit{
+                                        Layout.margins: 10
+                                        label: "Mail"
+                                    }
+
+                                    LineEdit{
+                                        Layout.margins: 10
+                                        label: "Responsable"
+                                    }
+                                }
+                            }
+                        }
+
+                        Item {
+                            width: 400
+                            height: 700
+                            DropShadow{
+                                source: a_rect3
+                                anchors.fill: a_rect3
+                                horizontalOffset: 0
+                                verticalOffset: 0
+                                radius: 6
+                                //samples: 9
+                                color: Style.boxShadow
+                            }
+
+                            Rectangle{
+                                id: a_rect3
+                                anchors.fill: parent
+                                anchors.margins: 6
+                                color: "white"
+                                radius: 4
+
+                                ColumnLayout{
+                                    spacing: 10
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    anchors.top: parent.top
+                                    anchors.bottom: parent.bottom
+                                    anchors.topMargin: 10
+                                    anchors.bottomMargin: 40
+                                    FormSectionTitle{
+                                        Layout.alignment: Qt.AlignHCenter
+                                        text: "COLLECTEUR - TRANSPORTEUR"
+                                    }
+
+                                    MComboBox{
+                                        Layout.margins: 10
+                                        itemEditable: true
+                                        label: "Nom"
+                                    }
+
+                                    LineEdit{
+                                        Layout.margins: 10
+                                        label: "Adresse"
+                                        icon: "\uf3c5"
+                                    }
+
+                                    LineEdit{
+                                        Layout.margins: 10
+                                        label: "Tél"
+                                        icon: "\uf095"
+                                    }
+
+                                    LineEdit{
+                                        Layout.margins: 10
+                                        label: "Mail"
+                                    }
+
+                                    LineEdit{
+                                        Layout.margins: 10
+                                        label: "Responsable"
+                                    }
+
+
+
+                                    MComboBox{
+                                        Layout.margins: 10
+                                        label: "Nom to chauffeur"
+                                        itemEditable: true
+                                    }
+
+                                    MComboBox{
+                                        Layout.margins: 10
+                                        label: "Numéro du véhicule"
+                                        itemEditable: true
+                                    }
+
+                                    LineEdit{
+                                        Layout.margins: 10
+                                        label: "Type du véhicule"
+                                    }
+                                }
+                            }
+                        }
+
+                        Item {
+                            width: 400
+                            height: 700
+                            DropShadow{
+                                source: a_rect4
+                                anchors.fill: a_rect4
+                                horizontalOffset: 0
+                                verticalOffset: 0
+                                radius: 6
+                                //samples: 9
+                                color: Style.boxShadow
+                            }
+
+                            Rectangle{
+                                id: a_rect4
+                                anchors.fill: parent
+                                anchors.margins: 6
+                                color: "white"
+                                radius: 4
+
+                                ColumnLayout{
+                                    spacing: 10
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    anchors.top: parent.top
+                                    anchors.bottom: parent.bottom
+                                    anchors.topMargin: 10
+                                    anchors.bottomMargin: 40
+                                    FormSectionTitle{
+                                        Layout.alignment: Qt.AlignHCenter
+                                        text: "VALORISATEUR / ELIMINATEUR "
+                                    }
+
+                                    MComboBox{
+                                        Layout.margins: 10
+                                        itemEditable: true
+                                        label: "Nom"
+                                    }
+
+                                    LineEdit{
+                                        Layout.margins: 10
+                                        label: "Adresse"
+                                        icon: "\uf3c5"
+                                    }
+
+                                    LineEdit{
+                                        Layout.margins: 10
+                                        label: "Tél"
+                                        icon: "\uf095"
+                                    }
+
+                                    LineEdit{
+                                        Layout.margins: 10
+                                        label: "Mail"
+                                    }
+
+                                    LineEdit{
+                                        Layout.margins: 10
+                                        label: "Responsable"
+                                    }
+
+                                    LineEdit{
+                                        Layout.margins: 10
+                                        label: "Site de réception"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
-
-
-
-
     }
 }

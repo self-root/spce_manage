@@ -152,3 +152,8 @@ QVector<Eliminateur> EliminateurDao::getAll() const
 }
 } // namespace spce_core
 
+
+
+void spce_core::EliminateurDao::update(const Eliminateur &record) const
+{
+}

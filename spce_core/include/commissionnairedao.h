@@ -20,7 +20,7 @@ public:
     Commissionnaire get(int id) const override;
     Commissionnaire get(const QString &denomination) const;
     QVector<Commissionnaire> getAll() const override;
-
+    void update(const Commissionnaire &record) const override;
 };
 } // namespace spce_core
 

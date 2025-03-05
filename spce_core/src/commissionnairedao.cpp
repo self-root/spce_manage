@@ -149,3 +149,8 @@ QVector<Commissionnaire> CommissionnaireDao::getAll() const
 }
 } // namespace spce_core
 
+
+
+void spce_core::CommissionnaireDao::update(const Commissionnaire &record) const
+{
+}

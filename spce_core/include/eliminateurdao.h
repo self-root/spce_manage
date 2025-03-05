@@ -16,7 +16,7 @@ public:
     Eliminateur get(int id) const override;
     Eliminateur get(const QString &name) const;
     QVector<Eliminateur> getAll() const override;
-
+    void update(const Eliminateur &record) const override;
 };
 } // namespace spce_core
 

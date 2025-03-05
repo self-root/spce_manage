@@ -149,9 +149,9 @@ Page{
                                             text: "INSTALLATION D’ORIGINE"
                                         }
 
-                                        LineEdit{
+                                        ComboBox{
                                             Layout.margins: 10
-                                            label: "Dénomination"
+                                            editable: true
                                         }
 
                                         LineEdit{
@@ -360,12 +360,15 @@ Page{
                                             text: "RECEPTION FACILITY AND PORT PARTICULARS"
                                         }
 
-                                        ComboBox{
+                                        MComboBox{
                                             Layout.margins: 10
-                                            width: 250
-                                            editable: true
 
-                                            model: ListModel{
+                                            w: 200
+                                            h: 40
+                                            label: "Port terminal"
+                                            itemEditable: true
+
+                                            itemModel: ListModel{
                                                 id: model
                                                 ListElement {
                                                     text: "Mole B"

@@ -6,7 +6,7 @@ import "components"
 
 
 ApplicationWindow {
-    width: 1200
+    width: 1560
     height: 880
     visible: true
     title: qsTr("SPCE Manage")

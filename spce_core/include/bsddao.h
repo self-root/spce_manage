@@ -20,6 +20,7 @@ public:
     BSD get(int id) const override;
     void add(BSD &record) const override;
     QVector<BSD> getAll() const override;
+    void update(const BSD &record) const override;
 };
 } // namespace spce_core
 

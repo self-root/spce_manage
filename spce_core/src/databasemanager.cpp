@@ -65,6 +65,18 @@ QString DatabaseManager::databasePath()
     QString path = QDir::cleanPath(appDataLocation + QDir::separator() + QString("spce_data.db"));
     return path;
 }
+
+template<>
+const Dao<Ship> &DatabaseManager::getDao<Ship>()
+{
+    return mShipDao;
+}
+
+template<>
+const Dao<Commissionnaire> &DatabaseManager::getDao<Commissionnaire>()
+{
+    return mCommissionnaireDao;
+}
 } // namespace spce
 
 

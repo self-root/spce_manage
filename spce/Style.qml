@@ -12,9 +12,15 @@ Item {
     readonly property string boxShadow: "#525d6e"
     readonly property string boxShadowActive: "#253c7f"
     readonly property var robotFont: robotoF.name
+    readonly property var webFont: webF.name
 
     FontLoader{
         id: robotoF
         source: "qrc:/fonts/fonts/Roboto-Regular.ttf"
+    }
+
+    FontLoader{
+        id: webF
+        source: "qrc:/fonts/fonts/webfont.ttf"
     }
 }

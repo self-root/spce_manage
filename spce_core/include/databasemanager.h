@@ -37,8 +37,13 @@ public:
     const InvoiceDao mInvoiceDao;
     const BSDDao mBSDDao;
 
+    template <typename T>
+    const Dao<T> &getDao();
+
 };
 
-#endif // DATABASEMANAGER_H
+
+
 } // namespace spce
 
+#endif // DATABASEMANAGER_H

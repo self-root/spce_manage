@@ -86,3 +86,8 @@ QVector<Driver> DriverDao::getAll() const
 
 
 
+
+
+void spce_core::DriverDao::update(const Driver &record) const
+{
+}

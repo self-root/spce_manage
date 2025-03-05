@@ -165,3 +165,8 @@ QVector<Ship> ShipDao::getAll() const
 
 } // namespace spce_core
 
+
+
+void spce_core::ShipDao::update(const Ship &record) const
+{
+}

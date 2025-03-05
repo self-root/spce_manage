@@ -17,6 +17,7 @@ public:
     Collecteur get(int id) const override;
     Collecteur get(const QString &name) const;
     QVector<Collecteur> getAll() const override;
+    void update(const Collecteur &record) const override;
 };
 } // namespace spce_core
 

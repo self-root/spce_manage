@@ -138,3 +138,8 @@ QVector<Invoice> InvoiceDao::getAll() const
 
 
 
+
+
+void spce_core::InvoiceDao::update(const Invoice &record) const
+{
+}

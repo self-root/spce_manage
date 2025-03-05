@@ -29,12 +29,14 @@ qt_add_qml_module(appspce
         "pages/OperationPage.qml"
         "components/MenuButton.qml"
         "components/RotatingIconBtn.qml"
-        "components/DatePicker.qml"
+        "components/MCalendar.qml"
         "components/LineEdit.qml"
         "components/FormSection.qml"
         "components/FormSectionTitle.qml"
         "components/TextButton.qml"
-
+        "components/MComboBox.qml"
+        "components/DatePicker.qml"
+        "components/TextIconBtn.qml"
 )
 
 qt_add_resources(appspce "images"
@@ -52,6 +54,7 @@ qt_add_resources(appspce "fonts"
     PREFIX "/fonts"
     FILES
         fonts/Roboto-Regular.ttf
+        fonts/webfont.ttf
 )
 
 

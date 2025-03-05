@@ -99,3 +99,8 @@ QVector<Vehicle> VehicleDao::getAll() const
 } // namespace spce_core
 
 
+
+
+void spce_core::VehicleDao::update(const Vehicle &record) const
+{
+}
