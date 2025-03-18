@@ -11,7 +11,7 @@ Driver::Driver(const QString &name, int id)
 
 }
 
-QString Driver::name() const
+QString Driver::nom() const
 {
     return mName;
 }

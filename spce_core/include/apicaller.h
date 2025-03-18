@@ -19,7 +19,7 @@ public:
     void fetchShipSchedule();
     void fetchShip(const QString &imo);
 private:
-    QString baseUrl = "http://0.0.0.0:8000";
+    QString baseUrl = "http://212.24.111.24:8002";
     QNetworkAccessManager *mNetworkAccessManager = nullptr;
 
 private slots:

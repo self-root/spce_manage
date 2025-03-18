@@ -1,13 +1,38 @@
 #include "documentformmodel.h"
 #include "databasemanager.h"
+#include "flagsvgdownloader.h"
+#include <QDir>
 
 namespace spce_core {
 DocumentFormModel::DocumentFormModel(QObject *parent)
-    : QObject{parent}, commNameListModel(new BaseEntityNameListModel<Commissionnaire>)
+    : QObject{parent},
+    commNameListModel(new BaseEntityListModel<Commissionnaire>),
+    collNameListModel(new BaseEntityListModel<Collecteur>),
+    driverNameListModel(new BaseEntityListModel<Driver>),
+    vehicleListModel(new BaseEntityListModel<Vehicle>),
+    eliminateurListModel(new BaseEntityListModel<Eliminateur>),
+    terminalListModel(new TerminalListModel)
 {
+    setShipPropertyValues();
     commNameListModel->getDataFromDb();
     currentCommissionnaire = commNameListModel->firstEntity();
     setCommissionnairePropertyValues();
+
+    collNameListModel->getDataFromDb();
+    currentCollecteur = collNameListModel->firstEntity();
+    setCollecteurPropertyValues();
+
+    driverNameListModel->getDataFromDb();
+    currentDriver = driverNameListModel->firstEntity();
+    setDriverProperyValues();
+
+    vehicleListModel->getDataFromDb();
+    currentVehicle = vehicleListModel->firstEntity();
+    setVehicleProperyValues();
+
+    eliminateurListModel->getDataFromDb();
+    currentEliminateur = eliminateurListModel->firstEntity();
+    setEliminateurPropertyValues();
 }
 
 void DocumentFormModel::getShip(const QString &imo)
@@ -16,9 +41,34 @@ void DocumentFormModel::getShip(const QString &imo)
     setShipPropertyValues();
 }
 
-BaseEntityNameListModel<Commissionnaire> *DocumentFormModel::getCommListModel()
+BaseEntityListModel<Commissionnaire> *DocumentFormModel::getCommListModel()
 {
     return commNameListModel;
+}
+
+BaseEntityListModel<Collecteur> *DocumentFormModel::getCollListModel()
+{
+    return collNameListModel;
+}
+
+BaseEntityListModel<Driver> *DocumentFormModel::getDriverListModel()
+{
+    return driverNameListModel;
+}
+
+BaseEntityListModel<Vehicle> *DocumentFormModel::getVehiclListModel()
+{
+    return vehicleListModel;
+}
+
+BaseEntityListModel<Eliminateur> *DocumentFormModel::getEliminateurListModel()
+{
+    return eliminateurListModel;
+}
+
+TerminalListModel *DocumentFormModel::getTerminalListModel()
+{
+    return terminalListModel;
 }
 
 void DocumentFormModel::setShipPropertyValues()
@@ -29,11 +79,178 @@ void DocumentFormModel::setShipPropertyValues()
     set_callSign(currentShip.callSign());
     set_shipType(currentShip.type());
     set_tonnage(currentShip.tonnage());
+    set_flagUrl(QDir::cleanPath(FlagSVGDownloader::flagsFolder() + QDir::separator() + currentShip.flagUrl()));
 }
 
 void DocumentFormModel::setCommissionnairePropertyValues()
 {
     set_commAddress(currentCommissionnaire.address());
+    set_commTel(currentCommissionnaire.tel());
+    set_commMail(currentCommissionnaire.email());
+    set_commResponsable(currentCommissionnaire.responsabble());
+}
+
+void DocumentFormModel::setCollecteurPropertyValues()
+{
+    set_collAddress(currentCollecteur.address());
+    set_collTel(currentCollecteur.tel());
+    set_collMail(currentCollecteur.email());
+    set_collResponsable(currentCollecteur.responsabble());
+}
+
+void DocumentFormModel::setDriverProperyValues()
+{
+    set_driverName(currentDriver.nom());
+}
+
+void DocumentFormModel::setVehicleProperyValues()
+{
+    set_vehicleType(currentVehicle.type());
+}
+
+void DocumentFormModel::setEliminateurPropertyValues()
+{
+    set_elimAddress(currentEliminateur.address());
+    set_elimTel(currentEliminateur.tel());
+    set_elimMail(currentEliminateur.email());
+    set_elimResponsable(currentEliminateur.responsabble());
+    set_elimReceptionSite(currentEliminateur.receptionSite());
+}
+
+void DocumentFormModel::commissionnaireAt(int index)
+{
+    currentCommissionnaire = commNameListModel->entityAt(index);
+    setCommissionnairePropertyValues();
+}
+
+void DocumentFormModel::collecteurAt(int index)
+{
+    currentCollecteur = collNameListModel->entityAt(index);
+    setCollecteurPropertyValues();
+}
+
+void DocumentFormModel::vehicleAt(int index)
+{
+    currentVehicle = vehicleListModel->entityAt(index);
+    setVehicleProperyValues();
+}
+
+void DocumentFormModel::eliminateurAt(int index)
+{
+    currentEliminateur = eliminateurListModel->entityAt(index);
+    setEliminateurPropertyValues();
+}
+
+
+void DocumentFormModel::createDocuments(const QVariantMap &form_data)
+{
+    nlohmann::json data;
+    data["type"] = "certificate";
+    data["ship_name"] = currentShip.name().toStdString();
+    data["imo_number"] = currentShip.imo().toStdString();
+    data["flag_state"] = currentShip.flag().toStdString();
+    data["callsign"] = currentShip.callSign().toStdString();
+    data["gross_tonnage"] = currentShip.tonnage();
+    data["ship_type"] = currentShip.type().toStdString();
+    data["terminal"] = form_data["terminal"].toString().toStdString();
+    data["start_date"] = DocumentFormModel::formatDate(form_data["start_date"].toDate()).toStdString();
+    data["end_date"] = DocumentFormModel::formatDate(form_data["end_date"].toDate()).toStdString();
+    data["document_date"] = DocumentFormModel::formatDate(form_data["document_date"].toDate()).toStdString();
+    data["bsd_date"] = form_data["document_date"].toDate().toString("dd/MM/yyyy").toStdString();
+    data["commissionnaire"] = form_data["commissionnaire"].toString().toStdString();
+    data["comm_address"] = m_commAddress.toStdString();
+    data["comm_responsable"] = m_commResponsable.toStdString();
+    data["comm_mail"] = m_commMail.toStdString();
+    data["comm_tel"] = m_commTel.toStdString();
+    data["driver"] = form_data["driver"].toString().toStdString();
+    data["coll_vehicle_type"] = form_data["vehicle"].toString().toStdString();
+    data["collecteur"] = form_data["collecteur"] .toString().toStdString();
+    data["coll_address"] = m_collAddress.toStdString();
+    data["coll_tel"] = m_collTel.toStdString();
+    data["coll_mail"] = m_collMail.toStdString();
+    data["coll_responsable"] = m_collResponsable.toStdString();
+    data["coll_vehicle_type"] = m_vehicleType.toStdString();
+    data["coll_vehicle"] = form_data["vehicle"].toString().toStdString();
+    data["aliminateur"] = form_data["eliminateur"].toString().toStdString();
+    data["elim_address"] = m_elimAddress.toStdString();
+    data["elim_tel"] = m_elimTel.toStdString();
+    data["elim_mail"] = m_elimMail.toStdString();
+    data["elim_responsable"] = m_elimResponsable.toStdString();
+    data["reception_site"] = m_elimReceptionSite.toStdString();
+    emit writeShipDocument(data);
+    Commissionnaire comm(
+        form_data["commissionnaire"].toString(),
+        m_commAddress,
+        m_commTel,
+        m_commMail,
+        m_commResponsable,
+        currentCommissionnaire.id()
+    );
+    commNameListModel->addOrUpdate(comm);
+
+    Collecteur coll(
+        form_data["collecteur"] .toString(),
+        m_collAddress,
+        m_collTel,
+        m_collMail,
+        m_collResponsable,
+        currentCollecteur.id()
+    );
+    collNameListModel->addOrUpdate(coll);
+
+    Driver driver(form_data["driver"].toString(), currentDriver.id());
+    driverNameListModel->addOrUpdate(driver);
+
+    Vehicle vehicle(
+        m_vehicleType,
+        form_data["vehicle"].toString(),
+        currentVehicle.id()
+    );
+    vehicleListModel->addOrUpdate(vehicle);
+
+    Eliminateur eliminateur(
+        form_data["eliminateur"].toString(),
+        m_elimAddress,
+        m_elimTel,
+        m_elimMail,
+        m_elimResponsable,
+        m_elimReceptionSite,
+        currentEliminateur.id()
+    );
+    eliminateurListModel->addOrUpdate(eliminateur);
+    terminalListModel->addIfNotExist(form_data["terminal"].toString());
+
+    BSD bsd(
+        comm,
+        coll,
+        eliminateur,
+        driver,
+        vehicle,
+        currentShip,
+        form_data["document_date"].toDate()
+    );
+    DatabaseManager::instance()->getDao<BSD>().add(bsd);
+}
+
+QString DocumentFormModel::formatDate(const QDate &date)
+{
+    QLocale::setDefault(QLocale::English);
+    QLocale local;
+    QString month = local.monthName(date.month());
+    int day = date.day();
+    int year = date.year();
+
+    const char suffixes [][3] = {"th", "st", "nd", "rd"};
+    auto ord = day % 100;
+    if (ord / 10 == 1) { ord = 0; }
+    ord = ord % 10;
+    if (ord > 3)
+    {
+        ord = 0;
+    }
+    QString suffix = suffixes[ord];
+
+    return QString("%1 %2%3 %4").arg(month).arg(day).arg(suffix).arg(year);
 }
 
 } // namespace spce_core

@@ -46,7 +46,22 @@ add_library(spce_core SHARED
     include/bsddao.h             src/bsddao.cpp
     include/invoicedao.h         src/invoicedao.cpp
     include/property_helper.h
-    include/baseEntityNameModel.h
+    include/baseEntityListModel.h
+    include/documentwriter.h     src/documentwriter.cpp
+    include/inja.hpp
+    include/json.hpp
+    include/terminal.h           src/terminal.cpp
+    include/terminallistmodel.h  src/terminallistmodel.cpp
+
+
+)
+
+qt_add_resources(spce_core "templates"
+    PREFIX "/templates"
+    FILES
+        templates/bsd.html
+        templates/certificate.html
+        templates/invoice.html
 
 )
 

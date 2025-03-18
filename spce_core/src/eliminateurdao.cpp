@@ -23,6 +23,7 @@ void EliminateurDao::init() const
                 tel TEXT,
                 email TEXT,
                 receptionSite TEXT,
+                responsable TEXT,
 
                 PRIMARY KEY(id AUTOINCREMENT)
             )
@@ -39,8 +40,8 @@ void EliminateurDao::add(Eliminateur &record) const
 {
     QSqlQuery query(mDatabase);
     query.prepare(R"(
-        INSERT INTO eliminateur(nom, address, tel, email, receptionSite)
-        VALUES(:nom, :address, :tel, :email, :receptionSite)
+        INSERT INTO eliminateur(nom, address, tel, email, receptionSite, responsable)
+        VALUES(:nom, :address, :tel, :email, :receptionSite, :responsable)
     )");
 
     query.bindValue(":nom", record.nom());
@@ -48,6 +49,7 @@ void EliminateurDao::add(Eliminateur &record) const
     query.bindValue(":tel", record.tel());
     query.bindValue(":email", record.email());
     query.bindValue(":receptionSite", record.receptionSite());
+    query.bindValue(":responsable", record.responsabble());
 
     if (query.exec())
     {
@@ -77,6 +79,7 @@ Eliminateur EliminateurDao::get(int id) const
                 query.value("address").toString(),
                 query.value("tel").toString(),
                 query.value("email").toString(),
+                query.value("responsable").toString(),
                 query.value("receptionSite").toString(),
                 id
                 );
@@ -111,6 +114,7 @@ Eliminateur EliminateurDao::get(const QString &name) const
                 query.value("address").toString(),
                 query.value("tel").toString(),
                 query.value("email").toString(),
+                query.value("responsable").toString(),
                 query.value("receptionSite").toString(),
                 query.value("id").toInt()
                 );
@@ -138,6 +142,7 @@ QVector<Eliminateur> EliminateurDao::getAll() const
                 query.value("address").toString(),
                 query.value("tel").toString(),
                 query.value("email").toString(),
+                query.value("responsable").toString(),
                 query.value("receptionSite").toString(),
                 query.value("id").toInt()
                 ));
@@ -156,4 +161,25 @@ QVector<Eliminateur> EliminateurDao::getAll() const
 
 void spce_core::EliminateurDao::update(const Eliminateur &record) const
 {
+    QSqlQuery query(mDatabase);
+    query.prepare(R"(
+        UPDATE eliminateur
+        SET nom = :nom, address = :address, tel = :tel , email = :email, responsable = :responsable, receptionSite = :receptionSite
+        WHERE id = :id
+    )");
+
+    query.bindValue(":nom", record.nom());
+    query.bindValue(":address", record.address());
+    query.bindValue(":tel", record.tel());
+    query.bindValue(":email", record.email());
+    query.bindValue(":responsable", record.responsabble());
+    query.bindValue(":receptionSite", record.receptionSite());
+    query.bindValue(":id", record.id());
+
+    if (query.exec())
+    {
+
+    }
+    else
+        qWarning() << "Error while updating eliminateur into database: " << query.lastError().text();
 }

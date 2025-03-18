@@ -77,6 +77,37 @@ const Dao<Commissionnaire> &DatabaseManager::getDao<Commissionnaire>()
 {
     return mCommissionnaireDao;
 }
+
+template<>
+const Dao<Collecteur> &DatabaseManager::getDao<Collecteur>()
+{
+    return mCollecteurDao;
+}
+
+template<>
+const Dao<Driver> &DatabaseManager::getDao<Driver>()
+{
+    return mDriverDao;
+}
+
+template<>
+const Dao<Vehicle> &DatabaseManager::getDao<Vehicle>()
+{
+    return mVehicleDao;
+}
+
+template<>
+const Dao<Eliminateur> &DatabaseManager::getDao<Eliminateur>()
+{
+    return mEliminateurDao;
+}
+
+template<>
+const Dao<BSD> &DatabaseManager::getDao<BSD>()
+{
+    return mBSDDao;
+}
+
 } // namespace spce
 
 

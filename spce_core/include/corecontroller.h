@@ -7,6 +7,7 @@
 #include "schedulelistmodel.h"
 #include "shipdetailmodel.h"
 #include "documentformmodel.h"
+#include "documentwriter.h"
 
 namespace spce_core {
 
@@ -29,6 +30,7 @@ private:
     ScheduleListModel *mScheduleListModel = nullptr;
     ShipDetailModel *mShipDetailModel = nullptr;
     DocumentFormModel *mDocumentFormModel = nullptr;
+    DocumentWriter *mDocumentWriter = nullptr;
 
 
 

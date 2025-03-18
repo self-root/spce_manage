@@ -9,18 +9,11 @@ namespace spce_core {
 class SPCE_CORE_EXPORT MGTOAPort
 {
 public:
-    MGTOAPort();
-    void readPortSettings();
-    void addTerminal(const QString &terminal);
-    QString portName() const;
-    void setPortName(const QString &newPortName);
-    QStringList terminals() const;
-    void setTerminals(const QStringList &newTerminals);
-    void saveTerminalSettings();
+    static QString portName();
+    static void setPortName(const QString &newPortName);
+    static QStringList terminals();
+    static void setTerminals(const QStringList &newTerminals);
 
-private:
-    QString mPortName;
-    QStringList mTerminals;
 
 };
 } // namespace spce_core

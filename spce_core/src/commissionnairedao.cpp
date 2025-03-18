@@ -153,4 +153,24 @@ QVector<Commissionnaire> CommissionnaireDao::getAll() const
 
 void spce_core::CommissionnaireDao::update(const Commissionnaire &record) const
 {
+    QSqlQuery query(mDatabase);
+    query.prepare(R"(
+        UPDATE commissionnaire
+        SET denomination = :denomination, address = :address, tel = :tel , email = :email, responsable = :responsable
+        WHERE id = :id
+    )");
+
+    query.bindValue(":denomination", record.nom());
+    query.bindValue(":address", record.address());
+    query.bindValue(":tel", record.tel());
+    query.bindValue(":email", record.email());
+    query.bindValue(":responsable", record.responsabble());
+    query.bindValue(":id", record.id());
+
+    if (query.exec())
+    {
+
+    }
+    else
+        qWarning() << "Error while updating commissionnaire into database: " << query.lastError().text();
 }

@@ -38,7 +38,7 @@ public:
 
 private:
     QString mImo;
-    int mTonnage;
+    int mTonnage = 0;
     QString mName;
     QString mFlag;
     QString mFlagUrl;

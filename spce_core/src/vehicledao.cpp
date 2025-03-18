@@ -103,4 +103,19 @@ QVector<Vehicle> VehicleDao::getAll() const
 
 void spce_core::VehicleDao::update(const Vehicle &record) const
 {
+    QSqlQuery query(mDatabase);
+    query.prepare(R"(
+        UPDATE vehicle
+        SET type = :type, number = :number
+        WHERE id = :id
+    )");
+
+    query.bindValue(":type", record.type());
+    query.bindValue(":number", record.number());
+    query.bindValue(":id", record.id());
+
+    if (query.exec())
+        qDebug() << "Record updated";
+    else
+        qWarning() << "Could not update vehicle: " << record.number() << " to the db: " << query.lastError().text();
 }

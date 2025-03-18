@@ -5,6 +5,7 @@ import QtQuick.Controls.Material
 import ".."
 
 Item {
+    id: control
     property alias h: bg.implicitHeight
     property alias w: bg.implicitWidth
     property alias text: a_combo.currentText
@@ -12,7 +13,12 @@ Item {
     property alias itemModel: a_combo.model
     property alias itemEditable: a_combo.editable
     property alias itemTextRole: a_combo.textRole
+    property alias displayText: a_combo.displayText
     property alias icon: textIcon.icon
+    property int index
+    property bool completed: false
+    signal currentIndexChanged(var index)
+
     width: w
     height: h
     Column{
@@ -65,6 +71,25 @@ Item {
                 }
             }
 
+            onActivated: {
+                control.index = a_combo.currentIndex
+                control.currentIndexChanged(a_combo.currentIndex)
+            }
+
+            onEditTextChanged: {
+                if (currentIndex !== -1 && currentText !== a_combo.editText) {
+                    console.log("Edit text changed: " + a_combo.editText)
+                    a_combo.currentIndex = -1
+                    control.index = -1
+                    control.currentIndexChanged(-1)
+                }
+
+                else{
+                    a_combo.displayText = a_combo.editText
+                }
+
+            }
+
             states: [State {
                 name: "focused"
                 when: a_combo.focus
@@ -102,5 +127,7 @@ Item {
         }
     }
 
-
+    Component.onCompleted: {
+        control.completed = true
+    }
 }

@@ -186,6 +186,22 @@ Page {
                     Material.accent: Style.primary
                     Material.primary: Style.primary
 
+                    onClicked: {
+                        controller.documentFormModel.createDocuments(
+                            {
+                                "terminal": terminalCombo.displayText,
+                                "start_date": start_date.selected_date,
+                                "end_date": end_date.selected_date,
+                                "document_date": document_date.selected_date,
+                                "commissionnaire": commissionnaireCombo.displayText,
+                                "collecteur": collecteurCombo.displayText,
+                                "driver": driverCombo.displayText,
+                                "vehicle": vehicleNumberCombo.displayText,
+                                "eliminateur": eliminateurCombo.displayText
+                            }
+                        )
+                    }
+
                 }
 
                 ScrollView{
@@ -230,17 +246,21 @@ Page {
                                     }
 
                                     LineEdit{
+                                        id: imoNumberEdit
                                         Layout.margins: 10
                                         label: "IMO Number"
                                         text: controller.documentFormModel.imo
                                         icon: "\uf002"
+                                        onTextUpdated: controller.documentFormModel.imo = imoNumberEdit.text
                                     }
 
                                     LineEdit{
+                                        id: shipNameEdit
                                         Layout.margins: 10
                                         label: "Name of ship"
                                         icon: "\uf21a"
                                         text: controller.documentFormModel.shipName
+                                        onTextChanged: controller.documentFormModel.shipName = shipNameEdit.text
                                     }
 
                                     LineEdit{
@@ -256,9 +276,36 @@ Page {
                                     }
 
                                     LineEdit{
+                                        id: flagStateEdit
                                         Layout.margins: 10
                                         label: "Flag State"
                                         text: controller.documentFormModel.flagState
+                                        onTextChanged: controller.documentFormModel.flagState = flagStateEdit.text
+                                        Item {
+                                            id: imgWrapper
+                                            anchors.right: parent.right
+                                            anchors.bottom: parent.bottom
+                                            anchors.bottomMargin: -18
+                                            anchors.rightMargin: 4
+                                            width: flagImg.width
+                                            height: flagImg.height
+                                            DropShadow{
+                                                source: flagImg
+                                                anchors.fill: flagImg
+                                                verticalOffset: 0
+                                                horizontalOffset: 0
+                                                radius: 4
+                                                color: "grey"
+                                            }
+                                            Image {
+                                                id: flagImg
+                                                height: 30
+
+                                                fillMode: Image.PreserveAspectFit
+                                                source: "file:///" + controller.documentFormModel.flagUrl
+                                            }
+                                        }
+
                                     }
 
                                     LineEdit{
@@ -302,25 +349,18 @@ Page {
                                     }
 
                                     MComboBox{
+                                        id: terminalCombo
                                         Layout.margins: 10
                                         icon: "\ue4aa"
                                         itemEditable: true
                                         label: "Port terminal"
-                                        itemModel: ListModel{
-                                            id: model
-                                            ListElement {
-                                                text: "Mole B"
-                                            }
-
-                                            ListElement {
-                                                text: "Mole C"
-                                            }
-                                        }
+                                        itemModel: controller.documentFormModel.terminalListModel
                                     }
 
                                     LineEdit{
                                         Layout.margins: 10
                                         label: "Reception facility provider"
+                                        text: "S.P.C.E Toamasina port"
                                     }
 
                                     Column{
@@ -333,11 +373,13 @@ Page {
                                         Row{
                                             spacing: 12
                                             DatePicker{
+                                                id: start_date
                                                 Layout.margins: 10
                                                 label: "From"
                                             }
 
                                             DatePicker{
+                                                id: end_date
                                                 Layout.margins: 10
                                                 label: "to"
                                             }
@@ -391,6 +433,7 @@ Page {
                                     }
 
                                     DatePicker{
+                                        id: document_date
                                         Layout.margins: 10
                                         label: "Date"
                                     }
@@ -430,11 +473,16 @@ Page {
                                     }
 
                                     MComboBox{
+                                        id: commissionnaireCombo
                                         Layout.margins: 10
                                         itemEditable: true
                                         label: "Dénomination"
                                         itemModel: controller.documentFormModel.commListModel
                                         itemTextRole: "name"
+                                        onCurrentIndexChanged: (newIndex) => {
+                                            console.log("Index: " + newIndex)
+                                            controller.documentFormModel.commissionnaireAt(newIndex)
+                                        }
                                     }
 
                                     LineEdit{
@@ -442,22 +490,29 @@ Page {
                                         label: "Adresse"
                                         icon: "\uf3c5"
                                         text: controller.documentFormModel.commAddress
+                                        onTextChanged: controller.documentFormModel.commAddress = text
                                     }
 
                                     LineEdit{
                                         Layout.margins: 10
                                         label: "Tél"
                                         icon: "\uf095"
+                                        text: controller.documentFormModel.commTel
+                                        onTextChanged: controller.documentFormModel.commTel = text
                                     }
 
                                     LineEdit{
                                         Layout.margins: 10
                                         label: "Mail"
+                                        text: controller.documentFormModel.commMail
+                                        onTextChanged: controller.documentFormModel.commMail = text
                                     }
 
                                     LineEdit{
                                         Layout.margins: 10
                                         label: "Responsable"
+                                        text: controller.documentFormModel.commResponsable
+                                        onTextChanged: controller.documentFormModel.commResponsable = text
                                     }
                                 }
                             }
@@ -496,50 +551,72 @@ Page {
                                     }
 
                                     MComboBox{
+                                        id: collecteurCombo
                                         Layout.margins: 10
                                         itemEditable: true
                                         label: "Nom"
+                                        itemModel: controller.documentFormModel.collListModel
+                                        onCurrentIndexChanged: (newIndex) => {
+                                            controller.documentFormModel.collecteurAt(newIndex)
+                                        }
                                     }
 
                                     LineEdit{
                                         Layout.margins: 10
                                         label: "Adresse"
                                         icon: "\uf3c5"
+                                        text: controller.documentFormModel.collAddress
+                                        onTextChanged: controller.documentFormModel.collAddress = text
                                     }
 
                                     LineEdit{
                                         Layout.margins: 10
                                         label: "Tél"
                                         icon: "\uf095"
+                                        text: controller.documentFormModel.collTel
+                                        onTextChanged: controller.documentFormModel.collTel = text
                                     }
 
                                     LineEdit{
                                         Layout.margins: 10
                                         label: "Mail"
+                                        text: controller.documentFormModel.collMail
+                                        onTextChanged: controller.documentFormModel.collMai = text
                                     }
 
                                     LineEdit{
                                         Layout.margins: 10
                                         label: "Responsable"
+                                        text: controller.documentFormModel.collResponsable
+                                        onTextChanged: controller.documentFormModel.collResponsable = text
                                     }
 
 
 
                                     MComboBox{
+                                        id: driverCombo
                                         Layout.margins: 10
                                         label: "Nom to chauffeur"
                                         itemEditable: true
+                                        itemModel: controller.documentFormModel.driverListModel
                                     }
 
                                     MComboBox{
+                                        id: vehicleNumberCombo
                                         Layout.margins: 10
                                         label: "Numéro du véhicule"
                                         itemEditable: true
+                                        itemModel: controller.documentFormModel.vehicleListModel
+                                        onCurrentIndexChanged: (newIndex) => {
+                                            controller.documentFormModel.vehicleAt(newIndex)
+                                        }
                                     }
 
                                     LineEdit{
                                         Layout.margins: 10
                                         label: "Type du véhicule"
+                                        text: controller.documentFormModel.vehicleType
+                                        onTextChanged: controller.documentFormModel.vehicleType = text
                                     }
                                 }
                             }
@@ -578,36 +655,51 @@ Page {
                                     }
 
                                     MComboBox{
+                                        id: eliminateurCombo
                                         Layout.margins: 10
                                         itemEditable: true
                                         label: "Nom"
+                                        itemModel: controller.documentFormModel.eliminateurListModel
+                                        onCurrentIndexChanged: (newIndex) => {
+                                            controller.documentFormModel.eliminateurAt(newIndex)
+                                        }
                                     }
 
                                     LineEdit{
                                         Layout.margins: 10
                                         label: "Adresse"
                                         icon: "\uf3c5"
+                                        text: controller.documentFormModel.elimAddress
+                                        onTextChanged: controller.documentFormModel.elimAddress = text
                                     }
 
                                     LineEdit{
                                         Layout.margins: 10
                                         label: "Tél"
                                         icon: "\uf095"
+                                        text: controller.documentFormModel.elimTel
+                                        onTextChanged: controller.documentFormModel.elimTel = text
                                     }
 
                                     LineEdit{
                                         Layout.margins: 10
                                         label: "Mail"
+                                        text: controller.documentFormModel.elimMail
+                                        onTextChanged: controller.documentFormModel.elimMail = text
                                     }
 
                                     LineEdit{
                                         Layout.margins: 10
                                         label: "Responsable"
+                                        text: controller.documentFormModel.elimResponsable
+                                        onTextChanged: controller.documentFormModel.elimResponsable = text
                                     }
 
                                     LineEdit{
                                         Layout.margins: 10
                                         label: "Site de réception"
+                                        text: controller.documentFormModel.elimReceptionSite
+                                        onTextChanged: controller.documentFormModel.elimReceptionSite = text
                                     }
                                 }
                             }

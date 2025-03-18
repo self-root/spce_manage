@@ -156,7 +156,26 @@ QVector<Collecteur> CollecteurDao::getAll() const
 
 void CollecteurDao::update(const Collecteur &record) const
 {
+    QSqlQuery query(mDatabase);
+    query.prepare(R"(
+        UPDATE collecteur
+        SET nom = :nom, address = :address, tel = :tel , email = :email, responsable = :responsable
+        WHERE id = :id
+    )");
 
+    query.bindValue(":nom", record.nom());
+    query.bindValue(":address", record.address());
+    query.bindValue(":tel", record.tel());
+    query.bindValue(":email", record.email());
+    query.bindValue(":responsable", record.responsabble());
+    query.bindValue(":id", record.id());
+
+    if (query.exec())
+    {
+
+    }
+    else
+        qWarning() << "Error while updating collecteur into database: " << query.lastError().text();
 }
 
 } // namespace spce_core

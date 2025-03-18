@@ -80,7 +80,7 @@ void BSDDao::add(BSD &record) const
     QSqlQuery query(mDatabase);
     query.prepare(R"(
         INSERT INTO bsd(f_comm, f_coll, f_elim, f_driver, f_vehicle, f_ship, date)
-        VALUES (:f_comm, :f_coll, :f_elim, :f_driver, :f_vehicle, :f_ship, date)
+        VALUES (:f_comm, :f_coll, :f_elim, :f_driver, :f_vehicle, :f_ship, :date)
     )");
 
     query.bindValue(":f_comm", record.commissionnaire().id());

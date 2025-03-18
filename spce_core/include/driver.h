@@ -14,7 +14,7 @@ public:
     Driver(int id = -1);
     Driver(const QString &name, int id = -1);
 
-    QString name() const;
+    QString nom() const;
     void setName(const QString &newName);
 
 private:

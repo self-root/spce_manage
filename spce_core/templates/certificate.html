@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waste Delivery Receipt</title>
+    <style>
+        .header-table{
+            width: 100%;
+        }
+        .logo{
+            align-content: left;
+        }
+        .reference{
+            display: flex;
+            justify-content: flex-end; /* Aligns cell content to the right */
+            align-items: top;       /* Centers text vertically */
+            text-align: center;        /* Centers text inside */
+            width: 100%;  
+            font-family: 'Times New Roman', Times, serif;
+        }
+        body {
+            width: 100%;
+            font-family: Arial, sans-serif;
+            margin: 0px;
+        }
+        .container {
+            width: 100%;
+            margin: 0 auto;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        h1{
+            font-size: 13pt;
+        }
+        h3{
+            margin: 0px;
+            padding: 0px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2px;
+        }
+        .form-table, th, td {
+            border: 1px solid #000;
+        }
+        .header-table td {
+            border-width: 0px;
+        }
+        .signature {
+            margin-top: 20px;
+        }
+        .form-value{
+            color: #0e3d7b;
+        }
+        
+    </style>
+</head>
+<body>
+    <header>
+        <table class="header-table">
+            <tr style="border-width: 0cqmin;">
+                <td  style="border-width: 0cqmin;">
+                    <div class="spce-logo">
+                    <img alt="spce logo" src="data:image/png;base64,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" />
+                    </div>
+                </td>
+                <td class="reference">
+                    <strong>MEPC.1/Circ.834/Rev-1<br>1st March 2018</strong>
+                </td>
+            </tr>
+        </table>
+        <h1>APPENDIX 3<br>STANDARD FORMAT FOR THE WASTE DELIVERY RECEIPT</h1>
+        <p>The designated representative of the reception facility provider should provide the following
+            form to the master of a ship that has just delivered waste.<br>
+            This form should be retained on board the vessel along with the appropriate Oil RB, Cargo RB
+            or Garbage RB.</p>
+    </header>
+    <h3>1. RECEPTION FACILITY AND PORT PARTICULARS</h3>
+        <table class="form-table">
+            <tr>
+                <td>1.1 Location/Terminal name: <strong class="form-value">{{terminal}} Berth Toamasina Port</strong></td>
+            </tr>
+            <tr>
+                <td>1.2 Reception facility provider(s): <strong class="form-value">S.P.C.E Toamasina port</strong></td>
+            </tr>
+            <tr>
+                <td>1.3 Treatment facility provider(s) - if different from above: <strong class="form-value"></strong></td>
+            </tr>
+            <tr>
+                <td>1.4 Waste Discharge Date and Time from: <strong class="form-value">{{start_date}}</strong> to <strong class="form-value">{{end_date}}</strong></td>
+            </tr>
+        </table>
+
+        <h3>2. SHIP PARTICULARS</h3>
+        <table>
+            <tr>
+                <td>2.1 Name of ship: <strong class="form-value">{{ship_name}}</strong></td>
+                <td>2.5 Owner or operator: <strong class="form-value"></strong></td>
+            </tr>
+            <tr>
+                <td>2.2 IMO number: <strong class="form-value">{{imo_number}}</strong></td>
+                <td>2.6 Distinctive number or letters: <strong class="form-value">{{callsign}}</strong></td>
+            </tr>
+            <tr>
+                <td>2.3 Gross tonnage: <strong class="form-value">{{gross_tonnage}}</strong></td>
+                <td>2.7 Flag State: <strong class="form-value">{{flag_state}}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="2">2.4 Type of ship: <strong class="form-value">{{ship_type}}</strong></td>
+            </tr>
+        </table>
+
+        <h3>3. TYPE AND AMOUNT OF WASTE RECEIVED</h3>
+        <table>
+            <tr>
+                <th>MARPOL Annex V – Garbage</th>
+                <th>Quantity (m³)</th>
+            </tr>
+            <tr>
+                <td>A. Plastics (recyclable & non-recyclable)</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>B. Food wastes</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>C. Domestic wastes (e.g. paper products, rags, glass, metal, bottles, crockery, etc.)</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>D. Cooking oil</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>E. Incinerator ashes</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>F. Operational wastes (Batteries, chemicals, paints, pyrotechnics, wood, etc.)</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>G. Animal carcass(es)</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>H. Fishing gear</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>I. E-Waste (computers, electronic cards, gadgets, fluorescent tube, printer cartridges, etc.)</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>J. Cargo residues (non-HME)1</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>K. Cargo residues (HME)2</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>TOTAL</strong></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <div class="signature">
+            <p>On behalf of the port facility I confirm that the above wastes were delivered.</p>
+            <p>Signature: ___________________Full Name and Company Stamp: __________________</p>
+        </div>
+</body>

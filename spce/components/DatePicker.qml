@@ -10,6 +10,7 @@ Item {
     property alias w: bg.implicitWidth
     property alias text: textField.text
     property alias label: textFieldLabel.text
+    property var selected_date : new Date()
     width: w
     height: h
     Connections{
@@ -19,6 +20,7 @@ Item {
             console.log(date)
             textField.text = date.toLocaleString(Qt.locale("fr_FR"), "dd/MM/yyyy")
             calendarPopup.close()
+            selected_date = date
         }
     }
 

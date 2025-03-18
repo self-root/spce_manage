@@ -3,57 +3,40 @@
 #include <QStringList>
 
 namespace spce_core {
-MGTOAPort::MGTOAPort()
-{
 
-}
-
-void MGTOAPort::readPortSettings()
+QString MGTOAPort::portName()
 {
     QSettings settings;
     settings.beginGroup("port");
-    mPortName = settings.value("name", "Toamasina Port").toString();
-    mTerminals = settings.value("terminals", QStringList()).toStringList();
+    QString portName = settings.value("name", "Toamasina Port").toString();
     settings.endGroup();
-}
 
-void MGTOAPort::addTerminal(const QString &terminal)
-{
-    if (!mTerminals.contains(terminal))
-    {
-        mTerminals.append(terminal);
-        saveTerminalSettings();
-    }
-}
-
-QString MGTOAPort::portName() const
-{
-    return mPortName;
+    return portName;
 }
 
 void MGTOAPort::setPortName(const QString &newPortName)
 {
-    mPortName = newPortName;
     QSettings settings;
-    settings.setValue("port/name", mPortName);
+    settings.setValue("port/name", newPortName);
 }
 
-QStringList MGTOAPort::terminals() const
+QStringList MGTOAPort::terminals()
 {
-    return mTerminals;
+    QSettings settings;
+    settings.beginGroup("port");
+    QStringList terminals_ = settings.value("terminals", QStringList()).toStringList();
+    settings.endGroup();
+
+    return terminals_;
 }
 
 void MGTOAPort::setTerminals(const QStringList &newTerminals)
 {
-    mTerminals = newTerminals;
-}
-
-void MGTOAPort::saveTerminalSettings()
-{
     QSettings settings;
     settings.beginGroup("port");
-    settings.setValue("terminals", mTerminals);
+    settings.setValue("terminals", newTerminals);
     settings.endGroup();
 }
+
 } // namespace spce_core
 

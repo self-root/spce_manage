@@ -4,6 +4,7 @@ import Qt5Compat.GraphicalEffects
 import ".."
 
 Item {
+    id: root
     property alias h: bg.implicitHeight
     property alias w: bg.implicitWidth
     property alias text: textField.text
@@ -11,6 +12,7 @@ Item {
     property alias icon: textIcon.icon
     width: w
     height: h
+    signal textUpdated(var text)
     Column{
         spacing: 6
         width: parent.width
@@ -23,6 +25,10 @@ Item {
             id: textField
             color: Style.titleTextColor
             leftPadding: textIcon.icon !== ""? 25 : 4
+            onTextChanged: {
+                root.textUpdated(textField.text)
+            }
+
             background: Rectangle{
                 id: bg
                 implicitHeight: 40

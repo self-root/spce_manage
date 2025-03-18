@@ -57,12 +57,12 @@ void DriverDao::add(Driver &record) const
         INSERT INTO drive(name) VALUES(:name)
     )");
 
-    query.bindValue(":name", record.name());
+    query.bindValue(":name", record.nom());
 
     if (query.exec())
         record.setId(query.lastInsertId().toInt());
     else
-        qWarning() << "Insersion error, Driver " << record.name() << " : " << query.lastError().text();
+        qWarning() << "Insersion error, Driver " << record.nom() << " : " << query.lastError().text();
 }
 
 QVector<Driver> DriverDao::getAll() const
@@ -90,4 +90,18 @@ QVector<Driver> DriverDao::getAll() const
 
 void spce_core::DriverDao::update(const Driver &record) const
 {
+    QSqlQuery query(mDatabase);
+    query.prepare(R"(
+        UPDATE driver
+        SET name = :name
+        WHERE id = :id
+    )");
+
+    query.bindValue(":name", record.nom());
+    query.bindValue(":id", record.id());
+
+    if (query.exec())
+        qDebug() << "Record updated";
+    else
+        qWarning() << "Update error, Driver " << record.nom() << " : " << query.lastError().text();
 }
