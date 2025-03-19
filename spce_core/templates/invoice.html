@@ -70,7 +70,7 @@
         <hr style="width: 98%; height: 4px; border: none; background-color: #622423;margin-top: 0px; ">
         <div class="invoice-number-div">
             <p>Toamasina, {{document_date}}</p>
-            <p><strong>INVOICE nº F 006-25/SPCE</strong></p>
+            <p><strong>INVOICE nº {{invoice_number}}</strong></p>
             <p style="font-family: Arial, Helvetica, sans-serif;">To</p>
             <p style="font-size: 21pt;"><strong class="form-value">{{ship_name}}</strong></p>
         </div>
@@ -87,15 +87,15 @@
             <tbody>
                 <tr>
                     <td>GARBAGE REMOVAL</td>
+                    <td style="text-align: center;">{{quantity}}</td>
                     <td style="text-align: center;">CBM</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td style="text-align: center;">{{unit_price}}</td>
+                    <td style="text-align: center;">{{amount}}</td>
                 </tr>
                 <tr>
                     <td colspan="2" class="skip-border"></td>
                     <td colspan="2" style="text-align: right;"> <strong>Total (USD)</strong></td>
-                    <td></td>
+                    <td>{{total}}</td>
                 </tr>
             </tbody>
         </table>

@@ -18,12 +18,6 @@ ApplicationWindow {
             stackView.replace("qrc:/pages/SchedulePage.qml")
             operationBtn.current = false
         }
-
-        function onGoOperationPage(){
-            console.log("Operation...")
-            stackView.replace("qrc:/pages/OperationPage.qml")
-            scheduleBtn.current = false
-        }
     }
 
     RowLayout{
@@ -32,19 +26,19 @@ ApplicationWindow {
         Rectangle{
             id: sideMenu
             Layout.fillHeight: true
-            Layout.preferredWidth: 250
+            Layout.preferredWidth: 200
             color: "white"
 
             ColumnLayout{
                 anchors.fill: parent
                 Rectangle{
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 250
+                    Layout.preferredHeight: 200
                     Image {
                         id: spce_logo
                         anchors.centerIn: parent
-                        width: 200
-                        height: 200
+                        width: 150
+                        //height: 200
                         fillMode: Image.PreserveAspectFit
                         source: "qrc:/images/images/spce.png"
                     }
@@ -69,7 +63,7 @@ ApplicationWindow {
                         onClicked: uicontroller.scheduleMenuBtnClic()
                     }
 
-                    MenuButton{
+                    /*MenuButton{
                         id: operationBtn
                         anchors.top: scheduleBtn.bottom
                         anchors.left: parent.left
@@ -81,7 +75,7 @@ ApplicationWindow {
                         iconHover: "qrc:/images/images/business-model-hover.png"
                         text: "Operation page"
                         onClicked: uicontroller.operationMenuBtnClic()
-                    }
+                    }*/
                 }
             }
         }

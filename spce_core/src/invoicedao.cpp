@@ -136,10 +136,22 @@ QVector<Invoice> InvoiceDao::getAll() const
 } // namespace spce_core
 
 
-
-
-
-
 void spce_core::InvoiceDao::update(const Invoice &record) const
 {
+}
+
+QString spce_core::InvoiceDao::lastInvoiceNumber() const
+{
+    QString number = "";
+    QSqlQuery query(mDatabase);
+
+    if (query.exec("SELECT id,  number FROM invoice ORDER BY id DESC LIMIT 1"))
+    {
+        if (query.next())
+            number = query.value("number").toString();
+    }
+    else
+        qDebug() << "Unable to get the last invoice number: " << query.lastError();
+
+    return number;
 }

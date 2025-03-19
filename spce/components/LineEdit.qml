@@ -25,6 +25,7 @@ Item {
             id: textField
             color: Style.titleTextColor
             leftPadding: textIcon.icon !== ""? 25 : 4
+            verticalAlignment: TextInput.AlignVCenter
             onTextChanged: {
                 root.textUpdated(textField.text)
             }

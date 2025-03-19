@@ -32,6 +32,12 @@ private:
     DocumentFormModel *mDocumentFormModel = nullptr;
     DocumentWriter *mDocumentWriter = nullptr;
 
+    void openDocumentFolder(const QString &path);
+    std::wstring toWideString(const std::string &str);
+
+private slots:
+    void onDocumentsCreated(const QString &documentPath);
+
 
 
 signals:

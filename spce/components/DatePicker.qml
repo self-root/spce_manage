@@ -36,6 +36,7 @@ Item {
             id: textField
             color: Style.titleTextColor
             readOnly: true
+            verticalAlignment: TextInput.AlignVCenter
             text: new Date().toLocaleString(Qt.locale("fr_FR"), "dd/MM/yyyy")
             leftPadding: 25
             background: Rectangle{

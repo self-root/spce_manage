@@ -20,6 +20,7 @@ public:
     void add(Invoice &record) const override;
     QVector<Invoice> getAll() const override;
     void update(const Invoice &record) const override;
+    QString lastInvoiceNumber() const;
 };
 } // namespace spce_core
 

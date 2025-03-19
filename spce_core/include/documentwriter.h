@@ -16,6 +16,7 @@ enum DocumentType{
 
 class SPCE_CORE_EXPORT DocumentWriter : public QObject
 {
+    Q_OBJECT
 public:
     DocumentWriter(QObject *parent = nullptr);
 
@@ -75,9 +76,14 @@ private:
 
     QString fullPathOf(const QString &temp);
 
-    QString outPath(const QString &fileName);
+    QString outPath(const QString &shipName);
+    QString dateTimeNow();
 public slots:
     void write(const nlohmann::json &data);
+    void writePDF(const QString &filePath, const QString &out);
+
+signals:
+    void documentsCreated(const QString &fileLocation);
 
 };
 } // namespace spce_core

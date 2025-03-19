@@ -54,7 +54,7 @@ void DriverDao::add(Driver &record) const
 {
     QSqlQuery query(mDatabase);
     query.prepare(R"(
-        INSERT INTO drive(name) VALUES(:name)
+        INSERT INTO driver(name) VALUES(:name)
     )");
 
     query.bindValue(":name", record.nom());

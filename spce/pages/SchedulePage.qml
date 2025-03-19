@@ -52,7 +52,7 @@ Page {
             ListView{
                 id: scheduleList
                 Layout.fillHeight: true
-                Layout.preferredWidth: 400
+                Layout.preferredWidth: 350
                 clip: true
                 spacing: 16
                 ScrollBar.vertical: ScrollBar{
@@ -148,7 +148,7 @@ Page {
                             scheduleList.currentIndex = i
                             console.log("Current index: " + scheduleList.currentIndex)
                             console.log("imo: " + imo)
-                            controller.shipDetailModel.getShipDetail(imo)
+                            //controller.shipDetailModel.getShipDetail(imo)
                             //schedDateTxt.text = schedule_type + ": " + datetime
                             controller.documentFormModel.getShip(imo)
 
@@ -170,7 +170,9 @@ Page {
                 id: shipDetailRect
                 Layout.alignment: Qt.AlignTop
                 Layout.fillHeight: true
-                Layout.preferredWidth: 840
+                //Layout.preferredWidth: 840
+                //Layout.minimumWidth: 500
+                Layout.fillWidth: true
                 radius: 4
                 color: "#ffffff"
 
@@ -197,7 +199,9 @@ Page {
                                 "collecteur": collecteurCombo.displayText,
                                 "driver": driverCombo.displayText,
                                 "vehicle": vehicleNumberCombo.displayText,
-                                "eliminateur": eliminateurCombo.displayText
+                                "eliminateur": eliminateurCombo.displayText,
+                                "invoice_quantity": invoiceQuantity.text,
+                                "invoice_amount": invoiceAmount.text
                             }
                         )
                     }
@@ -208,11 +212,11 @@ Page {
                     width: parent.width
                     height: parent.height
                     GridLayout{
-                        columnSpacing: 40
-                        rowSpacing: 40
+                        columnSpacing: 20
+                        rowSpacing: 20
                         columns: 2
                         Item {
-                            width: 400
+                            width: 350
                             height: 500
                             Layout.alignment: Qt.AlignHCenter
                             DropShadow{
@@ -317,7 +321,7 @@ Page {
                             }
                         }
                         Item {
-                            width: 400
+                            width: 350
                             height: 500
                             DropShadow{
                                 source: a_rect5
@@ -345,7 +349,7 @@ Page {
                                     anchors.bottomMargin: 40
                                     FormSectionTitle{
                                         Layout.alignment: Qt.AlignHCenter
-                                        text: "RECEPTION FACILITY AND PORT PARTICULARS"
+                                        text: "RECEPTION FACILITY AND\n PORT PARTICULARS"
                                     }
 
                                     MComboBox{
@@ -389,7 +393,7 @@ Page {
                             }
                         }
                         Item {
-                            width: 400
+                            width: 350
                             height: 440
                             DropShadow{
                                 source: a_rect6
@@ -422,11 +426,13 @@ Page {
                                     }
 
                                     LineEdit{
+                                        id: invoiceQuantity
                                         Layout.margins: 10
                                         label: "Quantity"
                                     }
 
                                     LineEdit{
+                                        id: invoiceAmount
                                         Layout.margins: 10
                                         label: "Amount"
                                         icon: "$"
@@ -441,7 +447,7 @@ Page {
                             }
                         }
                         Item {
-                            width: 400
+                            width: 350
                             height: 440
                             DropShadow{
                                 source: a_rect2
@@ -519,7 +525,7 @@ Page {
                         }
 
                         Item {
-                            width: 400
+                            width: 350
                             height: 700
                             DropShadow{
                                 source: a_rect3
@@ -623,7 +629,7 @@ Page {
                         }
 
                         Item {
-                            width: 400
+                            width: 350
                             height: 700
                             DropShadow{
                                 source: a_rect4

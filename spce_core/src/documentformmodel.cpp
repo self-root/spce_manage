@@ -4,8 +4,8 @@
 #include <QDir>
 
 namespace spce_core {
-DocumentFormModel::DocumentFormModel(QObject *parent)
-    : QObject{parent},
+DocumentFormModel::DocumentFormModel(APICaller *api, QObject *parent)
+    :mApi(api), QObject{parent},
     commNameListModel(new BaseEntityListModel<Commissionnaire>),
     collNameListModel(new BaseEntityListModel<Collecteur>),
     driverNameListModel(new BaseEntityListModel<Driver>),
@@ -33,12 +33,25 @@ DocumentFormModel::DocumentFormModel(QObject *parent)
     eliminateurListModel->getDataFromDb();
     currentEliminateur = eliminateurListModel->firstEntity();
     setEliminateurPropertyValues();
+
+    QObject::connect(mApi, &APICaller::shipFetched, this, &DocumentFormModel::onShipDetailFetched);
 }
 
 void DocumentFormModel::getShip(const QString &imo)
 {
     currentShip = DatabaseManager::instance()->mShipDao.getShip(imo);
+    if (currentShip.id() < 0)
+    {
+        mApi->fetchShip(imo);
+    }
     setShipPropertyValues();
+}
+
+void DocumentFormModel::onShipDetailFetched(const Ship &ship)
+{
+    currentShip = ship;
+    setShipPropertyValues();
+    DatabaseManager::instance()->mShipDao.add(currentShip);
 }
 
 BaseEntityListModel<Commissionnaire> *DocumentFormModel::getCommListModel()
@@ -117,6 +130,43 @@ void DocumentFormModel::setEliminateurPropertyValues()
     set_elimReceptionSite(currentEliminateur.receptionSite());
 }
 
+QString DocumentFormModel::makeInvoiceNumber()
+{
+    QString lastInvoiceNumber = DatabaseManager::instance()->mInvoiceDao.lastInvoiceNumber();
+    qDebug() << "Last invoice number: " << lastInvoiceNumber;
+    QString invoiceNumberFormat = "F%1-%2/SPCE";
+    QDate date = QDate::currentDate();
+    QString year = date.toString("yy");
+    if (lastInvoiceNumber.isEmpty())
+    {
+        return invoiceNumberFormat.arg("001").arg(year);
+    }
+
+    QStringList parts = lastInvoiceNumber.split("-");
+    int lastNumber = parts.at(0).mid(1).toInt(nullptr, 10);
+    int nextNumber = lastNumber + 1;
+    int lastYear = parts.at(1).first(2).toInt();
+
+    if (lastYear != year.toInt())
+    {
+        return invoiceNumberFormat.arg("001").arg(year);
+    }
+
+    QString number = QString::number(nextNumber);
+
+    switch (number.length()) {
+    case 1:
+        return invoiceNumberFormat.arg(QString("00") + number).arg(year);
+        break;
+    case 2:
+        return invoiceNumberFormat.arg(QString("0") + number).arg(year);
+        break;
+    default:
+        return invoiceNumberFormat.arg(number).arg(year);
+    }
+
+}
+
 void DocumentFormModel::commissionnaireAt(int index)
 {
     currentCommissionnaire = commNameListModel->entityAt(index);
@@ -177,6 +227,11 @@ void DocumentFormModel::createDocuments(const QVariantMap &form_data)
     data["elim_mail"] = m_elimMail.toStdString();
     data["elim_responsable"] = m_elimResponsable.toStdString();
     data["reception_site"] = m_elimReceptionSite.toStdString();
+    data["quantity"] = form_data["invoice_quantity"].toString().toStdString();
+    data["amount"] = form_data["invoice_amount"].toString().toStdString();
+    data["unit_price"] = "";
+    data["total"] = form_data["invoice_amount"].toString().toStdString();
+    data["invoice_number"] = makeInvoiceNumber().toStdString();
     emit writeShipDocument(data);
     Commissionnaire comm(
         form_data["commissionnaire"].toString(),
@@ -186,7 +241,8 @@ void DocumentFormModel::createDocuments(const QVariantMap &form_data)
         m_commResponsable,
         currentCommissionnaire.id()
     );
-    commNameListModel->addOrUpdate(comm);
+    if (!comm.nom().isEmpty())
+        commNameListModel->addOrUpdate(comm);
 
     Collecteur coll(
         form_data["collecteur"] .toString(),
@@ -196,17 +252,20 @@ void DocumentFormModel::createDocuments(const QVariantMap &form_data)
         m_collResponsable,
         currentCollecteur.id()
     );
-    collNameListModel->addOrUpdate(coll);
+    if (!coll.nom().isEmpty())
+        collNameListModel->addOrUpdate(coll);
 
     Driver driver(form_data["driver"].toString(), currentDriver.id());
-    driverNameListModel->addOrUpdate(driver);
+    if (!driver.nom().isEmpty())
+        driverNameListModel->addOrUpdate(driver);
 
     Vehicle vehicle(
         m_vehicleType,
         form_data["vehicle"].toString(),
         currentVehicle.id()
     );
-    vehicleListModel->addOrUpdate(vehicle);
+    if (!vehicle.number().isEmpty())
+        vehicleListModel->addOrUpdate(vehicle);
 
     Eliminateur eliminateur(
         form_data["eliminateur"].toString(),
@@ -217,7 +276,8 @@ void DocumentFormModel::createDocuments(const QVariantMap &form_data)
         m_elimReceptionSite,
         currentEliminateur.id()
     );
-    eliminateurListModel->addOrUpdate(eliminateur);
+    if (!eliminateur.nom().isEmpty())
+        eliminateurListModel->addOrUpdate(eliminateur);
     terminalListModel->addIfNotExist(form_data["terminal"].toString());
 
     BSD bsd(
@@ -230,6 +290,17 @@ void DocumentFormModel::createDocuments(const QVariantMap &form_data)
         form_data["document_date"].toDate()
     );
     DatabaseManager::instance()->getDao<BSD>().add(bsd);
+
+    Invoice invoice(
+        QString::fromStdString(data["invoice_number"]),
+        form_data["invoice_quantity"].toString().toDouble(),
+        0.0,
+        form_data["invoice_amount"].toString().toDouble(),
+        currentShip,
+        "GARBAGE REMOVAL"
+    );
+
+    DatabaseManager::instance()->mInvoiceDao.add(invoice);
 }
 
 QString DocumentFormModel::formatDate(const QDate &date)

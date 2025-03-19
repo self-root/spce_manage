@@ -62,7 +62,7 @@ void VehicleDao::add(Vehicle &record) const
 {
     QSqlQuery query(mDatabase);
     query.prepare(R"(
-        INSETRT INTO vehicle(type, number)
+        INSERT INTO vehicle(type, number)
         VALUES(:type, :number)
     )");
 

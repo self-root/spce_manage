@@ -47,7 +47,7 @@ inline void BaseEntityListModel<T>::getDataFromDb()
 template <typename T>
 inline int BaseEntityListModel<T>::rowCount(const QModelIndex &parent) const
 {
-    return list.size();
+    return list.count();
 }
 
 template<typename T>
@@ -56,7 +56,7 @@ inline QVariant BaseEntityListModel<T>::data(const QModelIndex &index, int role)
     //static_assert(std::is_base_of<BaseBSDEntity, T>::value, "This method should be overrided if T is not a subclass of BaseBSDEntity");
     int row = index.row();
     T entity = list.at(row);
-    if (role == Qt::DisplayRole || role == Roles::NameRole)
+    if (role == Roles::NameRole)
         return entity.nom();
 
 
@@ -69,7 +69,7 @@ inline QVariant BaseEntityListModel<Vehicle>::data(const QModelIndex &index, int
     //static_assert(std::is_base_of<BaseBSDEntity, T>::value, "This method should be overrided if T is not a subclass of BaseBSDEntity");
     int row = index.row();
     Vehicle entity = list.at(row);
-    if (role == Qt::DisplayRole || role == Roles::NameRole)
+    if (role == Roles::NameRole)
         return entity.number();
 
 

@@ -12,5 +12,6 @@ Item {
         font.family: Style.robotFont
         color: Style.titleTextColor
         horizontalAlignment: Text.AlignHCenter
+        wrapMode: Text.WrapAnywhere
     }
 }

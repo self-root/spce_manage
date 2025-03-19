@@ -10,6 +10,7 @@
 #include "baseEntityListModel.h"
 #include "json.hpp"
 #include "terminallistmodel.h"
+#include "apicaller.h"
 
 namespace spce_core {
 class SPCE_CORE_EXPORT DocumentFormModel : public QObject
@@ -22,7 +23,7 @@ class SPCE_CORE_EXPORT DocumentFormModel : public QObject
     Q_PROPERTY(BaseEntityListModel<Eliminateur> *eliminateurListModel READ getEliminateurListModel CONSTANT)
     Q_PROPERTY(TerminalListModel *terminalListModel READ getTerminalListModel CONSTANT)
 public:
-    explicit DocumentFormModel(QObject *parent = nullptr);
+    explicit DocumentFormModel(APICaller *api,QObject *parent = nullptr);
 
     Q_INVOKABLE void getShip(const QString &imo);
 
@@ -52,6 +53,7 @@ public:
     static QString formatDate(const QDate &date);
 
 private:
+    APICaller *mApi = nullptr;
     Ship currentShip;
     void setShipPropertyValues();
 
@@ -99,6 +101,11 @@ private:
     BaseEntityListModel<Vehicle>  *vehicleListModel = nullptr;
     BaseEntityListModel<Eliminateur> *eliminateurListModel = nullptr;
     TerminalListModel *terminalListModel = nullptr;
+
+    QString makeInvoiceNumber();
+
+private slots:
+    void onShipDetailFetched(const Ship &ship);
 
 signals:
     void writeShipDocument(const nlohmann::json &data);

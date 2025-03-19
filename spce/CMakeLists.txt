@@ -26,7 +26,7 @@ qt_add_qml_module(appspce
         "Main.qml"
         "Style.qml"
         "pages/SchedulePage.qml"
-        "pages/OperationPage.qml"
+
         "components/MenuButton.qml"
         "components/RotatingIconBtn.qml"
         "components/MCalendar.qml"
