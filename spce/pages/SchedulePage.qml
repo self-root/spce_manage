@@ -35,9 +35,78 @@ Page {
             anchors.leftMargin: 16
             text: "Schedule"
             font.bold: true
-            font.pointSize: 26
+            font.pointSize: 22
             color: Style.titleTextColor
         }
+
+        DropShadow{
+            source: reload
+            anchors.fill: reload
+            horizontalOffset: 0
+            verticalOffset: 0
+            radius: 6
+            color: "grey"
+        }
+
+        Image {
+            id: reload
+            width: 30
+            anchors.left: wText.right
+            anchors.verticalCenter: wText.verticalCenter
+            anchors.leftMargin: 10
+            anchors.bottomMargin: 6
+            antialiasing: true
+            smooth: true
+            fillMode: Image.PreserveAspectFit
+            source: "qrc:/images/images/reload.png"
+            states: [
+                State {
+                    name: "hovered"
+                    when: reloadArea.hovered
+                    PropertyChanges {
+                        target: reload
+                        rotation: 180
+                    }
+                }
+            ]
+            transitions: [
+                Transition {
+                    from: ""
+                    to: "hovered"
+
+                    NumberAnimation {
+                        target: reload
+                        property: "rotation"
+                        duration: 800
+                        easing.type: Easing.InOutQuad
+                    }
+                },
+
+                Transition {
+                    from: "hovered"
+                    to: ""
+
+                    NumberAnimation {
+                        target: reload
+                        property: "rotation"
+                        duration: 400
+                        easing.type: Easing.InOutQuad
+                    }
+                }
+            ]
+        }
+
+        MouseArea{
+            id: reloadArea
+            property bool hovered
+            anchors.fill: reload
+            hoverEnabled: true
+
+            onEntered: hovered = true
+            onExited: hovered = false
+            onPressed: controller.scheduleListModel.loadSchedules()
+        }
+
 
         RowLayout{
             id: rowLayout

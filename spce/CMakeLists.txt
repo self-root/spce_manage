@@ -48,6 +48,7 @@ qt_add_resources(appspce "images"
         images/ship-steering.png
         images/business-model-hover.png
         images/business-model-normal.png
+        images/reload.png
 )
 
 qt_add_resources(appspce "fonts"

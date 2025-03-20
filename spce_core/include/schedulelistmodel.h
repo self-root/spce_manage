@@ -29,7 +29,7 @@ public:
 
     QHash<int, QByteArray> roleNames() const override;
 
-    void loadSchedules();
+    Q_INVOKABLE void loadSchedules();
 
 private:
     QVector<Schedule> schedule;
