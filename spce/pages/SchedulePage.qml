@@ -7,6 +7,7 @@ import ".."
 import "../components"
 
 Page {
+    id: page
     Rectangle{
         anchors.fill: parent
         Material.accent: Style.primary
@@ -214,7 +215,7 @@ Page {
                     GridLayout{
                         columnSpacing: 20
                         rowSpacing: 20
-                        columns: 2
+                        columns: page.width > 950? 2 : 1
                         Item {
                             width: 350
                             height: 500
