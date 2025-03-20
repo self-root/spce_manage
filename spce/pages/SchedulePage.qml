@@ -220,6 +220,7 @@ Page {
                             width: 350
                             height: 500
                             Layout.alignment: Qt.AlignHCenter
+
                             DropShadow{
                                 source: a_rect
                                 anchors.fill: a_rect
@@ -236,6 +237,27 @@ Page {
                                 anchors.margins: 6
                                 color: "white"
                                 radius: 4
+
+                                Image {
+                                    id: steeringImg
+                                    anchors.top: parent.top
+                                    anchors.right: parent.right
+                                    anchors.topMargin: 6
+                                    anchors.rightMargin: 6
+                                    width: 30
+                                    visible: controller.fetchingShip
+                                    fillMode: Image.PreserveAspectFit
+                                    source: "qrc:/images/images/ship-steering.png"
+
+                                    RotationAnimator{
+                                        target: steeringImg
+                                        from: 0
+                                        to: 360
+                                        duration: 1200
+                                        loops: Animation.Infinite
+                                        running: steeringImg.visible
+                                    }
+                                }
 
                                 ColumnLayout{
                                     id: l

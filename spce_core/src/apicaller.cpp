@@ -94,8 +94,12 @@ void APICaller::onFetchShipReply()
             emit shipFetched(ship);
             break;
         }
-        default:
+        default:{
+            emit shipFetched(Ship());
+            qDebug() << "Ship does not exist or error: " << statusCode;
             break;
+        }
+
         }
     }
 }
