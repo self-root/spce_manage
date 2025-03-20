@@ -44,7 +44,11 @@ void DocumentFormModel::getShip(const QString &imo)
     {
         mApi->fetchShip(imo);
     }
-    setShipPropertyValues();
+    else
+    {
+        setShipPropertyValues();
+    }
+
 }
 
 void DocumentFormModel::onShipDetailFetched(const Ship &ship)

@@ -17,6 +17,8 @@ CoreController::CoreController(QObject *parent)
 
     QObject::connect(mDocumentFormModel, &DocumentFormModel::writeShipDocument, mDocumentWriter, &DocumentWriter::write);
     QObject::connect(mDocumentWriter, &DocumentWriter::documentsCreated, this, &CoreController::onDocumentsCreated);
+    QObject::connect(mApiCaller, &APICaller::fetchingShip, this, [&](){setFetchingShip(true);});
+    QObject::connect(mApiCaller, &APICaller::shipFetched, this, [&](){setFetchingShip(false);});
 }
 
 ScheduleListModel *CoreController::scheduleListModel() const
@@ -47,6 +49,19 @@ std::wstring CoreController::toWideString(const std::string &str)
     std::wstring wstr(size_needed, 0);
     MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, &wstr[0], size_needed);
     return wstr;
+}
+
+bool CoreController::fetchingShip() const
+{
+    return mFetchingShip;
+}
+
+void CoreController::setFetchingShip(bool newFetchingShip)
+{
+    if (mFetchingShip == newFetchingShip)
+        return;
+    mFetchingShip = newFetchingShip;
+    emit fetchingShipChanged();
 }
 
 void CoreController::onDocumentsCreated(const QString &documentPath)

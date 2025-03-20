@@ -27,6 +27,7 @@ void APICaller::fetchShip(const QString &imo)
 {
     QNetworkRequest request;
     request.setUrl(baseUrl + "/mgtoa/ship/" + imo);
+    emit fetchingShip(imo);
     QNetworkReply *reply = mNetworkAccessManager->get(request);
     QObject::connect(reply, &QNetworkReply::finished, this, &APICaller::onFetchShipReply);
 }

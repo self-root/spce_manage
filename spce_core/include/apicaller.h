@@ -28,7 +28,7 @@ private slots:
 signals:
     void shipScheduleFetched(const QVector<Schedule> &schedule);
     void shipFetched(const Ship &ship);
-
+    void fetchingShip(const QString &parameter);
 };
 
 } // namespace spce_core

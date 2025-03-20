@@ -253,16 +253,21 @@ Page {
                                     LineEdit{
                                         id: imoNumberEdit
                                         Layout.margins: 10
+                                        enabled: controller.fetchingShip? false : true
                                         label: "IMO Number"
                                         text: controller.documentFormModel.imo
                                         icon: "\uf002"
                                         onTextUpdated: controller.documentFormModel.imo = imoNumberEdit.text
+                                        onInputAccepted: (content) => {
+                                            controller.documentFormModel.getShip(content)
+                                        }
                                     }
 
                                     LineEdit{
                                         id: shipNameEdit
                                         Layout.margins: 10
                                         label: "Name of ship"
+                                        enabled: controller.fetchingShip? false : true
                                         icon: "\uf21a"
                                         text: controller.documentFormModel.shipName
                                         onTextChanged: controller.documentFormModel.shipName = shipNameEdit.text

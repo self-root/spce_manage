@@ -13,6 +13,7 @@ Item {
     width: w
     height: h
     signal textUpdated(var text)
+    signal inputAccepted(var text)
     Column{
         spacing: 6
         width: parent.width
@@ -29,6 +30,8 @@ Item {
             onTextChanged: {
                 root.textUpdated(textField.text)
             }
+
+            onAccepted: root.inputAccepted(textField.text)
 
             background: Rectangle{
                 id: bg
