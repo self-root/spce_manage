@@ -52,6 +52,7 @@ add_library(spce_core SHARED
     include/json.hpp
     include/terminal.h           src/terminal.cpp
     include/terminallistmodel.h  src/terminallistmodel.cpp
+    include/shiplistmodel.h      src/shiplistmodel.cpp
 
 
 )

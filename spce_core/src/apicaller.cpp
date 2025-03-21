@@ -32,6 +32,50 @@ void APICaller::fetchShip(const QString &imo)
     QObject::connect(reply, &QNetworkReply::finished, this, &APICaller::onFetchShipReply);
 }
 
+void APICaller::searchShip(const QString &shipName)
+{
+    QNetworkRequest request;
+    request.setUrl(baseUrl + "/mgtoa/ships/" + shipName);
+    emit searchingForShip(shipName);
+    QNetworkReply *reply = mNetworkAccessManager->get(request);
+    QObject::connect(reply, &QNetworkReply::finished, this, &APICaller::onShipSearchReply);
+}
+
+void APICaller::onShipSearchReply()
+{
+    QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
+    auto attr = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+
+    if (attr.isValid())
+    {
+        int statusCode = attr.toInt();
+        switch (statusCode) {
+        case 200:{
+            QByteArray data = reply->readAll();
+            QJsonDocument jDoc = QJsonDocument::fromJson(data);
+            QJsonArray jArr = jDoc.array();
+            QVector<Ship> ships;
+            for (QJsonValueRef val: jArr)
+            {
+                Ship aShip;
+                QJsonObject obj = val.toObject();
+                aShip.setName(obj["name"].toString());
+                aShip.setImo(obj["imo"].toString());
+                aShip.setType(obj["type"].toString());
+                aShip.setFlag(obj["flag_state"].toString());
+                aShip.setFlagUrl(obj["flag_url"].toString());
+                ships.append(aShip);
+            }
+            emit shipSearchEnded(ships);
+            break;
+        }
+        default:
+            break;
+        }
+    }
+}
+
+
 void APICaller::onFetchShipScheduleReply()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());

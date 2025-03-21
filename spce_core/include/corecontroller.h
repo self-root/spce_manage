@@ -8,6 +8,7 @@
 #include "shipdetailmodel.h"
 #include "documentformmodel.h"
 #include "documentwriter.h"
+#include "shiplistmodel.h"
 
 namespace spce_core {
 
@@ -17,6 +18,7 @@ class SPCE_CORE_EXPORT CoreController : public QObject
     Q_PROPERTY(ScheduleListModel *scheduleListModel READ scheduleListModel CONSTANT)
     Q_PROPERTY(ShipDetailModel *shipDetailModel READ shipDetailModel CONSTANT FINAL)
     Q_PROPERTY(DocumentFormModel *documentFormModel READ documentFormModel CONSTANT FINAL)
+    Q_PROPERTY(ShipListModel *shipListModel READ shipListModel CONSTANT FINAL)
     Q_PROPERTY(bool fetchingShip READ fetchingShip WRITE setFetchingShip NOTIFY fetchingShipChanged FINAL)
 
 public:
@@ -30,20 +32,20 @@ public:
     bool fetchingShip() const;
     void setFetchingShip(bool newFetchingShip);
 
+    ShipListModel *shipListModel() const;
+
 private:
     APICaller *mApiCaller = nullptr;
     ScheduleListModel *mScheduleListModel = nullptr;
     ShipDetailModel *mShipDetailModel = nullptr;
     DocumentFormModel *mDocumentFormModel = nullptr;
     DocumentWriter *mDocumentWriter = nullptr;
+    ShipListModel *mShipListModel = nullptr;
 
     void openDocumentFolder(const QString &path);
     std::wstring toWideString(const std::string &str);
 
     bool mFetchingShip = false;
-
-
-
 
 
 private slots:

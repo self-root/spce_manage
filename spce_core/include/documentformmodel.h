@@ -11,6 +11,7 @@
 #include "json.hpp"
 #include "terminallistmodel.h"
 #include "apicaller.h"
+#include "flagsvgdownloader.h"
 
 namespace spce_core {
 class SPCE_CORE_EXPORT DocumentFormModel : public QObject
@@ -56,6 +57,7 @@ private:
     APICaller *mApi = nullptr;
     Ship currentShip;
     void setShipPropertyValues();
+    FlagSVGDownloader flagDownloader;
 
     AUTO_PROPERTY(QString, imo)
     AUTO_PROPERTY(QString, shipName)

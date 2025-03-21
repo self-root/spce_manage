@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
-import QtQuick.Controls.Material
 import ".."
 import "../components"
 
@@ -10,8 +9,6 @@ Page {
     id: page
     Rectangle{
         anchors.fill: parent
-        Material.accent: Style.primary
-        Material.primary: Style.primary
         /*gradient: Gradient{
             GradientStop {
                 position: 0.0
@@ -23,6 +20,259 @@ Page {
                 color: "#124da8"
             }
         }*/
+
+        Rectangle{
+            id: shade
+            anchors.fill: parent
+            opacity: 0.5
+            visible: searchBar.focus
+            enabled: visible
+            z:7
+            MouseArea{
+                anchors.fill: parent
+                onPressed: searchBar.focus = false
+            }
+
+            states: [
+                State {
+                    name: "visible"
+                    when: shade.visible
+                    PropertyChanges {
+                        target: shade
+                        color: Style.primary
+                    }
+                },
+                State {
+                    name: "hidden"
+                    when: !shade.visible
+                    PropertyChanges {
+                        target: shade
+                        color: "white"
+                    }
+                }
+            ]
+
+            transitions: [
+                Transition {
+                    from: "hidden"
+                    to: "visible"
+
+                    ColorAnimation {
+                        target: shade
+                        duration: 200
+                    }
+                },
+                Transition {
+                    from: "visible"
+                    to: "hidden"
+
+                    ColorAnimation {
+                        target: shade
+                        duration: 200
+                    }
+                }
+            ]
+        }
+
+        Item {
+            id: searchResultWrapper
+            width: 300
+            height: 400
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: 4
+
+            z: 8
+            DropShadow{
+                source: resultRect
+                anchors.fill: resultRect
+                horizontalOffset: 0
+                verticalOffset: 0
+                radius: 6
+                color: Style.primary
+            }
+
+            Rectangle{
+                id: resultRect
+                //anchors.fill: parent
+                width: searchResultWrapper.width
+                visible: searchBar.activeFocus
+                radius: 6
+                color: "white"
+                states: [
+                    State {
+                        when: resultRect.visible
+                        name: "visible"
+                        PropertyChanges {
+                            target: resultRect
+                            height: searchResultWrapper.height
+                        }
+                    },
+                    State {
+                        when: !resultRect.visible
+                        name: "hidden"
+                        PropertyChanges {
+                            target: resultRect
+                            height: 0
+                        }
+                    }
+                ]
+
+                transitions: [
+                    Transition {
+                        from: "hidden"
+                        to: "visible"
+
+                        NumberAnimation {
+                            target: resultRect
+                            property: "height"
+                            duration: 200
+                            easing.type: Easing.InOutQuad
+                        }
+                    },
+                    Transition {
+                        from: "visible"
+                        to: "hidden"
+
+                        NumberAnimation {
+                            target: resultRect
+                            property: "width"
+                            duration: 200
+                            easing.type: Easing.InOutQuad
+                        }
+
+                        NumberAnimation {
+                            target: resultRect
+                            property: "height"
+                            duration: 200
+                            easing.type: Easing.InOutQuad
+                        }
+                    }
+                ]
+                Image {
+                    id: steeringImgSearching
+                    anchors.centerIn: parent
+                    width: 60
+                    visible: controller.shipListModel.searching
+                    fillMode: Image.PreserveAspectFit
+                    source: "qrc:/images/images/ship-steering.png"
+
+                    RotationAnimator{
+                        target: steeringImgSearching
+                        from: 0
+                        to: 360
+                        duration: 1200
+                        loops: Animation.Infinite
+                        running: steeringImgSearching.visible
+                    }
+                }
+                Text {
+                    text: qsTr("Searching...")
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.top: steeringImgSearching.bottom
+                    anchors.topMargin: 4
+                    color: "grey"
+                    font.pointSize: 8
+                    visible: steeringImgSearching.visible
+                }
+                ListView{
+                    id: searchResultList
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    anchors.topMargin: 50
+                    anchors.bottomMargin: 8
+                    model: controller.shipListModel
+                    clip: true
+                    ScrollBar.vertical: ScrollBar{}
+                    delegate: Item{
+                        width: parent.width
+                        height: 60
+                        DropShadow{
+                            source: contentRect
+                            anchors.fill: contentRect
+                            horizontalOffset: 0
+                            verticalOffset: 0
+                            radius: 3
+                        }
+
+                        Rectangle{
+                            id: contentRect
+                            anchors.fill: parent
+                            anchors.margins: 3
+                            radius: 4
+                            DropShadow{
+                                source: flagResult
+                                anchors.fill: flagResult
+                                horizontalOffset: 0
+                                verticalOffset: 0
+                                radius: 3
+                            }
+                            Image {
+                                id: flagResult
+                                height: parent.height - 16
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.left: parent.left
+                                anchors.leftMargin: 8
+                                source: flagUrl
+                                fillMode: Image.PreserveAspectFit
+                            }
+
+                            Text {
+                                id: shipNameResult
+                                anchors.top: parent.top
+                                anchors.left: flagResult.right
+                                anchors.topMargin: 8
+                                anchors.leftMargin: 8
+                                text: name
+                                color: Style.primary
+                                font.bold: true
+                                font.pointSize: 9
+                            }
+
+                            Text {
+                                id: shipTypeResult
+                                anchors.top: shipNameResult.bottom
+                                anchors.left: flagResult.right
+                                anchors.topMargin: 8
+                                anchors.leftMargin: 8
+                                text: type
+                                color: "grey"
+                                font.pointSize: 8
+                            }
+
+                            MouseArea{
+                                anchors.fill: parent
+                                onReleased: {
+                                    console.log("Ship: " + name)
+                                    searchBar.focus = false
+                                    controller.documentFormModel.getShip(imo)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        TextField{
+            id: searchBar
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: 6
+            placeholderText: "Ship Name"
+            verticalAlignment: TextInput.AlignVCenter
+            z: 9
+            background: Rectangle{
+                implicitHeight: 40
+                implicitWidth: 200
+                radius: 16
+                border.color: searchBar.activeFocus? Style.primary : "white"
+            }
+            onAccepted: controller.shipListModel.searchShip(searchBar.text)
+        }
+
 
 
 
@@ -221,7 +471,6 @@ Page {
                             //controller.shipDetailModel.getShipDetail(imo)
                             //schedDateTxt.text = schedule_type + ": " + datetime
                             controller.documentFormModel.getShip(imo)
-
                         }
                     }
                 }
@@ -255,8 +504,6 @@ Page {
                     text: "\uf0c7"
                     font.family: Style.webFont
                     z: 6
-                    Material.accent: Style.primary
-                    Material.primary: Style.primary
 
                     onClicked: {
                         controller.documentFormModel.createDocuments(
@@ -812,4 +1059,5 @@ Page {
             }
         }
     }
+
 }

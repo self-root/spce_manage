@@ -1,6 +1,5 @@
 #include "documentformmodel.h"
 #include "databasemanager.h"
-#include "flagsvgdownloader.h"
 #include <QDir>
 
 namespace spce_core {
@@ -53,6 +52,9 @@ void DocumentFormModel::getShip(const QString &imo)
 
 void DocumentFormModel::onShipDetailFetched(const Ship &ship)
 {
+    qDebug() << "Ship flag: " << ship.flagUrl();
+    if (!FlagSVGDownloader::flagExists(ship.flagUrl()))
+        flagDownloader.downloadFlag(ship.flagUrl());
     currentShip = ship;
     setShipPropertyValues();
     DatabaseManager::instance()->mShipDao.add(currentShip);

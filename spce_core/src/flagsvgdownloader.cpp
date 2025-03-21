@@ -30,6 +30,7 @@ void FlagSVGDownloader::downloadFlag(const QString &flag)
 {
     QNetworkRequest request;
     request.setUrl("https://static.vesselfinder.net/images/flags/4x3/" + flag);
+    qDebug() << "Downloading flag: " << request.url();
     QNetworkReply *reply = networkAccess->get(request);
 
     QObject::connect(reply, &QNetworkReply::finished, this, [flag, reply](){

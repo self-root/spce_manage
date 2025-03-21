@@ -9,8 +9,9 @@ CoreController::CoreController(QObject *parent)
       mApiCaller(new APICaller),
       mScheduleListModel(new ScheduleListModel(mApiCaller)),
       mShipDetailModel(new ShipDetailModel(mApiCaller)),
-    mDocumentFormModel(new DocumentFormModel(mApiCaller)),
-    mDocumentWriter(new DocumentWriter)
+      mDocumentFormModel(new DocumentFormModel(mApiCaller)),
+      mDocumentWriter(new DocumentWriter),
+      mShipListModel(new ShipListModel(mApiCaller))
 {
     DatabaseManager::instance();
     mScheduleListModel->loadSchedules();
@@ -62,6 +63,11 @@ void CoreController::setFetchingShip(bool newFetchingShip)
         return;
     mFetchingShip = newFetchingShip;
     emit fetchingShipChanged();
+}
+
+ShipListModel *CoreController::shipListModel() const
+{
+    return mShipListModel;
 }
 
 void CoreController::onDocumentsCreated(const QString &documentPath)

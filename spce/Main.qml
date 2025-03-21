@@ -89,7 +89,7 @@ ApplicationWindow {
 
         DropShadow{
             anchors.fill: sideMenu
-            horizontalOffset: 2
+            horizontalOffset: 0
             radius: 4
             samples: 9
             color: "#0c203c"

@@ -18,6 +18,7 @@ public:
     explicit APICaller(QObject *parent = nullptr);
     void fetchShipSchedule();
     void fetchShip(const QString &imo);
+    void searchShip(const QString &shipName);
 private:
     QString baseUrl = "http://212.24.111.24:8002";
     QNetworkAccessManager *mNetworkAccessManager = nullptr;
@@ -25,10 +26,13 @@ private:
 private slots:
     void onFetchShipScheduleReply();
     void onFetchShipReply();
+    void onShipSearchReply();
 signals:
     void shipScheduleFetched(const QVector<Schedule> &schedule);
     void shipFetched(const Ship &ship);
     void fetchingShip(const QString &parameter);
+    void searchingForShip(const QString &shipName);
+    void shipSearchEnded(const QVector<Ship> &ships);
 };
 
 } // namespace spce_core
