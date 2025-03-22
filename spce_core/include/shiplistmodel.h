@@ -31,6 +31,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     Q_INVOKABLE void searchShip(const QString &shipName);
+    Q_INVOKABLE void shipsLike(const QString &name);
 
     bool searching() const;
     void setSearching(bool newSearching);

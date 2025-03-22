@@ -20,6 +20,7 @@ class SPCE_CORE_EXPORT CoreController : public QObject
     Q_PROPERTY(DocumentFormModel *documentFormModel READ documentFormModel CONSTANT FINAL)
     Q_PROPERTY(ShipListModel *shipListModel READ shipListModel CONSTANT FINAL)
     Q_PROPERTY(bool fetchingShip READ fetchingShip WRITE setFetchingShip NOTIFY fetchingShipChanged FINAL)
+    Q_PROPERTY(QString flagDir READ flagDir CONSTANT FINAL)
 
 public:
     explicit CoreController(QObject *parent = nullptr);
@@ -34,6 +35,8 @@ public:
 
     ShipListModel *shipListModel() const;
 
+    QString flagDir() const;
+
 private:
     APICaller *mApiCaller = nullptr;
     ScheduleListModel *mScheduleListModel = nullptr;
@@ -46,6 +49,9 @@ private:
     std::wstring toWideString(const std::string &str);
 
     bool mFetchingShip = false;
+    QString mFlagDir;
+
+
 
 
 private slots:

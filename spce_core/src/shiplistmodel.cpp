@@ -1,6 +1,7 @@
 #include "shiplistmodel.h"
 #include <QDir>
 #include <flagsvgdownloader.h>
+#include <databasemanager.h>
 
 namespace spce_core {
 ShipListModel::ShipListModel(APICaller *api, QObject *parent)
@@ -100,6 +101,13 @@ void ShipListModel::searchShip(const QString &shipName)
     endResetModel();
     mApi->searchShip(shipName);
 
+}
+
+void ShipListModel::shipsLike(const QString &name)
+{
+    beginResetModel();
+    ships = DatabaseManager::instance()->mShipDao.getShips(name);
+    endResetModel();
 }
 
 void ShipListModel::onShipSearchResult(const QVector<Ship> &results)

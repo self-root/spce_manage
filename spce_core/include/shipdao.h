@@ -19,6 +19,7 @@ public:
     Ship getShip(const QString &imo) const;
     QVector<Ship> getAll() const override;
     void update(const Ship &record) const override;
+    QVector<Ship> getShips(const QString &name) const;
 };
 
 } // namespace spce_core

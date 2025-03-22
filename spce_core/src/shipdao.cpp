@@ -170,3 +170,37 @@ QVector<Ship> ShipDao::getAll() const
 void spce_core::ShipDao::update(const Ship &record) const
 {
 }
+
+QVector<spce_core::Ship> spce_core::ShipDao::getShips(const QString &name) const
+{
+    QVector<Ship> ships;
+    QSqlQuery query(mDatabase);
+    query.prepare(R"(SELECT * FROM spce_ship WHERE name LIKE :name)");
+    query.bindValue(":name", "%" + name + "%");
+    qDebug() << "Query string : " << query.lastQuery();
+
+    if (query.exec())
+    {
+
+        while (query.next())
+        {
+            ships.append(Ship(
+                query.value("imo").toString(),
+                query.value("tonnage").toInt(),
+                query.value("name").toString(),
+                query.value("flag").toString(),
+                query.value("flag_url").toString(),
+                query.value("callsign").toString(),
+                query.value("type").toString(),
+                query.value("id").toInt()
+                ));
+        }
+    }
+    else
+    {
+        qDebug() << "Could not get ships like " << name << " from db. " << query.lastError().text();
+        qDebug() << "Query string : " << query.lastQuery();
+    }
+
+    return ships;
+}

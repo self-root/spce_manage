@@ -1,6 +1,7 @@
 #include "corecontroller.h"
 #include "databasemanager.h"
 #include <windows.h>
+#include "flagsvgdownloader.h"
 
 
 namespace spce_core {
@@ -11,7 +12,8 @@ CoreController::CoreController(QObject *parent)
       mShipDetailModel(new ShipDetailModel(mApiCaller)),
       mDocumentFormModel(new DocumentFormModel(mApiCaller)),
       mDocumentWriter(new DocumentWriter),
-      mShipListModel(new ShipListModel(mApiCaller))
+      mShipListModel(new ShipListModel(mApiCaller)),
+      mFlagDir(FlagSVGDownloader::flagsFolder())
 {
     DatabaseManager::instance();
     mScheduleListModel->loadSchedules();
@@ -50,6 +52,11 @@ std::wstring CoreController::toWideString(const std::string &str)
     std::wstring wstr(size_needed, 0);
     MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, &wstr[0], size_needed);
     return wstr;
+}
+
+QString CoreController::flagDir() const
+{
+    return mFlagDir;
 }
 
 bool CoreController::fetchingShip() const

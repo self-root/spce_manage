@@ -217,6 +217,12 @@ Page {
                                 anchors.leftMargin: 8
                                 source: flagUrl
                                 fillMode: Image.PreserveAspectFit
+                                onStatusChanged: {
+                                    if (status == Image.Error)
+                                    {
+                                        source = "file:///" + controller.flagDir + "/" + flagUrl
+                                    }
+                                }
                             }
 
                             Text {
@@ -271,6 +277,7 @@ Page {
                 border.color: searchBar.activeFocus? Style.primary : "white"
             }
             onAccepted: controller.shipListModel.searchShip(searchBar.text)
+            onTextEdited: controller.shipListModel.shipsLike(searchBar.text)
         }
 
 
