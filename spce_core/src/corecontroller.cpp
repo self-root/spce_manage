@@ -9,7 +9,6 @@ CoreController::CoreController(QObject *parent)
     : QObject{parent},
       mApiCaller(new APICaller),
       mScheduleListModel(new ScheduleListModel(mApiCaller)),
-      mShipDetailModel(new ShipDetailModel(mApiCaller)),
       mDocumentFormModel(new DocumentFormModel(mApiCaller)),
       mDocumentWriter(new DocumentWriter),
       mShipListModel(new ShipListModel(mApiCaller)),
@@ -27,11 +26,6 @@ CoreController::CoreController(QObject *parent)
 ScheduleListModel *CoreController::scheduleListModel() const
 {
     return mScheduleListModel;
-}
-
-ShipDetailModel *CoreController::shipDetailModel() const
-{
-    return mShipDetailModel;
 }
 
 DocumentFormModel *CoreController::documentFormModel() const

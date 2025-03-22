@@ -9,8 +9,9 @@ Invoice::Invoice(const QString &number,
                  double amount,
                  const Ship &ship,
                  const QString &item,
+                 const QDate &date,
                  int id)
-    : mNumber(number), mQuantity(quantity), mUnitPrice(unitPrice), mAmount(amount), mShip(ship), mItem(item), BaseEntity(id)
+    : mNumber(number), mQuantity(quantity), mUnitPrice(unitPrice), mAmount(amount), mShip(ship), mItem(item), mDate(date), BaseEntity(id)
 {
 
 }
@@ -73,6 +74,16 @@ QString Invoice::item() const
 void Invoice::setItem(const QString &newItem)
 {
     mItem = newItem;
+}
+
+QDate Invoice::date() const
+{
+    return mDate;
+}
+
+void Invoice::setDate(const QDate &newDate)
+{
+    mDate = newDate;
 }
 } // namespace spce_core
 

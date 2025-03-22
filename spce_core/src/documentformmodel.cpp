@@ -58,6 +58,7 @@ void DocumentFormModel::onShipDetailFetched(const Ship &ship)
     currentShip = ship;
     setShipPropertyValues();
     DatabaseManager::instance()->mShipDao.add(currentShip);
+    qDebug() << "New ship added to the db, ship id: " << currentShip.id();
 }
 
 BaseEntityListModel<Commissionnaire> *DocumentFormModel::getCommListModel()
@@ -303,7 +304,8 @@ void DocumentFormModel::createDocuments(const QVariantMap &form_data)
         0.0,
         form_data["invoice_amount"].toString().toDouble(),
         currentShip,
-        "GARBAGE REMOVAL"
+        "GARBAGE REMOVAL",
+        form_data["document_date"].toDate()
     );
 
     DatabaseManager::instance()->mInvoiceDao.add(invoice);

@@ -20,12 +20,13 @@ void InvoiceDao::init() const
     QString queryString = R"(
         CREATE TABLE invoice(
             id        INTEGER,
-            number    TEXT UNIQUE,
+            number    TEXT UNIQUE NOT NULL,
             quantity  FLOAT,
             unitPrice FLOAT,
             amount    FLOAT,
             f_ship    INTEGER,
-            item      TEXT,
+            item      TEXT NOT NULL,
+            i_date    TEXT NOT NULL,
 
             PRIMARY KEY(id AUTOINCREMENT),
             FOREIGN KEY(f_ship) REFERENCES spce_ship(id)
@@ -66,6 +67,7 @@ Invoice InvoiceDao::get(int id) const
                 query.value("amount").toDouble(),
                 ship,
                 query.value("item").toString(),
+                QDate::fromString(query.value("i_date").toString(), "dd-MM-yyyy"),
                 query.value("invoice.id").toInt()
             );
         }
@@ -82,8 +84,8 @@ void InvoiceDao::add(Invoice &record) const
 {
     QSqlQuery query(mDatabase);
     query.prepare(R"(
-        INSERT INTO invoice(number, quantity, unitPrice, amount, f_ship, item)
-        VALUES (:number, :quantity, :unitPrice, :amount, :f_ship, :item)
+        INSERT INTO invoice(number, quantity, unitPrice, amount, f_ship, item, i_date)
+        VALUES (:number, :quantity, :unitPrice, :amount, :f_ship, :item, :date)
     )");
 
     query.bindValue(":number", record.number());
@@ -92,6 +94,7 @@ void InvoiceDao::add(Invoice &record) const
     query.bindValue(":amount", record.amount());
     query.bindValue(":f_ship", record.ship().id());
     query.bindValue(":item", record.item());
+    query.bindValue(":date", record.date().toString("dd-MM-yyyy"));
 
     if (query.exec())
         record.setId(query.lastInsertId().toInt());
@@ -127,6 +130,7 @@ QVector<Invoice> InvoiceDao::getAll() const
             query.value("amount").toDouble(),
             ship,
             query.value("item").toString(),
+            QDate::fromString(query.value("i_date").toString(), "dd-MM-yyyy"),
             query.value("invoice.id").toInt()
             ));
     }

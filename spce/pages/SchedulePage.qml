@@ -187,7 +187,7 @@ Page {
                     clip: true
                     ScrollBar.vertical: ScrollBar{}
                     delegate: Item{
-                        width: parent.width
+                        width: searchResultList.width
                         height: 60
                         DropShadow{
                             source: contentRect

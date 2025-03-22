@@ -21,9 +21,9 @@ void ShipDao::init() const
         QString queryString = R"(
         CREATE TABLE spce_ship(
         id       INTEGER,
-        imo      TEXT UNIQUE,
+        imo      TEXT UNIQUE NOT NULL,
         tonnage  INTEGER,
-        name     TEXT,
+        name     TEXT UNIQUE NOT NULL,
         flag     TEXT,
         flag_url TEXT,
         callsign TEXT,
@@ -56,13 +56,18 @@ void ShipDao::add(Ship &ship) const
     query.bindValue(":type", ship.type());
     query.bindValue(":year", ship.year());
 
+    qDebug() << "Adding: " << ship.name();
+
     if (!query.exec())
     {
         qDebug() << "Could not add ship to the database " + query.lastError().text();
         return;
     }
 
-    ship.setId(query.lastInsertId().toInt());
+    int lastInsertId = query.lastInsertId().toInt();
+    qDebug() << "Ship insert ID: " << lastInsertId;
+
+    ship.setId(lastInsertId);
 }
 
 Ship ShipDao::get(int id) const

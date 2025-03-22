@@ -24,7 +24,7 @@ add_library(spce_core SHARED
     include/corecontroller.h     src/corecontroller.cpp
     include/schedulelistmodel.h  src/schedulelistmodel.cpp
     include/schedule.h           src/schedule.cpp
-    include/shipdetailmodel.h    src/shipdetailmodel.cpp
+    #include/shipdetailmodel.h    src/shipdetailmodel.cpp
     include/flagsvgdownloader.h  src/flagsvgdownloader.cpp
     include/documentformmodel.h  src/documentformmodel.cpp
     include/commissionnairedao.h src/commissionnairedao.cpp

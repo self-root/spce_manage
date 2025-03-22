@@ -44,7 +44,7 @@ private:
     QString mFlagUrl;
     QString mCallSign;
     QString mType;
-    int mYear;
+    int mYear = 0;
 };
 
 } // namespace spce_core
