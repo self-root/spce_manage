@@ -27,6 +27,7 @@ public:
     QVector<QMap<QString, QVariant>> getInvoices() const;
     QVector<QPair<QString, int>> getShipTypeDistro() const;
     QMap<QString, QVariant> queryToMap(const QSqlQuery &query) const;
+    void remove(const QString & invoiceNumber) const;
 };
 } // namespace spce_core
 

@@ -530,8 +530,9 @@ Page {
                             }
                             onClicked: (mouse) => {
                                 contextMenu.popup()
-                                console.log(invoiceTable.model.data(invoiceTable.index(row, 0)))
                                 invoiceTable.activeRow = row
+                                root.currentInvoice = invoiceTable.model.data(invoiceTable.index(row, 0))
+                                console.log(root.currentInvoice)
                             }
                         }
                     }
@@ -545,6 +546,7 @@ Page {
             text: "Export PDF"
             icon.source: "qrc:/images/images/file-pdf.png"
             //icon.color: "red"
+            onClicked: controller.invoiceTableModel.toPDF(root.currentInvoice)
         }
 
         MenuItem{
@@ -567,6 +569,9 @@ Page {
             text: "Delete"
             icon.source: "qrc:/images/images/ui-delete.png"
             icon.color: "red"
+            onClicked: {
+                confirmDeleteDialog.open()
+            }
         }
     }
     DropShadow{
@@ -682,5 +687,42 @@ Page {
                 }
             }
         ]
+    }
+    Dialog{
+        id: confirmDeleteDialog
+        width: 300
+        x: (root.width - width) / 2
+        y: (root.height - implicitHeight) / 2
+        title: "Delete invoice"
+        GridLayout{
+            anchors.fill: parent
+            columns: 1
+            rows: 2
+            Text {
+                text: "Delete invoice <b>" + root.currentInvoice + "</b>?"
+            }
+            RowLayout{
+                //Layout.fillWidth: true
+                Layout.alignment: Qt.AlignRight
+                Button{
+                    Layout.alignment: Qt.AlignRight
+                    text: "Cancel"
+                    onClicked: confirmDeleteDialog.close()
+                }
+                Button {
+                    Layout.alignment: Qt.AlignRight
+                    text: "Confirm"
+                    onClicked: {
+                        controller.invoiceTableModel.deleteInvoice(root.currentInvoice, invoiceTable.activeRow)
+                        confirmDeleteDialog.close()
+                    }
+                }
+            }
+
+        }
+
+        //informativeText: "Delete invoice <b>" + root.currentInvoice + "</b>?"
+        //buttons: MessageDialog.Ok | MessageDialog.Cancel
+        //onAccept: controller.invoiceTableModel.deleteInvoice(root.currentInvoice, invoiceTable.activeRow);
     }
 }

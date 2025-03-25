@@ -3,8 +3,10 @@
 
 #include "spce_core_global.h"
 #include <QAbstractTableModel>
+//#include "documentwriter.h"
 
 namespace spce_core {
+class DocumentWriter;
 class SPCE_CORE_EXPORT InvoiceTableModel : public QAbstractTableModel
 {
     Q_OBJECT
@@ -41,6 +43,10 @@ public:
 
     Q_INVOKABLE void updateInvoice(const QVariantMap &data, int row);
 
+    Q_INVOKABLE void deleteInvoice(const QString &invoiceNumber, int row);
+
+    Q_INVOKABLE void toPDF(const QString &invoiceNumber);
+
 signals:
     void totalAmountChanged();
 
@@ -50,11 +56,14 @@ signals:
 
     void invoiceUpdated();
 
+    void invoicePDFCreated(const QString &filePath);
+
 private:
     QVector<QMap<QString, QVariant>> invoices;
     double mTotalAmount = 0.0;
     double mTotalGarbage = 0.0;
     int mInvoiceCount = 0;
+    DocumentWriter *writer;
 
     void computeTotals();
 

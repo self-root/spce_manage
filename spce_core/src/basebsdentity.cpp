@@ -48,5 +48,14 @@ void BaseBSDEntity::setEmail(const QString &newEmail)
     mEmail = newEmail;
 }
 
+bool BaseBSDEntity::equal(const BaseEntity &other) const
+{
+    if (auto *baseBsd = dynamic_cast<const BaseBSDEntity*>(&other))
+    {
+        return (mNom == baseBsd->nom() && mEmail == baseBsd->email() && mTel == baseBsd->tel() && mAddress == baseBsd->address() && id() == baseBsd->id());
+    }
+    return false;
+}
+
 
 }

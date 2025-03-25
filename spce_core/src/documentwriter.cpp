@@ -132,7 +132,9 @@ void DocumentWriter::writePDF(const QString &filePath, const QString &out)
 {
     QString program("wkhtmltopdf.exe");
     QStringList args;
+    args << "--no-pdf-compression" << "--dpi" << "300" << "--print-media-type";
     args << filePath << out;
+
     QProcess *process = new QProcess;
     process->start(program, args);
     QObject::connect(process, &QProcess::finished, this, [filePath](){

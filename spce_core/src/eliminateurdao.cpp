@@ -103,7 +103,7 @@ Eliminateur EliminateurDao::get(const QString &name) const
         WHERE nom = :nom
     )");
 
-    query.bindValue(":name", name);
+    query.bindValue(":nom", name);
 
     if (query.exec())
     {
@@ -117,7 +117,8 @@ Eliminateur EliminateurDao::get(const QString &name) const
                 query.value("responsable").toString(),
                 query.value("receptionSite").toString(),
                 query.value("id").toInt()
-                );
+            );
+            qDebug() << "ElimID: " << eliminateur.id();
         }
     }
 

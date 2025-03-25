@@ -12,6 +12,8 @@ public:
     int id() const;
     void setId(int newId);
 
+    virtual bool equal(const BaseEntity &other) const;
+
 private:
     int mId = -1;
 };

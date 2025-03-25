@@ -16,6 +16,10 @@ public:
 
 private:
     QString mReceptionSite;
+
+    // BaseEntity interface
+public:
+    bool equal(const BaseEntity &other) const override;
 };
 } // namespace spce_core
 

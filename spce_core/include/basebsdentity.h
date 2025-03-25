@@ -29,11 +29,17 @@ public:
     QString email() const;
     void setEmail(const QString &newEmail);
 
+
+
 protected:
     QString mNom;
     QString mAddress;
     QString mTel;
     QString mEmail;
+
+    // BaseEntity interface
+public:
+    virtual bool equal(const BaseEntity &other) const override;
 };
 } // namespace spce_core
 

@@ -41,7 +41,7 @@ private:
     const QString CERTIFICATE_TEMP = "certificate.html";
     const QString INVOICE_TEMP = "invoice.html";
 
-private:
+public:
     void writeBSD(const nlohmann::json &data);
      /**
      * @brief Writes a certificate based on the provided JSON data.

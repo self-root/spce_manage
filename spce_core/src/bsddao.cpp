@@ -30,9 +30,9 @@ void BSDDao::init() const
 
             PRIMARY KEY(id AUTOINCREMENT),
             FOREIGN KEY(f_comm) REFERENCES commissionnaire(id) ON DELETE CASCADE,
-            FOREIGN KEY(f_coll) REFERENCES collectionnaire(id) ON DELETE CASCADE,
+            FOREIGN KEY(f_coll) REFERENCES collecteur(id) ON DELETE CASCADE,
             FOREIGN KEY(f_elim) REFERENCES eliminateur(id) ON DELETE CASCADE,
-            FOREIGN KEY(f_ship) REFERENCES ship(id) ON DELETE CASCADE,
+            FOREIGN KEY(f_ship) REFERENCES spce_ship(id) ON DELETE CASCADE,
             FOREIGN KEY(f_driver) REFERENCES driver(id) ON DELETE CASCADE,
             FOREIGN KEY(f_vehicle) REFERENCES vehicle(id) ON DELETE CASCADE,
             FOREIGN KEY(f_invoice) REFERENCES invoice(id) ON DELETE CASCADE
@@ -99,7 +99,9 @@ void BSDDao::add(BSD &record) const
         record.setId(query.lastInsertId().toInt());
 
     else
+    {
         qWarning() << "Unable to save BSD: " << query.lastError().text();
+    }
 }
 
 QVector<BSD> BSDDao::getAll() const

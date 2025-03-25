@@ -19,5 +19,17 @@ void Commissionnaire::setResponsabble(const QString &newResponsabble)
     mResponsabble = newResponsabble;
 }
 
+bool Commissionnaire::equal(const BaseEntity &other) const
+{
+    if (auto *comm = dynamic_cast<const Commissionnaire*>(&other))
+    {
+        if (!BaseBSDEntity::equal(other))
+            return false;
+        else
+            return comm->mResponsabble == mResponsabble;
+    }
+    return false;
+}
+
 } // namespace spce_core
 

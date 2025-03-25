@@ -12,5 +12,10 @@ void BaseEntity::setId(int newId)
 {
     mId = newId;
 }
+
+bool BaseEntity::equal(const BaseEntity &other) const
+{
+    return false;
+}
 } // namespace spce_core
 

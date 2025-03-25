@@ -22,6 +22,7 @@ CoreController::CoreController(QObject *parent)
 
     QObject::connect(mDocumentFormModel, &DocumentFormModel::writeShipDocument, mDocumentWriter, &DocumentWriter::write);
     QObject::connect(mDocumentWriter, &DocumentWriter::documentsCreated, this, &CoreController::onDocumentsCreated);
+    QObject::connect(mInvoiceTableModel, &InvoiceTableModel::invoicePDFCreated, this, &CoreController::onDocumentsCreated);
     QObject::connect(mApiCaller, &APICaller::fetchingShip, this, [&](){setFetchingShip(true);});
     QObject::connect(mApiCaller, &APICaller::shipFetched, this, [&](){setFetchingShip(false);});
 }

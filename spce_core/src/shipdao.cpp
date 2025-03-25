@@ -23,7 +23,7 @@ void ShipDao::init() const
         id       INTEGER,
         imo      TEXT UNIQUE NOT NULL,
         tonnage  INTEGER,
-        name     TEXT UNIQUE NOT NULL,
+        name     TEXT NOT NULL,
         flag     TEXT,
         flag_url TEXT,
         callsign TEXT,

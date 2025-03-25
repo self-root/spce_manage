@@ -246,6 +246,16 @@ QMap<QString, QVariant> InvoiceDao::queryToMap(const QSqlQuery &query) const
     return map;
 }
 
+void InvoiceDao::remove(const QString &invoiceNumber) const
+{
+    QSqlQuery query(mDatabase);
+    query.prepare(R"(DELETE FROM invoice WHERE number = :number)");
+    query.bindValue(":number", invoiceNumber);
+
+    if (!query.exec())
+        qDebug() << "Could not remove invoice: " << invoiceNumber << " from db: " << query.lastError();
+}
+
 } // namespace spce_core
 
 

@@ -248,7 +248,22 @@ void DocumentFormModel::createDocuments(const QVariantMap &form_data)
         currentCommissionnaire.id()
     );
     if (!comm.nom().isEmpty())
-        commNameListModel->addOrUpdate(comm);
+    {
+        Commissionnaire commissionnaire = DatabaseManager::instance()->mCommissionnaireDao.get(comm.nom());
+        if (commissionnaire.id() > 0)
+        {
+            if (!commissionnaire.equal(comm))
+            {
+                DatabaseManager::instance()->mCommissionnaireDao.update(comm);
+                commNameListModel->getDataFromDb();
+            }
+        }
+
+        else{
+            DatabaseManager::instance()->mCommissionnaireDao.add(comm);
+            commNameListModel->getDataFromDb();
+        }
+    }
 
     Collecteur coll(
         form_data["collecteur"] .toString(),
@@ -259,14 +274,30 @@ void DocumentFormModel::createDocuments(const QVariantMap &form_data)
         currentCollecteur.id()
     );
     if (!coll.nom().isEmpty())
-        collNameListModel->addOrUpdate(coll);
+    {
+        Collecteur collecteur = DatabaseManager::instance()->mCollecteurDao.get(coll.nom());
+        qDebug() << "CollF: " << coll.id() << coll.nom() << "addr: " << coll.address() << "tel: " << coll.tel() << " mail: " << coll.email() << "resp: " << coll.responsabble();
+        qDebug() << "CollD: " << collecteur.id() << collecteur.nom() << "addr: " << collecteur.address() << "tel: " << collecteur.tel() << " mail: " << collecteur.email() << "resp: " << collecteur.responsabble();
+        if (collecteur.id() > 0)
+        {
+            if (!coll.equal(collecteur))
+            {
+                DatabaseManager::instance()->mCollecteurDao.update(coll);
+                collNameListModel->getDataFromDb();
+            }
+
+        }
+        else
+        {
+            DatabaseManager::instance()->mCollecteurDao.add(coll);
+            collNameListModel->getDataFromDb();
+        }
+    }
 
     Driver driver(form_data["driver"].toString(), currentDriver.id());
     if (!driver.nom().isEmpty())
     {
         Driver d = DatabaseManager::instance()->mDriverDao.get(driver.nom());
-        qDebug() << "Driver: " << d.nom();
-        qDebug() << "Driver: " << driver.nom();
         if (d.id() < 0)
             DatabaseManager::instance()->mDriverDao.add(driver);
         driverNameListModel->getDataFromDb();
@@ -290,7 +321,22 @@ void DocumentFormModel::createDocuments(const QVariantMap &form_data)
         currentEliminateur.id()
     );
     if (!eliminateur.nom().isEmpty())
-        eliminateurListModel->addOrUpdate(eliminateur);
+    {
+        Eliminateur elim = DatabaseManager::instance()->mEliminateurDao.get(eliminateur.nom());
+        if (elim.id() > 0)
+        {
+            if (!eliminateur.equal(elim))
+            {
+                DatabaseManager::instance()->mEliminateurDao.update(eliminateur);
+                eliminateurListModel->getDataFromDb();
+            }
+        }
+        else
+        {
+            DatabaseManager::instance()->mEliminateurDao.add(eliminateur);
+            eliminateurListModel->getDataFromDb();
+        }
+    }
     terminalListModel->addIfNotExist(form_data["terminal"].toString());
 
 

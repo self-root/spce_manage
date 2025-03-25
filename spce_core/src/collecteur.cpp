@@ -13,4 +13,13 @@ Collecteur::Collecteur(const QString &nom, const QString &address, const QString
 
 }
 
+bool Collecteur::equal(const BaseEntity &other) const
+{
+    if (auto *coll = dynamic_cast<const Collecteur*>(&other))
+    {
+        return Commissionnaire::equal(other);
+    }
+    return false;
+}
+
 } // namespace spce_core

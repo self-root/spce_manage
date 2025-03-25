@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
+import QtQuick.Controls.Material
 import ".."
 import "../components"
 
@@ -267,7 +268,7 @@ Page {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
             anchors.topMargin: 6
-            placeholderText: "Ship Name"
+            placeholderText: searchBar.focus? "" : "Ship Name"
             verticalAlignment: TextInput.AlignVCenter
             z: 9
             background: Rectangle{
@@ -513,21 +514,32 @@ Page {
                     z: 6
 
                     onClicked: {
-                        controller.documentFormModel.createDocuments(
-                            {
-                                "terminal": terminalCombo.displayText,
-                                "start_date": start_date.selected_date,
-                                "end_date": end_date.selected_date,
-                                "document_date": document_date.selected_date,
-                                "commissionnaire": commissionnaireCombo.displayText,
-                                "collecteur": collecteurCombo.displayText,
-                                "driver": driverCombo.displayText,
-                                "vehicle": vehicleNumberCombo.displayText,
-                                "eliminateur": eliminateurCombo.displayText,
-                                "invoice_quantity": invoiceQuantity.text,
-                                "invoice_amount": invoiceAmount.text
-                            }
-                        )
+                        if (!terminalCombo.displayText || !commissionnaireCombo.displayText
+                                || !collecteurCombo.displayText || !vehicleNumberCombo.displayText
+                                || !eliminateurCombo.displayText || !shipNameEdit.text
+                                || !driverCombo.displayText)
+                        {
+                            missingValueDialog.open()
+                        }
+                        else{
+                            controller.documentFormModel.createDocuments(
+                                {
+                                    "terminal": terminalCombo.displayText,
+                                    "start_date": start_date.selected_date,
+                                    "end_date": end_date.selected_date,
+                                    "document_date": document_date.selected_date,
+                                    "commissionnaire": commissionnaireCombo.displayText,
+                                    "collecteur": collecteurCombo.displayText,
+                                    "driver": driverCombo.displayText,
+                                    "vehicle": vehicleNumberCombo.displayText,
+                                    "eliminateur": eliminateurCombo.displayText,
+                                    "invoice_quantity": invoiceQuantity.text,
+                                    "invoice_amount": invoiceAmount.text
+                                }
+                            )
+                        }
+
+
                     }
 
                 }
@@ -1065,6 +1077,37 @@ Page {
                 }
             }
         }
+    }
+
+    Dialog{
+        id: missingValueDialog
+        width: 360
+        x: (page.width - width) / 2
+        y: (page.height - implicitHeight) / 2
+        title: "Missing values"
+        GridLayout{
+            columns: 1
+            rows: 2
+            anchors.fill: parent
+            anchors.margins: 4
+            Text {
+                text: "Cannot create documents with missing important fields!"
+            }
+            RowLayout{
+                //Layout.fillWidth: true
+                Layout.alignment: Qt.AlignRight
+                Button{
+                    Layout.alignment: Qt.AlignRight
+                    text: "Ok"
+                    onClicked: missingValueDialog.close()
+                }
+            }
+
+        }
+
+        //informativeText: "Delete invoice <b>" + root.currentInvoice + "</b>?"
+        //buttons: MessageDialog.Ok | MessageDialog.Cancel
+        //onAccept: controller.invoiceTableModel.deleteInvoice(root.currentInvoice, invoiceTable.activeRow);
     }
 
 }

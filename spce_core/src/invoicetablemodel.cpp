@@ -1,9 +1,12 @@
 #include "invoicetablemodel.h"
 #include "databasemanager.h"
+#include "documentwriter.h"
+#include "documentformmodel.h"
+#include <QLocale>
 
 namespace spce_core {
 InvoiceTableModel::InvoiceTableModel(QObject *parent)
-    : QAbstractTableModel(parent)
+    : QAbstractTableModel(parent), writer(new DocumentWriter)
 {}
 
 QVariant InvoiceTableModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -152,6 +155,41 @@ void InvoiceTableModel::updateInvoice(const QVariantMap &data, int row)
     emit dataChanged(this->index(row, 0), this->index(row, 3), {Qt::DisplayRole, Qt::EditRole});
     computeTotals();
     emit invoiceUpdated();
+}
+
+void InvoiceTableModel::deleteInvoice(const QString &invoiceNumber, int row)
+{
+    DatabaseManager::instance()->mInvoiceDao.remove(invoiceNumber);
+    beginRemoveRows(QModelIndex(), row, row);
+    invoices.erase(std::remove_if(invoices.begin(), invoices.end(), [&](QMap<QString, QVariant> &val){
+        return val["invoice_number"].toString() == invoiceNumber;
+    }), invoices.end());
+
+    endRemoveRows();
+    emit invoiceUpdated();
+    computeTotals();
+    setInvoiceCount(invoices.size());
+}
+
+void InvoiceTableModel::toPDF(const QString &invoiceNumber)
+{
+    for (auto invoice : invoices)
+    {
+        if (invoice["invoice_number"].toString() == invoiceNumber)
+        {
+            nlohmann::json data;
+            data["ship_name"] = invoice["ship_name"].toString().toStdString();
+            data["document_date"] = DocumentFormModel::formatDate(QDate::fromString(invoice["i_date"].toString(), "dd-MM-yyyy")).toStdString();
+            data["quantity"] = invoice["quantity"].toString().toStdString();
+            data["amount"] = invoice["amount"].toString().toStdString();
+            data["invoice_number"] = invoiceNumber.toStdString();
+            data["unit_price"] = "";
+            data["total"] = invoice["amount"].toString().toStdString();
+            writer->writeInvoice(data);
+            emit invoicePDFCreated(writer->outPath(invoice["ship_name"].toString()));
+            break;
+        }
+    }
 }
 
 void InvoiceTableModel::computeTotals()

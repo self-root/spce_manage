@@ -18,5 +18,17 @@ void Eliminateur::setReceptionSite(const QString &newReceptionSite)
 {
     mReceptionSite = newReceptionSite;
 }
+
+bool Eliminateur::equal(const BaseEntity &other) const
+{
+    if (auto *elim = dynamic_cast<const Eliminateur*>(&other))
+    {
+        if (!Commissionnaire::equal(other))
+            return false;
+
+        return mReceptionSite == elim->mReceptionSite;
+    }
+    return false;
+}
 } // namespace spce_core
 

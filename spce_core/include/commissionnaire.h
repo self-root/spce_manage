@@ -14,8 +14,13 @@ public:
     QString responsabble() const;
     void setResponsabble(const QString &newResponsabble);
 
+
 protected:
     QString mResponsabble;
+
+    // BaseEntity interface
+public:
+    bool equal(const BaseEntity &other) const override;
 };
 } // namespace spce_core
 
