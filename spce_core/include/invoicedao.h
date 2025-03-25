@@ -7,6 +7,8 @@
 
 class QSqlDatabase;
 
+class QSqlQuery;
+
 namespace spce_core {
 class SPCE_CORE_EXPORT InvoiceDao : public Dao<Invoice>
 {
@@ -20,7 +22,11 @@ public:
     void add(Invoice &record) const override;
     QVector<Invoice> getAll() const override;
     void update(const Invoice &record) const override;
+    void update(const QVariantMap &record) const;
     QString lastInvoiceNumber() const;
+    QVector<QMap<QString, QVariant>> getInvoices() const;
+    QVector<QPair<QString, int>> getShipTypeDistro() const;
+    QMap<QString, QVariant> queryToMap(const QSqlQuery &query) const;
 };
 } // namespace spce_core
 

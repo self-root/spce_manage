@@ -50,6 +50,31 @@ Driver DriverDao::get(int id) const
     return driver;
 }
 
+Driver DriverDao::get(const QString &name) const
+{
+    Driver driver;
+    QSqlQuery query(mDatabase);
+    query.prepare(R"(
+        SELECT * FROM driver
+        WHERE name = :name
+    )");
+
+    query.bindValue(":name", name);
+
+    if (!query.exec())
+        qWarning() << "Database reading error, DriverDao, get by name " << name;
+
+    if (query.next())
+    {
+        driver = Driver(
+            query.value("name").toString(),
+            query.value("id").toInt()
+            );
+    }
+
+    return driver;
+}
+
 void DriverDao::add(Driver &record) const
 {
     QSqlQuery query(mDatabase);
@@ -71,7 +96,7 @@ QVector<Driver> DriverDao::getAll() const
 
     QSqlQuery query(mDatabase);
 
-    if (!query.exec("SELECT * FROM driver"))
+    if (!query.exec("SELECT * FROM driver ORDER BY id DESC"))
         qWarning() << "Could not get all drivers from db: " << query.lastError().text();
 
     while (query.next())

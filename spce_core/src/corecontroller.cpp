@@ -12,7 +12,10 @@ CoreController::CoreController(QObject *parent)
       mDocumentFormModel(new DocumentFormModel(mApiCaller)),
       mDocumentWriter(new DocumentWriter),
       mShipListModel(new ShipListModel(mApiCaller)),
-      mFlagDir(FlagSVGDownloader::flagsFolder())
+      mFlagDir(FlagSVGDownloader::flagsFolder()),
+      mInvoiceTableModel(new InvoiceTableModel),
+      mRevenueChartModel(new RevenueChartModel),
+      mChartModel(new ChartModel)
 {
     DatabaseManager::instance();
     mScheduleListModel->loadSchedules();
@@ -51,6 +54,21 @@ std::wstring CoreController::toWideString(const std::string &str)
 QString CoreController::flagDir() const
 {
     return mFlagDir;
+}
+
+InvoiceTableModel *CoreController::invoiceTableModel() const
+{
+    return mInvoiceTableModel;
+}
+
+RevenueChartModel *CoreController::revenueChartModel() const
+{
+    return mRevenueChartModel;
+}
+
+ChartModel *CoreController::chartModel() const
+{
+    return mChartModel;
 }
 
 bool CoreController::fetchingShip() const

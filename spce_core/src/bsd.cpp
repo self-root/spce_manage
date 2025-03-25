@@ -6,7 +6,7 @@ BSD::BSD(int id) : BaseEntity(id)
 
 }
 
-BSD::BSD(const Commissionnaire &commissionnaire, const Collecteur &collecteur, const Eliminateur &eliminateur, const Driver &driver, const Vehicle &vehicle, const Ship &ship, const QDate &date, int id)
+BSD::BSD(const Commissionnaire &commissionnaire, const Collecteur &collecteur, const Eliminateur &eliminateur, const Driver &driver, const Vehicle &vehicle, const Ship &ship, const QDate &date, int invoiceID, int id)
     : mCommissionnaire(commissionnaire),
     mCollecteur(collecteur),
     mEliminateur(eliminateur),
@@ -14,6 +14,7 @@ BSD::BSD(const Commissionnaire &commissionnaire, const Collecteur &collecteur, c
     mVehicle(vehicle),
     mShip(ship),
     mDate(date),
+    mInvoiceId(invoiceID),
     BaseEntity(id)
 {
 
@@ -87,6 +88,16 @@ QDate BSD::date() const
 void BSD::setDate(const QDate &newDate)
 {
     mDate = newDate;
+}
+
+int BSD::invoiceId() const
+{
+    return mInvoiceId;
+}
+
+void BSD::setInvoiceId(int newInvoiceId)
+{
+    mInvoiceId = newInvoiceId;
 }
 
 

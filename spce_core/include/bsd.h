@@ -17,7 +17,7 @@ class SPCE_CORE_EXPORT BSD : public BaseEntity
 {
 public:
     BSD(int id = -1);
-    BSD(const Commissionnaire &commissionnaire, const Collecteur &collecteur, const Eliminateur &eliminateur, const Driver &driver, const Vehicle &vehicle, const Ship &ship, const QDate &date, int id = -1);
+    BSD(const Commissionnaire &commissionnaire, const Collecteur &collecteur, const Eliminateur &eliminateur, const Driver &driver, const Vehicle &vehicle, const Ship &ship, const QDate &date, int invoiceID, int id = -1);
 
     Commissionnaire commissionnaire() const;
     void setCommissionnaire(const Commissionnaire &newCommissionnaire);
@@ -34,6 +34,9 @@ public:
     QDate date() const;
     void setDate(const QDate &newDate);
 
+    int invoiceId() const;
+    void setInvoiceId(int newInvoiceId);
+
 private:
     Commissionnaire mCommissionnaire;
     Collecteur mCollecteur;
@@ -42,6 +45,7 @@ private:
     Vehicle mVehicle;
     Ship mShip;
     QDate mDate;
+    int mInvoiceId;
 };
 } // namespace spce_core
 

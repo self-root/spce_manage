@@ -5,6 +5,7 @@ project(spce VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
@@ -26,6 +27,7 @@ qt_add_qml_module(appspce
         "Main.qml"
         "Style.qml"
         "pages/SchedulePage.qml"
+        "pages/Invoices.qml"
 
         "components/MenuButton.qml"
         "components/RotatingIconBtn.qml"
@@ -49,6 +51,12 @@ qt_add_resources(appspce "images"
         images/business-model-hover.png
         images/business-model-normal.png
         images/reload.png
+        images/invoice_incon1.png
+        images/money.png
+        images/recycling-truck.png
+        images/file-pdf.png
+        images/ui-edit.png
+        images/ui-delete.png
 )
 
 qt_add_resources(appspce "fonts"
@@ -76,6 +84,7 @@ target_link_libraries(appspce
 )
 
 target_link_libraries(appspce PRIVATE spce_core)
+target_link_libraries(appspce PRIVATE Qt6::Widgets)
 
 include(GNUInstallDirs)
 install(TARGETS appspce

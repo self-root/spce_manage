@@ -10,13 +10,11 @@ public:
     explicit UIController(QObject *parent = nullptr);
 public slots:
     void scheduleMenuBtnClic();
-    void operationMenuBtnClic();
-    void shipDocBtnClic();
-    void prepareDocumentBtn();
+    void invoiceBtnClick();
 
 signals:
     void goSchedulePage();
-    void goOperationPage();
+    void goInvoicePage();
 };
 
 #endif // UICONTROLLER_H

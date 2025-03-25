@@ -12,18 +12,7 @@ void UIController::scheduleMenuBtnClic()
     emit goSchedulePage();
 }
 
-void UIController::operationMenuBtnClic()
+void UIController::invoiceBtnClick()
 {
-    qDebug() << "Operation menu clic";
-    emit goOperationPage();
-}
-
-void UIController::shipDocBtnClic()
-{
-    emit goOperationPage();
-}
-
-void UIController::prepareDocumentBtn()
-{
-    emit goOperationPage();
+    emit goInvoicePage();
 }

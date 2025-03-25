@@ -53,7 +53,9 @@ add_library(spce_core SHARED
     include/terminal.h           src/terminal.cpp
     include/terminallistmodel.h  src/terminallistmodel.cpp
     include/shiplistmodel.h      src/shiplistmodel.cpp
-
+    include/invoicetablemodel.h  src/invoicetablemodel.cpp
+    include/revenuechartmodel.h  src/revenuechartmodel.cpp
+    include/chartmodel.h         src/chartmodel.cpp
 
 )
 

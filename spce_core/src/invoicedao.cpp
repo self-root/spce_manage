@@ -3,6 +3,7 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QVector>
+#include <QSqlRecord>
 
 namespace spce_core {
 InvoiceDao::InvoiceDao(QSqlDatabase &database)
@@ -29,7 +30,7 @@ void InvoiceDao::init() const
             i_date    TEXT NOT NULL,
 
             PRIMARY KEY(id AUTOINCREMENT),
-            FOREIGN KEY(f_ship) REFERENCES spce_ship(id)
+            FOREIGN KEY(f_ship) REFERENCES spce_ship(id) ON DELETE CASCADE
         )
     )";
 
@@ -137,14 +138,30 @@ QVector<Invoice> InvoiceDao::getAll() const
 
     return invoices;
 }
-} // namespace spce_core
 
-
-void spce_core::InvoiceDao::update(const Invoice &record) const
+void InvoiceDao::update(const Invoice &record) const
 {
 }
 
-QString spce_core::InvoiceDao::lastInvoiceNumber() const
+void InvoiceDao::update(const QVariantMap &record) const
+{
+    QSqlQuery query(mDatabase);
+    query.prepare(R"(
+        UPDATE invoice
+        SET quantity = :quantity, amount = :amount
+        WHERE number = :number
+    )");
+    query.bindValue(":quantity", record["quantity"].toDouble());
+    query.bindValue(":amount", record["amount"].toDouble());
+    query.bindValue(":number", record["invoice_number"].toString());
+
+    if (!query.exec())
+    {
+        qDebug() << "Failed to update invoice: " << record["invoice_number"].toString() << " error: " << query.lastError();
+    }
+}
+
+QString InvoiceDao::lastInvoiceNumber() const
 {
     QString number = "";
     QSqlQuery query(mDatabase);
@@ -159,3 +176,76 @@ QString spce_core::InvoiceDao::lastInvoiceNumber() const
 
     return number;
 }
+
+QVector<QMap<QString, QVariant> > InvoiceDao::getInvoices() const
+{
+   QVector<QMap<QString, QVariant>> data;
+    QSqlQuery query(mDatabase);
+    QString queryString = R"(
+        SELECT invoice.number AS invoice_number, quantity, amount, i_date, spce_ship.type as ship_type, spce_ship.name AS ship_name, flag, flag_url, commissionnaire.denomination AS denom
+        FROM invoice
+        INNER JOIN bsd ON invoice.id = bsd.f_invoice
+        INNER JOIN commissionnaire ON commissionnaire.id = bsd.f_comm
+        INNER JOIN driver ON driver.id = bsd.f_driver
+        INNER JOIN spce_ship ON spce_ship.id = invoice.f_ship
+        ORDER BY invoice.id DESC
+    )";
+
+    if (query.exec(queryString))
+    {
+        while (query.next()) {
+            data.push_back(queryToMap(query));
+        }
+    }
+
+    else
+    {
+        qWarning() << "Could not get invoices from db : " << query.lastError().text();
+    }
+
+    return data;
+}
+
+QVector<QPair<QString, int> > InvoiceDao::getShipTypeDistro() const
+{
+    QVector<QPair<QString, int>> distros;
+    QSqlQuery query(mDatabase);
+    QString queryString = R"(
+        SELECT type, count(*) AS count from invoice
+        INNER JOIN spce_ship ON spce_ship.id = invoice.f_ship
+        GROUP BY type ORDER BY count DESC;
+
+    )";
+
+    if (query.exec(queryString))
+    {
+        while (query.next())
+        {
+            distros.append(
+                {
+                    {query.value("type").toString(), query.value("count").toInt()}
+                }
+            );
+        }
+    }
+
+    else
+        qDebug() << "Could not get ship type distribution from db: " << query.lastError();
+
+    return distros;
+}
+
+QMap<QString, QVariant> InvoiceDao::queryToMap(const QSqlQuery &query) const
+{
+    QMap<QString, QVariant> map;
+    QSqlRecord record = query.record();
+    for (int i = 0; i < record.count(); i++)
+    {
+        map[record.fieldName(i)] = query.value(i);
+    }
+    return map;
+}
+
+} // namespace spce_core
+
+

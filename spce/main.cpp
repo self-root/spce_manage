@@ -1,12 +1,14 @@
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include "corecontroller.h"
 #include "uicontroller.h"
+#include <QLocale>
 
 int main(int argc, char *argv[])
 {
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
+    QLocale::setDefault(QLocale::English);
     QCoreApplication::setApplicationName("SPCE manage");
     QCoreApplication::setOrganizationName("iroot");
     QQmlApplicationEngine engine;

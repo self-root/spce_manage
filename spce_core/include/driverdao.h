@@ -18,6 +18,7 @@ public:
 public:
     void init() const override;
     Driver get(int id) const override;
+    Driver get(const QString &name) const;
     void add(Driver &record) const override;
     QVector<Driver> getAll() const override;
     void update(const Driver &record) const override;

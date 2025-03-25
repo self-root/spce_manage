@@ -8,6 +8,9 @@
 #include "documentformmodel.h"
 #include "documentwriter.h"
 #include "shiplistmodel.h"
+#include "invoicetablemodel.h"
+#include "revenuechartmodel.h"
+#include "chartmodel.h"
 
 namespace spce_core {
 
@@ -17,6 +20,9 @@ class SPCE_CORE_EXPORT CoreController : public QObject
     Q_PROPERTY(ScheduleListModel *scheduleListModel READ scheduleListModel CONSTANT)
     Q_PROPERTY(DocumentFormModel *documentFormModel READ documentFormModel CONSTANT FINAL)
     Q_PROPERTY(ShipListModel *shipListModel READ shipListModel CONSTANT FINAL)
+    Q_PROPERTY(InvoiceTableModel *invoiceTableModel READ invoiceTableModel CONSTANT FINAL)
+    Q_PROPERTY(RevenueChartModel *revenueChartModel READ revenueChartModel CONSTANT FINAL)
+    Q_PROPERTY(ChartModel *chartModel READ chartModel CONSTANT FINAL)
     Q_PROPERTY(bool fetchingShip READ fetchingShip WRITE setFetchingShip NOTIFY fetchingShipChanged FINAL)
     Q_PROPERTY(QString flagDir READ flagDir CONSTANT FINAL)
 
@@ -33,21 +39,27 @@ public:
 
     QString flagDir() const;
 
+    InvoiceTableModel *invoiceTableModel() const;
+
+    RevenueChartModel *revenueChartModel() const;
+
+    ChartModel *chartModel() const;
+
 private:
     APICaller *mApiCaller = nullptr;
     ScheduleListModel *mScheduleListModel = nullptr;
     DocumentFormModel *mDocumentFormModel = nullptr;
     DocumentWriter *mDocumentWriter = nullptr;
     ShipListModel *mShipListModel = nullptr;
+    InvoiceTableModel *mInvoiceTableModel = nullptr;
+    RevenueChartModel *mRevenueChartModel = nullptr;
+    ChartModel *mChartModel = nullptr;
 
     void openDocumentFolder(const QString &path);
     std::wstring toWideString(const std::string &str);
 
     bool mFetchingShip = false;
     QString mFlagDir;
-
-
-
 
 private slots:
     void onDocumentsCreated(const QString &documentPath);

@@ -7,6 +7,7 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QtLogging>
+#include <QSqlQuery>
 
 namespace spce_core {
 DatabaseManager *DatabaseManager::_instance = nullptr;
@@ -31,6 +32,9 @@ DatabaseManager::DatabaseManager()
     }
 
     else {
+        QSqlQuery query;
+        query.exec("PRAGMA foreign_keys = ON;");
+        qDebug() << "Foreign key support enabled!";
         mShipDao.init();
         mCommissionnaireDao.init();
         mCollecteurDao.init();

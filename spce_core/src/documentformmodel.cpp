@@ -32,7 +32,6 @@ DocumentFormModel::DocumentFormModel(APICaller *api, QObject *parent)
     eliminateurListModel->getDataFromDb();
     currentEliminateur = eliminateurListModel->firstEntity();
     setEliminateurPropertyValues();
-
     QObject::connect(mApi, &APICaller::shipFetched, this, &DocumentFormModel::onShipDetailFetched);
 }
 
@@ -264,7 +263,14 @@ void DocumentFormModel::createDocuments(const QVariantMap &form_data)
 
     Driver driver(form_data["driver"].toString(), currentDriver.id());
     if (!driver.nom().isEmpty())
-        driverNameListModel->addOrUpdate(driver);
+    {
+        Driver d = DatabaseManager::instance()->mDriverDao.get(driver.nom());
+        qDebug() << "Driver: " << d.nom();
+        qDebug() << "Driver: " << driver.nom();
+        if (d.id() < 0)
+            DatabaseManager::instance()->mDriverDao.add(driver);
+        driverNameListModel->getDataFromDb();
+    }
 
     Vehicle vehicle(
         m_vehicleType,
@@ -287,16 +293,7 @@ void DocumentFormModel::createDocuments(const QVariantMap &form_data)
         eliminateurListModel->addOrUpdate(eliminateur);
     terminalListModel->addIfNotExist(form_data["terminal"].toString());
 
-    BSD bsd(
-        comm,
-        coll,
-        eliminateur,
-        driver,
-        vehicle,
-        currentShip,
-        form_data["document_date"].toDate()
-    );
-    DatabaseManager::instance()->getDao<BSD>().add(bsd);
+
 
     Invoice invoice(
         QString::fromStdString(data["invoice_number"]),
@@ -309,6 +306,18 @@ void DocumentFormModel::createDocuments(const QVariantMap &form_data)
     );
 
     DatabaseManager::instance()->mInvoiceDao.add(invoice);
+
+    BSD bsd(
+        comm,
+        coll,
+        eliminateur,
+        driver,
+        vehicle,
+        currentShip,
+        form_data["document_date"].toDate(),
+        invoice.id()
+        );
+    DatabaseManager::instance()->getDao<BSD>().add(bsd);
 }
 
 QString DocumentFormModel::formatDate(const QDate &date)

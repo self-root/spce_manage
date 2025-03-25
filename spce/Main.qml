@@ -16,7 +16,12 @@ ApplicationWindow {
         function onGoSchedulePage(){
             console.log("Scheduling...")
             stackView.replace("qrc:/pages/SchedulePage.qml")
-            operationBtn.current = false
+            invoiceBtn.current = false
+        }
+        function onGoInvoicePage() {
+            controller.invoiceTableModel.loadData()
+            stackView.replace("qrc:/pages/Invoices.qml")
+            scheduleBtn.current = false
         }
     }
 
@@ -63,8 +68,8 @@ ApplicationWindow {
                         onClicked: uicontroller.scheduleMenuBtnClic()
                     }
 
-                    /*MenuButton{
-                        id: operationBtn
+                    MenuButton{
+                        id: invoiceBtn
                         anchors.top: scheduleBtn.bottom
                         anchors.left: parent.left
                         anchors.topMargin: 4
@@ -73,9 +78,9 @@ ApplicationWindow {
                         width: parent.width - 10
                         iconNormal: "qrc:/images/images/business-model-normal.png"
                         iconHover: "qrc:/images/images/business-model-hover.png"
-                        text: "Operation page"
-                        onClicked: uicontroller.operationMenuBtnClic()
-                    }*/
+                        text: "Invoices"
+                        onClicked: uicontroller.invoiceBtnClick()
+                    }
                 }
             }
         }
