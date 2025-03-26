@@ -61,8 +61,8 @@ ApplicationWindow {
                         anchors.leftMargin: 3
                         height: 40
                         width: parent.width - 10
-                        iconNormal: "qrc:/images/images/icons8-schedule-100-normal.png"
-                        iconHover: "qrc:/images/images/icons8-schedule-100-hover.png"
+                        iconNormal: "qrc:/images/images/calendar_normal.png"
+                        iconHover: "qrc:/images/images/calendar_hover.png"
                         text: "Schedule"
                         current: true
                         onClicked: uicontroller.scheduleMenuBtnClic()
@@ -72,12 +72,12 @@ ApplicationWindow {
                         id: invoiceBtn
                         anchors.top: scheduleBtn.bottom
                         anchors.left: parent.left
-                        anchors.topMargin: 4
+                        anchors.topMargin: 6
                         anchors.leftMargin: 3
                         height: 40
                         width: parent.width - 10
-                        iconNormal: "qrc:/images/images/business-model-normal.png"
-                        iconHover: "qrc:/images/images/business-model-hover.png"
+                        iconNormal: "qrc:/images/images/invoice_normal.png"
+                        iconHover: "qrc:/images/images/invoice_hover.png"
                         text: "Invoices"
                         onClicked: uicontroller.invoiceBtnClick()
                     }

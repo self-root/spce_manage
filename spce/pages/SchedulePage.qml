@@ -398,8 +398,9 @@ Page {
                         anchors.fill: rectDelegate
                         horizontalOffset: 0
                         verticalOffset: 0
-                        radius: 8
-                        samples: 25
+                        radius: 5
+                        //samples: 25
+                        spread: 0.4
                         color: index === scheduleList.currentIndex ? "#070433": "grey"
                     }
                     Rectangle{

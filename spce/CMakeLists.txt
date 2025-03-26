@@ -42,11 +42,7 @@ qt_add_resources(appspce "images"
     PREFIX "/images"
     FILES
         images/spce.png
-        images/icons8-schedule-100-normal.png
-        images/icons8-schedule-100-hover.png
         images/ship-steering.png
-        images/business-model-hover.png
-        images/business-model-normal.png
         images/reload.png
         images/invoice_incon1.png
         images/money.png
@@ -54,6 +50,10 @@ qt_add_resources(appspce "images"
         images/file-pdf.png
         images/ui-edit.png
         images/ui-delete.png
+        images/invoice_hover.png
+        images/invoice_normal.png
+        images/calendar_normal.png
+        images/calendar_hover.png
 )
 
 qt_add_resources(appspce "fonts"

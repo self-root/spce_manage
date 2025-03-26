@@ -100,7 +100,7 @@ Item {
                             source: bgBox
                             horizontalOffset: 0
                             verticalOffset: 0
-                            radius: 3
+                            radius: 2
                             color: date_field.focus ? Style.boxShadowActive : Style.boxShadow
                         }
 
