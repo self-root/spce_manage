@@ -299,8 +299,12 @@ void DocumentFormModel::createDocuments(const QVariantMap &form_data)
     {
         Driver d = DatabaseManager::instance()->mDriverDao.get(driver.nom());
         if (d.id() < 0)
+        {
             DatabaseManager::instance()->mDriverDao.add(driver);
-        driverNameListModel->getDataFromDb();
+            driverNameListModel->getDataFromDb();
+        }
+        driver = d;
+
     }
 
     Vehicle vehicle(
