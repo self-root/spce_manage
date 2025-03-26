@@ -134,7 +134,7 @@ QVector<Eliminateur> EliminateurDao::getAll() const
 {
     QSqlQuery query(mDatabase);
     QVector<Eliminateur> eliminateurs;
-    if (query.exec("SELECT * FROM eliminateur"))
+    if (query.exec("SELECT * FROM eliminateur ORDER BY id DESC"))
     {
         while (query.next())
         {

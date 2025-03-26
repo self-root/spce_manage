@@ -126,7 +126,7 @@ QVector<Commissionnaire> CommissionnaireDao::getAll() const
 {
     QSqlQuery query(mDatabase);
     QVector<Commissionnaire> commissionnaires;
-    if (query.exec("SELECT * FROM commissionnaire"))
+    if (query.exec("SELECT * FROM commissionnaire ORDER BY id DESC"))
     {
         while (query.next())
         {

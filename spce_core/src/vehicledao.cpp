@@ -80,7 +80,7 @@ QVector<Vehicle> VehicleDao::getAll() const
     QVector<Vehicle> vehicles;
 
     QSqlQuery query(mDatabase);
-    if (query.exec("SELECT * FROM vehicle"))
+    if (query.exec("SELECT * FROM vehicle ORDER BY id DESC"))
     {
         while (query.next())
         {

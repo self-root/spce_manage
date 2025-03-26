@@ -132,7 +132,7 @@ QVector<Collecteur> CollecteurDao::getAll() const
 {
     QSqlQuery query(mDatabase);
     QVector<Collecteur> collecteurs;
-    if (query.exec("SELECT * FROM collecteur"))
+    if (query.exec("SELECT * FROM collecteur ORDER BY id DESC"))
     {
         while (query.next())
         {
