@@ -8,6 +8,7 @@ import "../components"
 
 Page {
     id: page
+    Material.accent: Style.primary
     Rectangle{
         anchors.fill: parent
         /*gradient: Gradient{
@@ -854,8 +855,10 @@ Page {
                                         }
                                     }
 
-                                    LineEdit{
+                                    MultiLine{
                                         Layout.margins: 10
+                                        Layout.maximumHeight: 60
+                                        Layout.maximumWidth: 250
                                         label: "Adresse"
                                         icon: "\uf3c5"
                                         text: controller.documentFormModel.commAddress
@@ -930,8 +933,10 @@ Page {
                                         }
                                     }
 
-                                    LineEdit{
+                                    MultiLine{
                                         Layout.margins: 10
+                                        Layout.maximumHeight: 60
+                                        Layout.maximumWidth: 250
                                         label: "Adresse"
                                         icon: "\uf3c5"
                                         text: controller.documentFormModel.collAddress
@@ -1034,8 +1039,10 @@ Page {
                                         }
                                     }
 
-                                    LineEdit{
+                                    MultiLine{
                                         Layout.margins: 10
+                                        Layout.maximumHeight: 60
+                                        Layout.maximumWidth: 250
                                         label: "Adresse"
                                         icon: "\uf3c5"
                                         text: controller.documentFormModel.elimAddress

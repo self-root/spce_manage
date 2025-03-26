@@ -39,6 +39,7 @@ qt_add_qml_module(appspce
         "components/MComboBox.qml"
         "components/DatePicker.qml"
         "components/TextIconBtn.qml"
+        "components/MultiLine.qml"
 )
 
 qt_add_resources(appspce "images"
