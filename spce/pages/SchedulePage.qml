@@ -739,17 +739,28 @@ Page {
                                         }
 
                                         Row{
-                                            spacing: 12
-                                            DatePicker{
+                                            spacing: 6
+                                            Text {
+                                                text: qsTr("From")
+                                                verticalAlignment: Text.AlignVCenter
+                                                color: Style.textColor
+                                                height: 40
+                                            }
+                                            DateChooser{
                                                 id: start_date
                                                 Layout.margins: 10
-                                                label: "From"
                                             }
 
-                                            DatePicker{
+                                            Text {
+                                                text: qsTr("to")
+                                                verticalAlignment: Text.AlignVCenter
+                                                color: Style.textColor
+                                                height: 40
+                                            }
+
+                                            DateChooser{
                                                 id: end_date
                                                 Layout.margins: 10
-                                                label: "to"
                                             }
                                         }
                                     }
@@ -801,12 +812,19 @@ Page {
                                         label: "Amount"
                                         icon: "$"
                                     }
-
-                                    DatePicker{
-                                        id: document_date
+                                    Column{
                                         Layout.margins: 10
-                                        label: "Date"
+                                        spacing: 3
+                                        Text {
+                                            text: qsTr("Date")
+                                            color: Style.textColor
+                                        }
+                                        DateChooser{
+                                            id: document_date
+                                        }
                                     }
+
+
                                 }
                             }
                         }

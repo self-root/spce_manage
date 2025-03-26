@@ -25,6 +25,8 @@ class SPCE_CORE_EXPORT CoreController : public QObject
     Q_PROPERTY(ChartModel *chartModel READ chartModel CONSTANT FINAL)
     Q_PROPERTY(bool fetchingShip READ fetchingShip WRITE setFetchingShip NOTIFY fetchingShipChanged FINAL)
     Q_PROPERTY(QString flagDir READ flagDir CONSTANT FINAL)
+    Q_PROPERTY(QDate startDate READ startDate WRITE setStartDate NOTIFY startDateChanged FINAL)
+    Q_PROPERTY(QDate endDate READ endDate WRITE setEndDate NOTIFY endDateChanged FINAL)
 
 public:
     explicit CoreController(QObject *parent = nullptr);
@@ -45,6 +47,12 @@ public:
 
     ChartModel *chartModel() const;
 
+    QDate startDate() const;
+    void setStartDate(const QDate &newStartDate);
+
+    QDate endDate() const;
+    void setEndDate(const QDate &newEndDate);
+
 private:
     APICaller *mApiCaller = nullptr;
     ScheduleListModel *mScheduleListModel = nullptr;
@@ -61,6 +69,9 @@ private:
     bool mFetchingShip = false;
     QString mFlagDir;
 
+    QDate mStartDate;
+    QDate mEndDate;
+
 private slots:
     void onDocumentsCreated(const QString &documentPath);
 
@@ -68,6 +79,8 @@ private slots:
 
 signals:
     void fetchingShipChanged();
+    void startDateChanged();
+    void endDateChanged();
 };
 } // namespace spce_core
 

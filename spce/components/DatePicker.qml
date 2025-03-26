@@ -11,16 +11,17 @@ Item {
     property alias text: textField.text
     property alias label: textFieldLabel.text
     property var selected_date : new Date()
+    signal newDate(var date)
     width: w
     height: h
     Connections{
         target: calendar
         function onDateSelected(date)
         {
-            console.log(date)
             textField.text = date.toLocaleString(Qt.locale("fr_FR"), "dd/MM/yyyy")
             calendarPopup.close()
             selected_date = date
+            newDate(date)
         }
     }
 
@@ -80,9 +81,8 @@ Item {
                 }
             }
 
-
-
             onPressed: {
+                calendar.setCurrentDate(new Date(2027, 1, 2))
                 calendarPopup.open()
             }
 

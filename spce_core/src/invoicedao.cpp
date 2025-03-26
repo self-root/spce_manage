@@ -68,7 +68,7 @@ Invoice InvoiceDao::get(int id) const
                 query.value("amount").toDouble(),
                 ship,
                 query.value("item").toString(),
-                QDate::fromString(query.value("i_date").toString(), "dd-MM-yyyy"),
+                QDate::fromString(query.value("i_date").toString(), "yyyy-MM-dd"),
                 query.value("invoice.id").toInt()
             );
         }
@@ -95,7 +95,7 @@ void InvoiceDao::add(Invoice &record) const
     query.bindValue(":amount", record.amount());
     query.bindValue(":f_ship", record.ship().id());
     query.bindValue(":item", record.item());
-    query.bindValue(":date", record.date().toString("dd-MM-yyyy"));
+    query.bindValue(":date", record.date().toString("yyyy-MM-dd"));
 
     if (query.exec())
         record.setId(query.lastInsertId().toInt());
@@ -131,7 +131,46 @@ QVector<Invoice> InvoiceDao::getAll() const
             query.value("amount").toDouble(),
             ship,
             query.value("item").toString(),
-            QDate::fromString(query.value("i_date").toString(), "dd-MM-yyyy"),
+            QDate::fromString(query.value("i_date").toString(), "yyyy-MM-dd"),
+            query.value("invoice.id").toInt()
+            ));
+    }
+
+    return invoices;
+}
+
+QVector<Invoice> InvoiceDao::getAllWithDateRange(const QDate &start, const QDate &end) const
+{
+    QVector<Invoice> invoices;
+    QSqlQuery query(mDatabase);
+    query.prepare(R"(
+        SELECT * FROM invoice
+        INNER JOIN spce_ship
+        ON spce_ship.id = invoice.f_ship
+        INNER JOIN bsd ON invoice.id = bsd.f_invoice
+        WHERE i_date BETWEEN :start_date AND :end_date
+        ORDER BY invoice.i_date DESC
+    )");
+    query.bindValue(":start_date", start.toString(Qt::ISODate));
+    query.bindValue(":end_date", end.toString(Qt::ISODate));
+    if (!query.exec())
+        qWarning() << "Unable to read invoices from db: " << query.lastError().text();
+
+    while (query.next())
+    {
+        Ship ship;
+        ship.setId(query.value("spce_ship.id").toInt());
+        ship.setImo(query.value("imo").toString());
+        ship.setName(query.value("name").toString());
+
+        invoices.append(Invoice(
+            query.value("number").toString(),
+            query.value("quantity").toDouble(),
+            query.value("unitPrice").toDouble(),
+            query.value("amount").toDouble(),
+            ship,
+            query.value("item").toString(),
+            QDate::fromString(query.value("i_date").toString(), "yyyy-MM-dd"),
             query.value("invoice.id").toInt()
             ));
     }
@@ -177,21 +216,24 @@ QString InvoiceDao::lastInvoiceNumber() const
     return number;
 }
 
-QVector<QMap<QString, QVariant> > InvoiceDao::getInvoices() const
+QVector<QMap<QString, QVariant> > InvoiceDao::getInvoices(const QDate &start, const QDate &end) const
 {
-   QVector<QMap<QString, QVariant>> data;
+    QVector<QMap<QString, QVariant>> data;
     QSqlQuery query(mDatabase);
-    QString queryString = R"(
+    query.prepare(R"(
         SELECT invoice.number AS invoice_number, quantity, amount, i_date, spce_ship.type as ship_type, spce_ship.name AS ship_name, flag, flag_url, commissionnaire.denomination AS denom
         FROM invoice
         INNER JOIN bsd ON invoice.id = bsd.f_invoice
         INNER JOIN commissionnaire ON commissionnaire.id = bsd.f_comm
         INNER JOIN driver ON driver.id = bsd.f_driver
         INNER JOIN spce_ship ON spce_ship.id = invoice.f_ship
-        ORDER BY invoice.id DESC
-    )";
+        WHERE i_date BETWEEN :start_date AND :end_date
+        ORDER BY invoice.i_date DESC
+    )");
+    query.bindValue(":start_date", start.toString(Qt::ISODate));
+    query.bindValue(":end_date", end.toString(Qt::ISODate));
 
-    if (query.exec(queryString))
+    if (query.exec())
     {
         while (query.next()) {
             data.push_back(queryToMap(query));
@@ -206,18 +248,21 @@ QVector<QMap<QString, QVariant> > InvoiceDao::getInvoices() const
     return data;
 }
 
-QVector<QPair<QString, int> > InvoiceDao::getShipTypeDistro() const
+QVector<QPair<QString, int> > InvoiceDao::getShipTypeDistro(const QDate &start, const QDate &end) const
 {
     QVector<QPair<QString, int>> distros;
     QSqlQuery query(mDatabase);
-    QString queryString = R"(
+    query.prepare(R"(
         SELECT type, count(*) AS count from invoice
         INNER JOIN spce_ship ON spce_ship.id = invoice.f_ship
+        WHERE i_date BETWEEN :start_date AND :end_date
         GROUP BY type ORDER BY count DESC;
 
-    )";
+    )");
+    query.bindValue(":start_date", start.toString(Qt::ISODate));
+    query.bindValue(":end_date", end.toString(Qt::ISODate));
 
-    if (query.exec(queryString))
+    if (query.exec())
     {
         while (query.next())
         {

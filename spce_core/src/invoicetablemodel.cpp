@@ -7,7 +7,10 @@
 namespace spce_core {
 InvoiceTableModel::InvoiceTableModel(QObject *parent)
     : QAbstractTableModel(parent), writer(new DocumentWriter)
-{}
+{
+    mStartDate = QDate(QDate::currentDate().year(), 1, 1);
+    mEndDate = QDate(QDate::currentDate().year(), 12, 31);
+}
 
 QVariant InvoiceTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
@@ -93,7 +96,7 @@ QHash<int, QByteArray> InvoiceTableModel::roleNames() const
 void InvoiceTableModel::loadData()
 {
     beginResetModel();
-    invoices = DatabaseManager::instance()->mInvoiceDao.getInvoices();
+    invoices = DatabaseManager::instance()->mInvoiceDao.getInvoices(mStartDate, mEndDate);
     endResetModel();
     computeTotals();
     setInvoiceCount(invoices.size());
@@ -190,6 +193,35 @@ void InvoiceTableModel::toPDF(const QString &invoiceNumber)
             break;
         }
     }
+}
+
+QDate InvoiceTableModel::startDate() const
+{
+    return mStartDate;
+}
+
+void InvoiceTableModel::setStartDate(const QDate &newStartDate)
+{
+    if (mStartDate == newStartDate)
+        return;
+    mStartDate = newStartDate;
+    emit startDateChanged();
+    loadData();
+    qDebug() << __FUNCTION__ << " New start date: " << newStartDate;
+}
+
+QDate InvoiceTableModel::endDate() const
+{
+    return mEndDate;
+}
+
+void InvoiceTableModel::setEndDate(const QDate &newEndDate)
+{
+    if (mEndDate == newEndDate)
+        return;
+    mEndDate = newEndDate;
+    emit endDateChanged();
+    loadData();
 }
 
 void InvoiceTableModel::computeTotals()

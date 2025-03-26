@@ -40,6 +40,7 @@ qt_add_qml_module(appspce
         "components/DatePicker.qml"
         "components/TextIconBtn.qml"
         "components/MultiLine.qml"
+        "components/DateChooser.qml"
 )
 
 qt_add_resources(appspce "images"

@@ -7,6 +7,24 @@ Item {
     property alias h: root.height
     signal dateSelected(var date)
 
+    function setCurrentDate(date){
+        if (!date || !(date instanceof Date)) {
+                console.warn("Invalid date passed to setCurrentDate");
+                return;
+            }
+
+            calendar.currentYear = date.getFullYear();
+            calendar.currentMonth = date.getMonth();
+            calendar.currentDay = date.getDate();
+            calendar.week = date.getDay();
+
+            // Update the calendar model
+            calendarModel.setYear(calendar.currentYear);
+
+            // Ensure the ListView updates to show the correct month
+            calendar.positionViewAtIndex(calendar.currentMonth, ListView.SnapToItem);
+    }
+
     readonly property double mm: Screen.pixelDensity
     width: mainForm.width
     height: mainForm.height
@@ -170,10 +188,10 @@ Item {
                 }
             }
 
-            property int currentDay: new Date().getDate()
-            property int currentMonth: new Date().getMonth()
-            property int currentYear: new Date().getFullYear()
-            property int week: new Date().getDay()
+            property int currentDay
+            property int currentMonth
+            property int currentYear
+            property int week
             property var months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
             property var weekNames: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
@@ -256,7 +274,10 @@ Item {
             }
 
 
-            Component.onCompleted: goToLastPickedDate()
+            Component.onCompleted:
+            {
+                goToLastPickedDate()
+            }
             function goToLastPickedDate() {
                 positionViewAtIndex(calendar.currentMonth, ListView.SnapToItem)
             }

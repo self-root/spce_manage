@@ -2,13 +2,15 @@
 #define REVENUECHARTMODEL_H
 
 #include <QAbstractListModel>
+#include <QDate>
 #include "spce_core_global.h"
 
 namespace spce_core {
 class SPCE_CORE_EXPORT RevenueChartModel : public QAbstractListModel
 {
     Q_OBJECT
-
+    Q_PROPERTY(QDate startDate READ startDate WRITE setStartDate NOTIFY startDateChanged FINAL)
+    Q_PROPERTY(QDate endDate READ endDate WRITE setEndDate NOTIFY endDateChanged FINAL)
 public:
     struct RevenueChart
     {
@@ -36,9 +38,20 @@ public:
 
     Q_INVOKABLE QVariant dataAt(int row, int role) const;
 
+    QDate startDate() const;
+    void setStartDate(const QDate &newStartDate);
+
+    QDate endDate() const;
+    void setEndDate(const QDate &newEndDate);
+
+signals:
+    void startDateChanged();
+
+    void endDateChanged();
+
 private:
-    std::vector<std::pair<int, double>> revenueData;
-    std::vector<std::pair<int, double>> garbageAmountData;
+    std::vector<std::pair<QDate, double>> revenueData;
+    std::vector<std::pair<QDate, double>> garbageAmountData;
     QHash<int, QString> months{
        {1, "January"},
        { 2 , "February"},
@@ -53,6 +66,9 @@ private:
        {11 , "November"},
        {12 , "December"},
     };
+    QDate mStartDate;
+    QDate mEndDate;
+    bool addYear = false;
 
 };
 } // namespace spce_core

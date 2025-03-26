@@ -3,6 +3,7 @@
 
 #include "spce_core_global.h"
 #include <QAbstractTableModel>
+#include <QDate>
 //#include "documentwriter.h"
 
 namespace spce_core {
@@ -12,6 +13,9 @@ class SPCE_CORE_EXPORT InvoiceTableModel : public QAbstractTableModel
     Q_OBJECT
     Q_PROPERTY(double totalAmount READ totalAmount WRITE setTotalAmount NOTIFY totalAmountChanged FINAL)
     Q_PROPERTY(double totalGarbage READ totalGarbage WRITE setTotalGarbage NOTIFY totalGarbageChanged FINAL)
+    Q_PROPERTY(int invoiceCount READ invoiceCount WRITE setInvoiceCount NOTIFY invoiceCountChanged FINAL)
+    Q_PROPERTY(QDate startDate READ startDate WRITE setStartDate NOTIFY startDateChanged FINAL)
+    Q_PROPERTY(QDate endDate READ endDate WRITE setEndDate NOTIFY endDateChanged FINAL)
 public:
     explicit InvoiceTableModel(QObject *parent = nullptr);
 
@@ -47,6 +51,12 @@ public:
 
     Q_INVOKABLE void toPDF(const QString &invoiceNumber);
 
+    QDate startDate() const;
+    void setStartDate(const QDate &newStartDate);
+
+    QDate endDate() const;
+    void setEndDate(const QDate &newEndDate);
+
 signals:
     void totalAmountChanged();
 
@@ -58,17 +68,20 @@ signals:
 
     void invoicePDFCreated(const QString &filePath);
 
+    void startDateChanged();
+
+    void endDateChanged();
+
 private:
     QVector<QMap<QString, QVariant>> invoices;
     double mTotalAmount = 0.0;
     double mTotalGarbage = 0.0;
     int mInvoiceCount = 0;
     DocumentWriter *writer;
+    QDate mStartDate;
+    QDate mEndDate;
 
     void computeTotals();
-
-
-    Q_PROPERTY(int invoiceCount READ invoiceCount WRITE setInvoiceCount NOTIFY invoiceCountChanged FINAL)
 };
 } // namespace spce_core
 

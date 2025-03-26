@@ -5,7 +5,10 @@
 namespace spce_core {
 RevenueChartModel::RevenueChartModel(QObject *parent)
     : QAbstractListModel(parent)
-{}
+{
+    mStartDate = QDate(QDate::currentDate().year(), 1, 1);
+    mEndDate = QDate(QDate::currentDate().year(), 12, 31);
+}
 
 int RevenueChartModel::rowCount(const QModelIndex &parent) const
 {
@@ -17,10 +20,10 @@ QVariant RevenueChartModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    std::pair<int, double> pair = revenueData.at(index.row());
+    std::pair<QDate, double> pair = revenueData.at(index.row());
     switch (role) {
     case MonthRole:
-        return months[pair.first];
+        return pair.first;
     case AmountRole:
         return  pair.second;
     default:
@@ -42,14 +45,16 @@ QHash<int, QByteArray> RevenueChartModel::roleNames() const
 void RevenueChartModel::loadData()
 {
     // Group revenue bu month
-    QVector<Invoice> invoices = DatabaseManager::instance()->mInvoiceDao.getAll();
-    std::map<int, double> rev_data;
-    std::map<int, double> garbageAmount;
+    QVector<Invoice> invoices = DatabaseManager::instance()->mInvoiceDao.getAllWithDateRange(mStartDate, mEndDate);
+    std::map<QDate, double> rev_data;
+    std::map<QDate, double> garbageAmount;
     beginResetModel();
     revenueData.clear();
     garbageAmountData.clear();
+    addYear = mStartDate.year() != mEndDate.year();
     for (int i = 0; i < invoices.size(); i++) {
-        int month = invoices.at(i).date().month();
+        QDate date = invoices.at(i).date();
+        QDate month = addYear ? QDate(date.year(), date.month(), 1) : QDate(2000, date.month(), 1);
         rev_data[month] += invoices.at(i).amount();
         garbageAmount[month] += invoices.at(i).quantity();
     }
@@ -61,10 +66,13 @@ void RevenueChartModel::loadData()
 
 QVariant RevenueChartModel::dataAt(int row, int role) const
 {
-    std::pair<int, double> pair = revenueData.at(row);
+    std::pair<QDate, double> pair = revenueData.at(row);
     switch (role) {
     case MonthRole:
-        return months[pair.first];
+        if (addYear)
+            return pair.first.toString("MMM-yy");
+        else
+            return pair.first.toString("MMMM");
     case AmountRole:
         return  QVariantList({{pair.second,}});
     case GarbageRole:
@@ -73,6 +81,34 @@ QVariant RevenueChartModel::dataAt(int row, int role) const
         break;
     }
     return QVariant();
+}
+
+QDate RevenueChartModel::startDate() const
+{
+    return mStartDate;
+}
+
+void RevenueChartModel::setStartDate(const QDate &newStartDate)
+{
+    if (mStartDate == newStartDate)
+        return;
+    mStartDate = newStartDate;
+    emit startDateChanged();
+    loadData();
+}
+
+QDate RevenueChartModel::endDate() const
+{
+    return mEndDate;
+}
+
+void RevenueChartModel::setEndDate(const QDate &newEndDate)
+{
+    if (mEndDate == newEndDate)
+        return;
+    mEndDate = newEndDate;
+    emit endDateChanged();
+    loadData();
 }
 } // namespace spce_core
 

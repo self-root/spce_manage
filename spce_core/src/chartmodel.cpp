@@ -4,7 +4,10 @@
 namespace spce_core {
 ChartModel::ChartModel(QObject *parent)
     : QObject{parent}
-{}
+{
+    mStartDate = QDate(QDate::currentDate().year(), 1, 1);
+    mEndDate = QDate(QDate::currentDate().year(), 12, 31);
+}
 
 int ChartModel::shipTypeDistroCount()
 {
@@ -13,7 +16,7 @@ int ChartModel::shipTypeDistroCount()
 
 void ChartModel::loadData()
 {
-    shipTypeDistro = DatabaseManager::instance()->mInvoiceDao.getShipTypeDistro();
+    shipTypeDistro = DatabaseManager::instance()->mInvoiceDao.getShipTypeDistro(mStartDate, mEndDate);
 }
 
 QVariant ChartModel::dataAt(int index, int role)
@@ -31,6 +34,32 @@ QVariant ChartModel::dataAt(int index, int role)
         break;
     }
     return QVariant();
+}
+
+QDate ChartModel::startDate() const
+{
+    return mStartDate;
+}
+
+void ChartModel::setStartDate(const QDate &newStartDate)
+{
+    if (mStartDate == newStartDate)
+        return;
+    mStartDate = newStartDate;
+    emit startDateChanged();
+}
+
+QDate ChartModel::endDate() const
+{
+    return mEndDate;
+}
+
+void ChartModel::setEndDate(const QDate &newEndDate)
+{
+    if (mEndDate == newEndDate)
+        return;
+    mEndDate = newEndDate;
+    emit endDateChanged();
 }
 
 } // namespace spce_core

@@ -88,6 +88,45 @@ Page {
         color: Style.titleTextColor
     }
 
+    RowLayout{
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        anchors.topMargin: 12
+        Text {
+            text: "From"
+        }
+
+        DateChooser{
+            selected_date: controller.startDate
+            onDateSelected: (newDate) => {
+                console.log(newDate)
+                controller.startDate = newDate
+                controller.invoiceTableModel.startDate = newDate
+                controller.revenueChartModel.startDate = newDate
+                controller.chartModel.startDate = newDate
+                loadRevenueBarSeries()
+                loadShipTypeSeriesData()
+            }
+        }
+        Text {
+            text: "to"
+        }
+
+        DateChooser{
+            selected_date: controller.endDate
+            onDateSelected: (newDate) => {
+                console.log(newDate)
+                controller.endDate = newDate
+                controller.invoiceTableModel.endDate = newDate
+                controller.revenueChartModel.endDate = newDate
+                controller.chartModel.endDate = newDate
+                loadRevenueBarSeries()
+                loadShipTypeSeriesData()
+            }
+        }
+
+    }
+
     ColumnLayout{
         anchors.top: wText.bottom
         anchors.left: parent.left

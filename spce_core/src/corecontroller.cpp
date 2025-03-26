@@ -25,6 +25,8 @@ CoreController::CoreController(QObject *parent)
     QObject::connect(mInvoiceTableModel, &InvoiceTableModel::invoicePDFCreated, this, &CoreController::onDocumentsCreated);
     QObject::connect(mApiCaller, &APICaller::fetchingShip, this, [&](){setFetchingShip(true);});
     QObject::connect(mApiCaller, &APICaller::shipFetched, this, [&](){setFetchingShip(false);});
+    mStartDate = QDate(QDate::currentDate().year(), 1, 1);
+    mEndDate = QDate(QDate::currentDate().year(), 12, 31);
 }
 
 ScheduleListModel *CoreController::scheduleListModel() const
@@ -50,6 +52,33 @@ std::wstring CoreController::toWideString(const std::string &str)
     std::wstring wstr(size_needed, 0);
     MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, &wstr[0], size_needed);
     return wstr;
+}
+
+QDate CoreController::endDate() const
+{
+    return mEndDate;
+}
+
+void CoreController::setEndDate(const QDate &newEndDate)
+{
+    if (mEndDate == newEndDate)
+        return;
+    mEndDate = newEndDate;
+    emit endDateChanged();
+}
+
+QDate CoreController::startDate() const
+{
+    return mStartDate;
+}
+
+void CoreController::setStartDate(const QDate &newStartDate)
+{
+    if (mStartDate == newStartDate)
+        return;
+    mStartDate = newStartDate;
+    emit startDateChanged();
+
 }
 
 QString CoreController::flagDir() const

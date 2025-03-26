@@ -65,7 +65,7 @@ BSD BSDDao::get(int id) const
                 Driver(query.value("f_driver").toInt()),
                 Vehicle(query.value("f_vehicle").toInt()),
                 Ship(query.value("f_ship").toInt()),
-                QDate::fromString(query.value("date").toString(), "dd-MM-yyyy"),
+                QDate::fromString(query.value("date").toString(), "yyyy-MM-dd"),
                 query.value("f_invoice").toInt(),
                 query.value("id").toInt()
             );
@@ -92,7 +92,7 @@ void BSDDao::add(BSD &record) const
     query.bindValue(":f_driver", record.driver().id());
     query.bindValue(":f_vehicle", record.vehicle().id());
     query.bindValue(":f_ship", record.ship().id());
-    query.bindValue(":date", record.date().toString("dd-MM-yyyy"));
+    query.bindValue(":date", record.date().toString("yyyy-MM-dd"));
     query.bindValue(":f_invoice", record.invoiceId());
 
     if (query.exec())
@@ -120,7 +120,7 @@ QVector<BSD> BSDDao::getAll() const
                 Driver(query.value("f_driver").toInt()),
                 Vehicle(query.value("f_vehicle").toInt()),
                 Ship(query.value("f_ship").toInt()),
-                QDate::fromString(query.value("date").toString(), "dd-MM-yyyy"),
+                QDate::fromString(query.value("date").toString(), "yyyy-MM-dd"),
                 query.value("f_invoice").toInt(),
                 query.value("id").toInt()
                 ));
