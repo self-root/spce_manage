@@ -19,6 +19,7 @@ Item {
     }
 
     DropShadow{
+        id: btnShadow
         source: btnRect
         anchors.fill: btnRect
         verticalOffset: 0
@@ -91,6 +92,11 @@ Item {
                         target: icon
                         source: iconHover
                     }
+
+                    PropertyChanges {
+                        target: btnShadow
+                        color: "transparent"
+                    }
                 },
 
                 State {
@@ -110,6 +116,10 @@ Item {
                         source: iconHover
 
                     }
+                    PropertyChanges {
+                        target: btnShadow
+                        color: "transparent"
+                    }
 
 
                 }
@@ -125,6 +135,16 @@ Item {
                         property: "color"
                         duration: 400
                     }
+                    PropertyAnimation{
+                        target: txt
+                        property: "color"
+                        duration: 400
+                    }
+                    PropertyAnimation{
+                        target: btnShadow
+                        property: "color"
+                        duration: 500
+                    }
                 },
                 Transition {
                     from: "hovered"
@@ -134,6 +154,37 @@ Item {
                         target: btnRect
                         property: "color"
                         duration: 400
+                    }
+                    PropertyAnimation{
+                        target: txt
+                        property: "color"
+                        duration: 400
+                    }
+                    PropertyAnimation{
+                        target: btnShadow
+                        property: "color"
+                        duration: 500
+                    }
+                },
+                Transition {
+                    from: "btnSelected"
+                    to: ""
+
+                    PropertyAnimation{
+                        target: btnRect
+                        property: "color"
+                        duration: 400
+                    }
+                    PropertyAnimation{
+                        target: txt
+                        property: "color"
+                        duration: 400
+                    }
+
+                    PropertyAnimation{
+                        target: btnShadow
+                        property: "color"
+                        duration: 500
                     }
                 }
             ]

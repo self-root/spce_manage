@@ -58,9 +58,9 @@ ApplicationWindow {
                         anchors.top: parent.top
                         anchors.left: parent.left
                         anchors.topMargin: 4
-                        anchors.leftMargin: 3
+                        anchors.leftMargin: 10
                         height: 40
-                        width: parent.width - 10
+                        width: parent.width - 20
                         iconNormal: "qrc:/images/images/calendar_normal.png"
                         iconHover: "qrc:/images/images/calendar_hover.png"
                         text: "Schedule"
@@ -72,10 +72,10 @@ ApplicationWindow {
                         id: invoiceBtn
                         anchors.top: scheduleBtn.bottom
                         anchors.left: parent.left
-                        anchors.topMargin: 6
-                        anchors.leftMargin: 3
+                        anchors.topMargin: 12
+                        anchors.leftMargin: 10
                         height: 40
-                        width: parent.width - 10
+                        width: parent.width - 20
                         iconNormal: "qrc:/images/images/invoice_normal.png"
                         iconHover: "qrc:/images/images/invoice_hover.png"
                         text: "Invoices"
