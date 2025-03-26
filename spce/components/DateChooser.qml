@@ -127,29 +127,7 @@ Item {
                         }
                     }
                 }
-
-                /*TapHandler {
-                    onTapped: {
-                        date_picker_trigger = !date_picker_trigger
-                        if (date_picker_trigger)
-                        {
-                            sync_calendar(selected_date)
-                            calendarPopup.open()
-                        }
-                    }
-                }*/
             }
-
-            /*Button {
-                id: date_picker_trigger
-                text: checked ? '▲' : '▼'
-                checkable: true
-                onCheckedChanged: {
-                    if (checked) {
-                        sync_calendar(selected_date)
-                    }
-                }
-            }*/
         }
 
 
@@ -168,16 +146,9 @@ Item {
 
     Popup{
         id: calendarPopup
-        //visible: date_picker_trigger
-        //opened: date_picker_trigger
         width: 260
         height: 340
         y: 45
-        //color: "white"
-        //anchors.right: parent.right
-        //anchors.rightMargin: date_picker_trigger.width
-
-
         ColumnLayout {
             anchors.fill: parent
 
@@ -257,7 +228,6 @@ Item {
                                     color: highlighted? "white" : "black"
                                 }
                                 color: highlighted ? "#2a395a" : "white"
-                                //text: day
                                 highlighted: day === _temp_date.getDate() && selected_date.getMonth() === _temp_date.getMonth() && selected_date.getFullYear() === _temp_date.getFullYear()
                                 MouseArea{
                                     anchors.fill: parent
@@ -285,8 +255,6 @@ Item {
             color: "white"
             Row{
                 id: tumbRow
-                //anchors.fill: parent
-                //anchors.centerIn: parent
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.top
                 Tumbler{
@@ -299,29 +267,10 @@ Item {
                     id: yearTumbler
                     property int start: 1900
                     property int end: 2100
-                    //visible: false
-                    //model: calcModel(start, end)
                     model: yearModel
                     visibleItemCount: 5
                     wrap: false
-
-                    /*delegate: Text {
-                        id: label
-                        text: modelData
-                        color: "black"
-                        font.pointSize: 16
-                        opacity: 1
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }*/
-
                     currentIndex: item.selected_date.getFullYear() - start
-
-                    onCurrentIndexChanged: {
-                        /*var _date = stack.tmp_date
-                        _date.setFullYear(currentIndex + start)
-                        stack.tmp_date = _date*/
-                    }
 
                 }
             }
