@@ -54,6 +54,7 @@ qt_add_resources(appspce "images"
         images/invoice_normal.png
         images/calendar_normal.png
         images/calendar_hover.png
+        images/spce_logo.png
 )
 
 qt_add_resources(appspce "fonts"

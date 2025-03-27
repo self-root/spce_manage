@@ -4,6 +4,7 @@
 #include "corecontroller.h"
 #include "uicontroller.h"
 #include <QLocale>
+#include <QIcon>
 
 int main(int argc, char *argv[])
 {
@@ -11,6 +12,7 @@ int main(int argc, char *argv[])
     QLocale::setDefault(QLocale::English);
     QCoreApplication::setApplicationName("SPCE manage");
     QCoreApplication::setOrganizationName("iroot");
+    app.setWindowIcon(QIcon(":/images/images/spce_logo.png"));
     QQmlApplicationEngine engine;
     spce_core::CoreController controller;
     UIController uiController;
