@@ -200,6 +200,20 @@ void DocumentFormModel::eliminateurAt(int index)
 
 void DocumentFormModel::createDocuments(const QVariantMap &form_data)
 {
+    auto tempShip = DatabaseManager::instance()->mShipDao.getShip(imo());
+    if (tempShip.id() < 0)
+    {
+        tempShip.setImo(imo());
+        tempShip.setName(shipName());
+        tempShip.setCallSign(callSign());
+        tempShip.setFlag(flagState());
+        tempShip.setFlagUrl(flagUrl());
+        tempShip.setTonnage(tonnage());
+        tempShip.setType(shipType());
+        DatabaseManager::instance()->mShipDao.add(tempShip);
+    }
+    currentShip = tempShip;
+
     nlohmann::json data;
     data["type"] = "certificate";
     data["ship_name"] = currentShip.name().toStdString();
@@ -276,8 +290,7 @@ void DocumentFormModel::createDocuments(const QVariantMap &form_data)
     if (!coll.nom().isEmpty())
     {
         Collecteur collecteur = DatabaseManager::instance()->mCollecteurDao.get(coll.nom());
-        qDebug() << "CollF: " << coll.id() << coll.nom() << "addr: " << coll.address() << "tel: " << coll.tel() << " mail: " << coll.email() << "resp: " << coll.responsabble();
-        qDebug() << "CollD: " << collecteur.id() << collecteur.nom() << "addr: " << collecteur.address() << "tel: " << collecteur.tel() << " mail: " << collecteur.email() << "resp: " << collecteur.responsabble();
+
         if (collecteur.id() > 0)
         {
             if (!coll.equal(collecteur))
@@ -368,6 +381,9 @@ void DocumentFormModel::createDocuments(const QVariantMap &form_data)
         invoice.id()
         );
     DatabaseManager::instance()->getDao<BSD>().add(bsd);
+
+    currentShip = Ship();
+    setShipPropertyValues();
 }
 
 QString DocumentFormModel::formatDate(const QDate &date)

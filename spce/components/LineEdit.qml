@@ -10,6 +10,7 @@ Item {
     property alias text: textField.text
     property alias label: textFieldLabel.text
     property alias icon: textIcon.icon
+    property alias fieldValidator: textField.validator
     width: w
     height: h
     signal textUpdated(var text)

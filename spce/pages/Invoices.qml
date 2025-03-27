@@ -41,6 +41,8 @@ Page {
         garbageBarSerie.clear()
         monthAxis.categories = []
         monthGAxis.categories = []
+        revenueYaxis.max = 0
+        garbageYaxis.max = 0
         revenueBarSerie.append("Revenue", [])
         garbageBarSerie.append("Garbage Removed", [])
         revenueBarSerie.at(0).color = Style.buttonDefault

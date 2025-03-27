@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
 import "components"
+import "pages"
 
 
 ApplicationWindow {
@@ -15,12 +16,12 @@ ApplicationWindow {
         target: uicontroller
         function onGoSchedulePage(){
             console.log("Scheduling...")
-            stackView.replace("qrc:/pages/SchedulePage.qml")
+            stackView.replace("qrc:/qt/qml/spce/pages/SchedulePage.qml")
             invoiceBtn.current = false
         }
         function onGoInvoicePage() {
             controller.invoiceTableModel.loadData()
-            stackView.replace("qrc:/pages/Invoices.qml")
+            stackView.replace("qrc:/qt/qml/spce/pages/Invoices.qml")
             scheduleBtn.current = false
         }
     }
@@ -89,7 +90,7 @@ ApplicationWindow {
             id: stackView
             Layout.fillHeight: true
             Layout.fillWidth: true
-            initialItem: "qrc:/pages/SchedulePage.qml"
+            initialItem: "qrc:/qt/qml/spce/pages/SchedulePage.qml"
         }
 
         DropShadow{

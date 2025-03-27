@@ -22,7 +22,6 @@ set_source_files_properties(Style.qml
 qt_add_qml_module(appspce
     URI spce
     VERSION 1.0
-    NO_RESOURCE_TARGET_PATH
     QML_FILES
         "Main.qml"
         "Style.qml"

@@ -539,6 +539,8 @@ Page {
                                     "invoice_amount": invoiceAmount.text
                                 }
                             )
+                            invoiceAmount.text = ""
+                            invoiceQuantity.text = ""
                         }
 
 
@@ -616,6 +618,11 @@ Page {
                                         label: "IMO Number"
                                         text: controller.documentFormModel.imo
                                         icon: "\uf002"
+                                        fieldValidator: IntValidator{
+                                            bottom: 1000000
+                                            top: 9999999
+                                        }
+
                                         onTextUpdated: controller.documentFormModel.imo = imoNumberEdit.text
                                         onInputAccepted: (content) => {
                                             controller.documentFormModel.getShip(content)
@@ -633,15 +640,20 @@ Page {
                                     }
 
                                     LineEdit{
+                                        id: tonnageEdit
                                         Layout.margins: 10
                                         label: "Gross tonnage"
+                                        fieldValidator: IntValidator{}
                                         text: controller.documentFormModel.tonnage
+                                        onTextChanged: controller.documentFormModel.tonnage = tonnageEdit.text
                                     }
 
                                     LineEdit{
+                                        id: callsignEdit
                                         Layout.margins: 10
                                         label: "Distinctive number or letters"
                                         text: controller.documentFormModel.callSign
+                                        onTextChanged: controller.documentFormModel.callSign = callsignEdit.text
                                     }
 
                                     LineEdit{
@@ -678,9 +690,11 @@ Page {
                                     }
 
                                     LineEdit{
+                                        id: shipTypeEdit
                                         Layout.margins: 10
                                         label: "Type of ship"
                                         text: controller.documentFormModel.shipType
+                                        onTextChanged: controller.documentFormModel.shipType = shipTypeEdit.text
                                     }
                                 }
                             }
@@ -804,12 +818,18 @@ Page {
                                     LineEdit{
                                         id: invoiceQuantity
                                         Layout.margins: 10
+                                        fieldValidator: RegularExpressionValidator{
+                                            regularExpression:  /(\d{1,5})([.,]\d{1,2})?$/
+                                        }
                                         label: "Quantity"
                                     }
 
                                     LineEdit{
                                         id: invoiceAmount
                                         Layout.margins: 10
+                                        fieldValidator: RegularExpressionValidator{
+                                            regularExpression:  /(\d{1,7})([.,]\d{1,3})?$/
+                                        }
                                         label: "Amount"
                                         icon: "$"
                                     }
