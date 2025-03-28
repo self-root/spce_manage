@@ -9,11 +9,18 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
-
-qt_add_executable(appspce
+set(SOURCES
     main.cpp
     uicontroller.h
     uicontroller.cpp
+)
+
+if(WIN32)
+    list(APPEND SOURCES spceapp.rc)
+endif()
+
+qt_add_executable(appspce
+    ${SOURCES}
 )
 
 set_source_files_properties(Style.qml

@@ -269,7 +269,7 @@ Page {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
             anchors.topMargin: 6
-            placeholderText: searchBar.focus? "" : "Ship Name"
+            placeholderText: searchBar.focus? "" : searchBar.text ? "" : "Ship Name"
             verticalAlignment: TextInput.AlignVCenter
             z: 9
             background: Rectangle{

@@ -15,6 +15,7 @@ Page {
         target: controller.invoiceTableModel
         function onInvoiceUpdated() {
             loadRevenueBarSeries()
+            loadShipTypeSeriesData()
         }
     }
 
