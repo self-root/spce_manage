@@ -831,7 +831,7 @@ Page {
                                             regularExpression:  /(\d{1,7})([.,]\d{1,3})?$/
                                         }
                                         label: "Amount"
-                                        icon: "$"
+                                        icon: "Ar"
                                     }
                                     Column{
                                         Layout.margins: 10

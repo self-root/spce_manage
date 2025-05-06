@@ -235,7 +235,7 @@ Page {
                                 top: 20
                                 left: 6
                             }
-                            text: "$" + formatNumber(controller.invoiceTableModel.totalAmount)
+                            text: "Ar" + formatNumber(controller.invoiceTableModel.totalAmount)
                             font.bold: true
                             font.pointSize: 20
                             color: "white"
@@ -342,14 +342,14 @@ Page {
                                     max: 100
 
                                     labelFormat: "%.0f"
-                                    titleText: "Revenue ($)"
+                                    titleText: "Revenue (Ar)"
                                 }
                                 onHovered: (status, index, barset) => {
                                     if (status) {
                                         var mouseP = revenueChartView.mapToPosition(Qt.point(index, barset.at(index)), revenueBarSerie)
                                         revenueTooltip.x = mouseP.x
                                         revenueTooltip.y = mouseP.y
-                                        revenueTooltip.text = "$" + formatNumber(revenueBarSerie.at(0).values[index])
+                                        revenueTooltip.text = "Ar" + formatNumber(revenueBarSerie.at(0).values[index])
                                         revenueTooltip.visible = true
                                     }
                                     else{
@@ -657,7 +657,7 @@ Page {
                 Layout.margins: 10
                 Layout.alignment: Qt.AlignCenter
                 label: "Amount"
-                icon: "$"
+                icon: "Ar"
             }
 
             RowLayout{

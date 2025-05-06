@@ -24,7 +24,7 @@ QVariant InvoiceTableModel::headerData(int section, Qt::Orientation orientation,
             case 1:
                 return QString("Quantity (CBM)");
             case 2:
-                return QString("Amount (USD)");
+                return QString("Amount (Ar)");
             case 3:
                 return QString("Date");
             case 4:
