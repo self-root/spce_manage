@@ -36,7 +36,7 @@ Generates essential documents required for MARPOL compliance and operational pro
 
 ## Screenshots
 
-| Dashboard | Ship List | Invoice |
+| Home & Ship Schedule | Dashboard & Invoices | Ship search |
 |----------|-----------|---------|
 | ![Home & Ship Schedule Screenshot](https://github.com/self-root/spce_manage/blob/master/screenshots/spce_home.PNG) | ![Dashboard & Invoices Screenshot](https://github.com/self-root/spce_manage/blob/master/screenshots/spce_invoices.PNG) | ![Ship search Screenshot](https://github.com/self-root/spce_manage/blob/master/screenshots/spce_home_search.PNG) |
 
